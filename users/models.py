@@ -12,3 +12,13 @@ class CustomUser(AbstractUser):
     role=models.CharField(max_length=30,choices=Role.choices,default=Role.STUDENT)    
     def __str__(self):
         return self.username
+class WeeklyLogs(models.Model):
+    Student_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    Activities=models.TextField()
+    Week_Number=models.IntegerField()
+    Supervisor=models.CharField()
+    Supervisor_Comment=models.TextField()
+    Progress=models.IntegerField()
+    Hours_Worked=models.IntegerField()
+    Remaining_time_for_Internship=models.IntegerField()
+    
