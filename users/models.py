@@ -22,3 +22,12 @@ class WeeklyLogs(models.Model):
     Hours_Worked=models.IntegerField()
     Remaining_time_for_Internship=models.IntegerField()
     
+class internshipPlacements(models.Model):
+    Student_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    Company_name=models.CharField(max_length=100)
+    Company_location=models.CharField(max_length=100)
+    Supervisor=models.CharField(max_length=100)
+    Supervisor_email=models.EmailField()
+    Supervisor_phone=models.CharField(max_length=20)
+    Internship_start_date=models.DateField()
+    Internship_end_date=models.DateField()
