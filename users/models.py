@@ -21,6 +21,10 @@ class WeeklyLogs(models.Model):
     Progress=models.IntegerField()
     Hours_Worked=models.IntegerField()
     Remaining_time_for_Internship=models.IntegerField()
+
+    def __str__(self):
+        return f'{self.Student_Name} - Week {self.Week_Number}'
+
     
 class internshipPlacements(models.Model):
     Student_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
@@ -31,3 +35,6 @@ class internshipPlacements(models.Model):
     Supervisor_phone=models.CharField(max_length=20)
     Internship_start_date=models.DateField()
     Internship_end_date=models.DateField()
+    
+    def __str__(self):
+        return f'{self.Student_Name} - {self.Company_name}'
