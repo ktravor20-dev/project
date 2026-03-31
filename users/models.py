@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
+#this is it
 class CustomUser(AbstractUser):
     class Role(models.TextChoices):
         STUDENT='STUDENT','student'
@@ -21,10 +22,6 @@ class WeeklyLogs(models.Model):
     Progress=models.IntegerField()
     Hours_Worked=models.IntegerField()
     Remaining_time_for_Internship=models.IntegerField()
-
-    def __str__(self):
-        return f'{self.Student_Name} - Week {self.Week_Number}'
-
     
 class internshipPlacements(models.Model):
     Student_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
@@ -36,5 +33,3 @@ class internshipPlacements(models.Model):
     Internship_start_date=models.DateField()
     Internship_end_date=models.DateField()
     
-    def __str__(self):
-        return f'{self.Student_Name} - {self.Company_name}'
