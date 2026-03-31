@@ -32,4 +32,16 @@ class internshipPlacements(models.Model):
     Supervisor_phone=models.CharField(max_length=20)
     Internship_start_date=models.DateField()
     Internship_end_date=models.DateField()
-    
+
+class EvaluationCriteria(models.Model):
+    criteria_name=models.CharField(max_length=100)
+    description=models.TextField()
+    max_score=models.IntegerField()
+
+class Evaluation(models.Model):
+    student=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    supervisor=models.CharField(max_length=100)
+    evaluation_date=models.DateField()
+    overall_score=models.IntegerField()
+    supervisor_comments=models.TextField()
+    criteria_scores=models.TextField()
