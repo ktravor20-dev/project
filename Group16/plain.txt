@@ -1,1 +1,71 @@
-django
+⦁	Software Development Lifecycle (SDLC)
+⦁	Database design and normalization
+⦁	Role-based access control (RBAC)
+⦁	Workflow state transitions
+⦁	Business logic and validation
+⦁	Automated score computation
+⦁	Testing and debugging
+⦁	Deployment and technical defense
+⦁	Apply the SDLC to a real-world system.
+⦁	Design and normalize relational database schemas.
+⦁	Implement authentication and RBAC in Django.
+⦁	Build RESTful APIs using Django REST Framework.
+⦁	Develop interactive dashboards using React.
+⦁	Enforce workflow-based state transitions.
+⦁	Implement weighted evaluation computation logic.
+⦁	Write backend and frontend tests.
+⦁	Deploy a production-ready application.
+⦁	Defend technical design decisions.
+⦁	Translate internship requirements into a working system.
+⦁	Design multi-role workflows.
+⦁	Enforce deadlines and validation rules.
+⦁	Implement automated scoring formulas.
+⦁	Build aggregated dashboards.
+⦁	Debug and test full-stack applications.
+⦁	Present and defend their system confidently.
+⦁	Student Intern
+⦁	Workplace Supervisor
+⦁	Academic Supervisor
+⦁	Internship Administrator
+
+⦁	User & Role Management
+⦁	Internship Placement Module
+⦁	Weekly Logbook Module
+⦁	Supervisor Review Workflow
+⦁	Academic Evaluation Module
+⦁	Weighted Score Computation
+⦁	Dashboards & Reporting
+⦁	Create Django models:
+
+⦁	CustomUser
+⦁	InternshipPlacement
+⦁	WeeklyLog
+⦁	EvaluationCriteria
+⦁	Evaluation
+⦁	Implement relationships in models
+⦁	Configure PostgreSQL
+⦁	Apply constraints (unique, required, defaults)
+⦁	Secure API endpoints
+⦁	Implement React route guards
+⦁	Placement APIs
+⦁	Validation rules
+⦁	Placement UI
+⦁	Create/edit log endpoints
+⦁	Lock editing after approval
+⦁	Enforce submission deadlines
+⦁	Enforce valid state changes
+⦁	Track status history
+⦁	Fix integration bugs
+⦁	Refactor for clarity
+⦁	Auto-calculate total score
+⦁	Store computed grade
+Prevent double submission
+
+⦁	Use Django aggregation
+⦁	Implement charts in React
+⦁	Write Pytest tests
+⦁	Write Jest tests
+⦁	Fix detected bugs
+⦁	Configure production settings
+⦁	Final system cleanup
+
