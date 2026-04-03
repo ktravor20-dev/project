@@ -1,7 +1,7 @@
 ⦁	Software Development Lifecycle (SDLC)
 ⦁	Database design and normalization
 ⦁	Role-based access control (RBAC)
-⦁	Workflow state transitions
+⦁	Workflow state transition
 ⦁	Business logic and validation
 ⦁	Automated score computation
 ⦁	Testing and debugging
