@@ -18,23 +18,26 @@ function Weeklogs() {
      return (
         <div className='page'>
             <h1>Weekly Logs</h1>
-            <ul>
+            <div>
                 {logs.map((log) => (
-                    <li key={log.id} className='log'>
+                    <div key={log.id} className='log'>
 
-                        <p><strong>Name:{log.Student_Name.first_name} , {log.Student_Name.last_name}</strong></p>
-                        <p><strong>Activities:</strong> {log.Activities}</p>
-                        <p><strong>Week_Number:</strong> {log.Week_Number}</p>
-                        <p><strong>Supervisior:</strong> {log.Supervisor}</p>
-                        <p><strong>Supervisior Comment:</strong> {log.Supervisor_Comment}</p>
+                        <p className="student-name">Name:{log.Student_Name.first_name} , {log.Student_Name.last_name}</p>
+                        <p><span className="label">Activities:</span> {log.Activities}</p>
+                        <p><span className="label">Week_Number:</span> {log.Week_Number}</p>
+                        <p><span className="label">Supervisior:</span> {log.Supervisor}</p>
+                        <p><span className="label">Supervisior Comment:</span> {log.Supervisor_Comment}</p>
                         
-                        <p><strong>Progress:</strong> {log.Progress}%</p>
-                        <p><strong>Hours_worked:</strong> {log.Hours_Worked} hours</p>
-                        <p><strong>Remaining Time for Internship to end:</strong> {log.Remaining_time_for_Internship }hours </p>
+                        <p><span className="label">Progress:</span></p>
+                        <div className="progress">
+                            <div className="progress-bar" style={{ width: `${log.Progress}%` }}></div>
+                        </div>
+                        <p><span className="label">Hours_worked: {log.Hours_Worked} </span></p>
+                        <p><span className="label">Remaining Time for Internship to end:</span> {log.Remaining_time_for_Internship }hours </p>
                         
-                    </li>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
      )
 }
