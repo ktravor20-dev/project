@@ -1,7 +1,16 @@
 from rest_framework import serializers
 from .models import WeeklyLogs, CustomUser
 
+class UserdetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= CustomUser
+        fields =['first_name','last_name' , 'Student_id']
+
+
+
 class WeeklyLogsSerializer(serializers.ModelSerializer):
+    Student_Name = UserdetailSerializer()
+    
     class Meta:
         model = WeeklyLogs
         fields = '__all__'

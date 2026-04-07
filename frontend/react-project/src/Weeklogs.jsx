@@ -21,7 +21,8 @@ function Weeklogs() {
             <ul>
                 {logs.map((log) => (
                     <li key={log.id} className='log'>
-                        <p className='student-name'><strong className='student'>Student:</strong> {log.Student_Name}</p>
+
+                        <p><strong>Name:{log.Student_Name.first_name} , {log.Student_Name.last_name}</strong></p>
                         <p><strong>Activities:</strong> {log.Activities}</p>
                         <p><strong>Week_Number:</strong> {log.Week_Number}</p>
                         <p><strong>Supervisior:</strong> {log.Supervisor}</p>
