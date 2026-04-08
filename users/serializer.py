@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import WeeklyLogs, CustomUser
+from .models import WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor
 
 class UserdetailSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,3 +31,36 @@ class UserSerializer(serializers.ModelSerializer):
             Student_id=validated_data['Student_id']
         )
         return user 
+    
+#This is the serialzer for the internship placement
+class internshipPlacementsSerializer(serializers.ModelSerializer):
+    Student_Name=UserdetailSerializer()
+
+    class Meta:
+        model = internshipPlacements
+        fields = '__all__'
+
+#This is the serializer for the Student
+class StudentSerializer(serializers.ModelSerializer):
+    user = UserdetailSerializer()
+
+    class Meta:
+        model= Student
+        fields = "__all__"
+
+#This is the serializer for the internSupervisor
+class internSupervisorSerializer(serializers.ModelSerializer):
+    user = UserdetailSerializer()
+
+    class Meta:
+        model= internSupervisor
+        fields = "__all__"
+
+#This is the serializer for the academicSupervisor
+class academicSupervisorSerializer(serializers.ModelSerializer):
+    user = UserdetailSerializer()
+
+    class Meta:
+        model= academicSupervisor
+        fields = "__all__"
+
