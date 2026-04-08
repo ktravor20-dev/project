@@ -14,15 +14,20 @@ class WeeklyLogsSerializer(serializers.ModelSerializer):
     class Meta:
         model = WeeklyLogs
         fields = '__all__'
+        
 
+# Serializer for creating a new user 
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
         model=CustomUser
-        fields=['first_name','last_name','email','role','Student_id','password']       
-        password = serializers.CharField(write_only=True)
+        fields=['username','first_name','last_name','email','role','Student_id','password']       
+        
 
     def create(self, validated_data):
         user=CustomUser.objects.create_user(
+            username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password'],
             first_name=validated_data['first_name'],
