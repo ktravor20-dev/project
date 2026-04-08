@@ -16,9 +16,9 @@ function Weeklogs() {
         .catch(error => console.error ('Error fetching WeeklyLogs:', error));
     }, []);
      return (
-        <div className='page'>
-            <h1>Weekly Logs</h1>
-            <div>
+        <>
+            <h1 className="page-title">Weekly Logs</h1>
+            <div className="logs-container">
                 {logs.map((log) => (
                     <div key={log.id} className='log'>
 
@@ -38,7 +38,7 @@ function Weeklogs() {
                     </div>
                 ))}
             </div>
-        </div>
+        </>
      )
 }
 export default Weeklogs;
