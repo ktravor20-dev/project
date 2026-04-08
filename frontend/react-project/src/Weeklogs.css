@@ -1,18 +1,4 @@
-body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-}
-.page{
-    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-       
-}
+
 .student-name{
     font-size: 20px;
     color: #764ba2;;
@@ -31,9 +17,24 @@ body{
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     transition: transform 0.3s ease;
+    animation: fadeIn 0.4s ease;
 
 }
 
+@keyframes fadeIn {
+    from{
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.log  p {
+    margin: 6px 0;
+    color: #444;
+}
 
     
 .log:hover {
@@ -41,10 +42,11 @@ body{
     box-shadow: 0 12px 24px rgba(0,0,0,0.3);
 }
 
-h1{
-    color: #ffffff;
-    font-size: 36px;
-    margin-bottom: 20px;
+.page-title {
+  font-size: 30px;
+  margin-bottom: 25px;
+  color: #1e293b;
+  font-weight: bold;
 }
 .progress {
     background: #eee;
@@ -54,11 +56,18 @@ h1{
     overflow: hidden;
 }
 .progress-bar {
-    background: #667eea;
+    background: linear-gradient(to right, #667eea, #764ba2);
     height: 100%;
-    transition: width 0.3s ease;
+    transition: width 0.4s ease;
 }
 .label{
-    font-weight: bold;
-    color: #333;
+    font-weight: 600;
+    color: #222;
+}
+
+.logs-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+   
 }
