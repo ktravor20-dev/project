@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Auth.css';
 
 
 //registering new user in the system
@@ -35,35 +36,36 @@ function RegisterUser(){
     }
     };
 
-    return(
-        <div>
-            <h1>Register</h1>
-            <p><input placeholder="Username" onChange={(e)=>setUsername(e.target.value)}/></p>
-            <p><input placeholder="First Name" onChange={(e)=>setFirstName(e.target.value)}/></p>
-            <p><input placeholder="Last Name" onChange={(e)=>setLastName(e.target.value)}/></p>
-            <p><input placeholder="Email" onChange={(e)=>setEmail(e.target.value)}/></p>
-            <div> 
-                
-                <select 
-                name='role'
-                value={role}
-                onChange={(e)=>setRole(e.target.value)}
-                required
-                >
-                    <option value="">Select a Role</option>
-                    <option value="STUDENT"> Student </option>
-                    <option value="INTERN_SUPERVISOR">Intern Supervisor</option>
-                    <option value="ACADEMIC_SUPERVISOR"> Academic Supervisor  </option>
-                    <option value="COMPANY_MANAGER">  Company Manager </option>
-                    <option value="SYSTEM_ADMINSTRATOR">  System Administrator </option>
-                </select>
-            </div>
-            <p><input placeholder="Student ID" onChange={(e)=>setStudent_id(e.target.value)}/></p>
-            <p><input type='password'   placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/></p>
-            <p><button onClick={register}  style={{cursor:'pointer'}}>Register</button></p>
-            
+    return (
+      <div className="auth-container">
+        <div className="auth-card">
+          <h2>Register</h2>
 
+          <input placeholder="Username" onChange={(e)=>setUsername(e.target.value)} />
+          <input placeholder="First Name" onChange={(e)=>setFirstName(e.target.value)} />
+          <input placeholder="Last Name" onChange={(e)=>setLastName(e.target.value)} />
+          <input placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
+
+          <select value={role} onChange={(e)=>setRole(e.target.value)}>
+            <option value="">Select Role</option>
+            <option value="STUDENT">Student</option>
+            <option value="INTERN_SUPERVISOR">Intern Supervisor</option>
+            <option value="ACADEMIC_SUPERVISOR">Academic Supervisor</option>
+            <option value="COMPANY_MANAGER">Company Manager</option>
+            <option value="SYSTEM_ADMINISTRATOR">System Admin</option>
+          </select>
+
+          <input placeholder="Student ID" onChange={(e)=>setStudent_id(e.target.value)} />
+
+          <input type="password" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
+
+          <button onClick={register}>Register</button>
+
+          <p onClick={() => navigate('/login')} className="link">
+            Already have an account? Login
+          </p>
         </div>
+      </div>
     );
 }
  export default RegisterUser;
