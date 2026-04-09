@@ -12,7 +12,10 @@ function Weeklogs() {
             }
             return response.json();
         })
-        .then(data => setlogs(data))
+        .then(data => {
+            console.log(data);
+            setlogs(data);
+        })
         .catch(error => console.error ('Error fetching WeeklyLogs:', error));
     }, []);
      return (

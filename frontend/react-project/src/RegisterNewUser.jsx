@@ -1,9 +1,12 @@
 import axios from 'axios';
 import {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 //registering new user in the system
 
 function RegisterUser(){
+    const navigate = useNavigate();
     const[ username, setUsername]= useState('');
     const[first_name, setFirstName]=useState('');
     const[last_name, setLastName]=useState('');
@@ -25,6 +28,7 @@ function RegisterUser(){
             });
             console.log('User created:',response.data);
             alert('your account has been successfully created')
+            navigate('/login')
         
      } catch (error){
         console.log('Error occused:',error.response.data);
