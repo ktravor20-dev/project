@@ -22,7 +22,7 @@ function AppContent() {
         <div className="app">
 
           {/* Sidebar */}
-          {location.pathname !== "/" && ( 
+          {!["/", "/register"].includes(location.pathname) && ( 
             <div className="sidebar">
               <h2>InternSys</h2>
               <p>Dashboard</p>
