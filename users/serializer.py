@@ -1,10 +1,19 @@
 from rest_framework import serializers
 from .models import WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor
 
+class idSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= CustomUser
+        fields =['id','first_name','last_name' ]
+
 class UserdetailSerializer(serializers.ModelSerializer):
     class Meta:
         model= CustomUser
         fields =['first_name','last_name' , 'Student_id']
+class SaveWeeklyLogsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WeeklyLogs
+        fields = '__all__'
 
 
 

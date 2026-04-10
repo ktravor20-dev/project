@@ -16,9 +16,10 @@ function Login(){
                 password: password
             });
             localStorage.setItem('token', response.data.access);
+            localStorage.setItem('username', username);
             console.log('Login successful:', response.data);
             alert('log in successful')
-            navigate('/weeklylogs')
+            navigate('/studentDashboard');
         } catch (error) {
             console.log('Error logging in:', error);
         }

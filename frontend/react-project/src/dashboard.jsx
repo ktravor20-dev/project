@@ -15,34 +15,24 @@ function AppContent() {
     };
 
 
-    const hideSidebar = ["/","/login", "/register"].includes(location.pathname);
+  
 
     return (
       
         <div className="app">
 
-          {/* Sidebar */}
-          {!hideSidebar && (
-            <div className="sidebar">
-              <h2>InternSys</h2>
-              <p>Dashboard</p>
-              <p>Weekly Logs</p>
+          <div className="sidebar">
+              <h2>Welcome {localStorage.getItem('username') || 'User'}</h2>
+              
+              <p  onClick={() => navigate('/weeklylogs')}>Weekly Logs</p>
               <p>Students</p>
               <p>Supervisors</p>
+              
+              <p  onClick={() => navigate('/inputweeklylogs')}>Create Weekly Log</p>
               <button onClick={handleLogout} className="logout-btn">Logout </button>
             </div>
-          )}
 
-          {/* Main Content */}
-          <div className="main">  
-            <Routes>
-              <Route path='/' element={<Login />}/>
-              <Route path='/login' element={<Login />}/>
-              <Route path='/register' element={<RegisterUser/>}/>
-              <Route path='/weeklylogs' element={<Weeklogs />}/>
-            </Routes>
-          </div>  
-
+          
         </div>
           );
 }

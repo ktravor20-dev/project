@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializer import WeeklyLogsSerializer, UserSerializer
-from .models import WeeklyLogs
+from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer
+from .models import WeeklyLogs,CustomUser
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -17,6 +17,15 @@ def register(request):
       else:
          return Response(serializer.errors, status=400)
       
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_id(request):
+   user=request.user
+   if user.role  != 'STUDENT':
+    id=CustomUser.objects.all()    
+    serializer=idSerializer(id, many=True)
+    return Response(serializer.data)
       
 
 
@@ -25,19 +34,38 @@ def register(request):
 
 
 # this view is for getting and creating weekly logs
-@api_view(['GET','POST'])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_weekly_logs(request):
-    permission_classes = [IsAuthenticated]
-    if request.method == 'GET':
-     logs= WeeklyLogs.objects.all()
-     serializer= WeeklyLogsSerializer(logs, many=True)
-     return Response(serializer.data)
-    else:
-       serializer =WeeklyLogsSerializer(data = request.data)
-       if serializer.is_valid():
-          serializer.save()
-          return Response(serializer.data, status=201)
-       else:
-          return Response(serializer.errors, status=400)
+    user=request.user
+    
+    
+    if user.role =='STUDENT':
+          logs= WeeklyLogs.objects.filter(Student_Name=request.user) # this line of code helps to only acesss his or her data only
+    elif user.role == 'ACADEMIC_SUPERVISOR' or 'INTERN_SUPERVISOR':
+            logs= WeeklyLogs.objects.all() # here the academic supervisor and intern supervisor call view all the weekly logs inthe database
+    serializer= WeeklyLogsSerializer(logs, many=True)
+    return Response(serializer.data)
+
+# this view is for creating weekly logs
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_weekly_logs(request): 
+       user=request.user  
+       student_id = request.data.get('Student_Name')
+       try:
+          student=CustomUser.objects.get(id=student_id)
+          if user.role != 'STUDENT':
+           serializer =SaveWeeklyLogsSerializer(data = request.data)
+           if serializer.is_valid():
+            serializer.save(Student_Name=student)
+            return Response(serializer.data, status=201)
+           else:
+              return Response(serializer.errors, status=400)
+          
+          else: 
+              return Response({'error':'you are not allowed to create weekly logs'}, status=403)
+       except CustomUser.DoesNotExist:
+            return Response({'error':'student not found'}, status=404)
        
 

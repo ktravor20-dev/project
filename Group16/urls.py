@@ -28,6 +28,8 @@ urlpatterns = [
     path('api/login/', TokenObtainPairView.as_view(), name='Get_Token'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/register/',views.register, name='register'),
+    path('api/get_user_id/',views.get_user_id, name='get_user_id'),
+    path('api/create_weekly_logs/',views.create_weekly_logs, name='create_weekly_logs'),
     
     path('api/get_weekly_logs/',views.get_weekly_logs, name='get_weekly_logs'),
 ]
