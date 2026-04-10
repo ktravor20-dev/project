@@ -21,4 +21,4 @@ class UserSerializer(serializers.ModelSerializer):
             role=validated_data['role'],
             Student_id=validated_data['Student_id']
         )
-        return user 
+        return user
