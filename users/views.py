@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer
+from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer
 from .models import WeeklyLogs,CustomUser
 from rest_framework.permissions import IsAuthenticated
 
@@ -67,5 +67,28 @@ def create_weekly_logs(request):
               return Response({'error':'you are not allowed to create weekly logs'}, status=403)
        except CustomUser.DoesNotExist:
             return Response({'error':'student not found'}, status=404)
+       
+# this view is for creating internship placement
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_internship_placement(request):
+       user=request.user  
+       student_id = request.data.get('Student_Name')
+       try:
+          student=CustomUser.objects.get(id=student_id)
+          if user.role == 'ACADEMIC_SUPERVISOR' :
+           serializer =SaveInternshipPlacementsSerializer(data = request.data)
+           if serializer.is_valid():
+            serializer.save(Student_Name=student)
+            return Response(serializer.data, status=201)
+           else:
+             return Response(serializer.errors, status=400)
+          
+          else: 
+           return Response({'error':'you are not allowed to create internship placement'}, status=403)
+       except CustomUser.DoesNotExist:
+            return Response({'error':'student not found'}, status=404)       
+       
+
        
 

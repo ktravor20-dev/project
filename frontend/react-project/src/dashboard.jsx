@@ -27,6 +27,7 @@ function AppContent() {
               <p  onClick={() => navigate('/weeklylogs')}>Weekly Logs</p>
               <p>Students</p>
               <p>Supervisors</p>
+              <p  onClick={() => navigate('/createinternshipplacement')}> Create Internship Placements</p>
               
               <p  onClick={() => navigate('/inputweeklylogs')}>Create Weekly Log</p>
               <button onClick={handleLogout} className="logout-btn">Logout </button>

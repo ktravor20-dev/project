@@ -47,9 +47,14 @@ class UserSerializer(serializers.ModelSerializer):
         return user 
     
 #This is the serialzer for the internship placement
-class internshipPlacementsSerializer(serializers.ModelSerializer):
+class InternshipPlacementsSerializer(serializers.ModelSerializer):
     Student_Name=UserdetailSerializer()
 
+    class Meta:
+        model = internshipPlacements
+        fields = '__all__'
+#this serializer with help when am creating the internship placement because the student name is a foreign key to the custom user model
+class SaveInternshipPlacementsSerializer(serializers.ModelSerializer):
     class Meta:
         model = internshipPlacements
         fields = '__all__'
