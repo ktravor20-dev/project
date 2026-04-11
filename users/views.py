@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializer import WeeklyLogsSerializer, UserSerializer, internshipPlacementsSerializer,StudentSerializer
-from .models import WeeklyLogs, internshipPlacements, Student
+from .serializer import WeeklyLogsSerializer, UserSerializer
+from .models import WeeklyLogs
 
 # Create your views here.
+# this view is for user registration
 @api_view(['POST'])
 def register(request):
       serializer=UserSerializer(data=request.data)
@@ -15,9 +16,17 @@ def register(request):
          return Response(serializer.errors, status=400)
 
 
+
+
+
+
+
+
+# this view is for getting and creating weekly logs
 @api_view(['GET','POST'])
 
 def get_weekly_logs(request):
+    permission_classes = [IsAuthenticated]
     if request.method == 'GET':
      logs= WeeklyLogs.objects.all()
      serializer= WeeklyLogsSerializer(logs, many=True)
