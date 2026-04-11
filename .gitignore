@@ -1,0 +1,15 @@
+# Node
+frontend/react-project/node_modules
+frontend/react-project/dist
+
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Env
+.env
+
+# OS
+.DS_Store
+Thumbs.db
