@@ -41,12 +41,12 @@ function RegisterUser(){
         <div className="auth-card">
           <h2>Register</h2>
 
-          <input placeholder="Username" onChange={(e)=>setUsername(e.target.value)} />
-          <input placeholder="First Name" onChange={(e)=>setFirstName(e.target.value)} />
-          <input placeholder="Last Name" onChange={(e)=>setLastName(e.target.value)} />
-          <input placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
+          <input placeholder="Username" onChange={(e)=>setUsername(e.target.value)}  required/>
+          <input placeholder="First Name" onChange={(e)=>setFirstName(e.target.value)} required/>
+          <input placeholder="Last Name" onChange={(e)=>setLastName(e.target.value)} required/>
+          <input placeholder="Email" onChange={(e)=>setEmail(e.target.value)} required/>
 
-          <select value={role} onChange={(e)=>setRole(e.target.value)}>
+          <select value={role} onChange={(e)=>setRole(e.target.value)} required>
             <option value="">Select Role</option>
             <option value="STUDENT">Student</option>
             <option value="INTERN_SUPERVISOR">Intern Supervisor</option>
@@ -55,9 +55,9 @@ function RegisterUser(){
             <option value="SYSTEM_ADMINSTRATOR">System Admin</option>
           </select>
 
-          <input placeholder="Student ID" onChange={(e)=>setStudent_id(e.target.value)} />
+          <input placeholder="Student ID" onChange={(e)=>setStudent_id(e.target.value)} required/>
 
-          <input type="password" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
+          <input type="password" placeholder="Password" onChange={(e)=>setPassword(e.target.value)}  required/>
 
           <button onClick={register}>Register</button>
 

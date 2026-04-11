@@ -33,5 +33,6 @@ urlpatterns = [
     path('api/internship_placements/',views.create_internship_placement, name='internship_placements'),
     path('api/get_placements/',views.get_internPlacement,name='get_placement'),
     path('api/get_weekly_logs/',views.get_weekly_logs, name='get_weekly_logs'),
+    path('api/create_staff/',views.create_staff, name='create_staff'),
 
 ]

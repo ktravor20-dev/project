@@ -8,6 +8,7 @@ import ViewInternPlacement from './ViewInternPlacement';
 import { Outlet } from 'react-router-dom';
 import SupervisorDashboard from './SupervisorDashboard';
 import AdminDashboard from './AdminDashboard';
+import StaffRegistration from './StaffRegistration';
 
 
 function AppContent() {
@@ -39,6 +40,7 @@ function AppContent() {
               <p>Supervisors</p>
               <p  onClick={() => navigate('/studentDashboard/createinternshipplacement')}> Create Internship Placements</p>
               <p  onClick={() => navigate('/studentDashboard/viewinternshipplacements')}>View Internship Placements</p>
+              <p  onClick={() => navigate('/studentDashboard/registerstaff')}>Register Staff</p>
               
               <p  onClick={() => navigate('/studentDashboard/inputweeklylogs')}>Create Weekly Log</p>
               <button onClick={handleLogout} className="logout-btn">Logout </button>
@@ -54,6 +56,7 @@ function AppContent() {
                     <Route path='inputweeklylogs' element={<Inputweeklylogs />}/>
                     <Route path='createinternshipplacement' element={<CreateInternPlacement />}/>
                     <Route path='viewinternshipplacements' element={<ViewInternPlacement />}/>
+                    <Route path='registerstaff' element={<StaffRegistration />}/>
                   </>
                 )}
 
@@ -68,6 +71,7 @@ function AppContent() {
                     <Route path='/' element={<AdminDashboard />}/>
                   </>
                 )}
+                  
               </Routes>
             </div>
 
