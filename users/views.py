@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer
+from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,StaffSerializer
 from .models import WeeklyLogs,CustomUser, internshipPlacements
 from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
-# this view is for user registration
+# this view is for student account registration
 @api_view(['POST'])
 def register(request):
       serializer=UserSerializer(data=request.data)
@@ -16,6 +16,16 @@ def register(request):
          return Response(serializer.data, status=201)
       else:
          return Response(serializer.errors, status=400)
+
+# this view is for creating a staff account
+@api_view(['POST'])
+def create_staff(request):
+   serializer=StaffSerializer(data=request.data)
+   if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, status=201)
+   else:     
+      return Response(serializer.errors, status=400)      
       
 
 @api_view(['GET'])

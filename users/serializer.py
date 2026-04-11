@@ -25,7 +25,7 @@ class WeeklyLogsSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 
-# Serializer for creating a new user 
+# Serializer for creating a new user who is a student
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
@@ -82,4 +82,25 @@ class academicSupervisorSerializer(serializers.ModelSerializer):
     class Meta:
         model= academicSupervisor
         fields = "__all__"
+
+#this is  the serializer for creating new staff accounts
+class StaffSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model=CustomUser
+        fields=['username','first_name','last_name','email','role','Stuff_id','password']       
+        
+
+    def create(self, validated_data):
+        user=CustomUser.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+            role=validated_data['role'],
+            Stuff_id=validated_data['Stuff_id']
+        )
+        return user       
 
