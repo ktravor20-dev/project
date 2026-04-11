@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Inputweeklylogs from './Inputweeklylogs';
 import CreateInternPlacement from './CreateInternPlacement';
 import DashboardHome from './DashboardHome';
+import ViewInternPlacement from './ViewInternPlacement';
 
 
 function AppContent() {
@@ -32,6 +33,7 @@ function AppContent() {
               <p>Students</p>
               <p>Supervisors</p>
               <p  onClick={() => navigate('/studentDashboard/createinternshipplacement')}> Create Internship Placements</p>
+              <p  onClick={() => navigate('/studentDashboard/viewinternshipplacements')}>View Internship Placements</p>
               
               <p  onClick={() => navigate('/studentDashboard/inputweeklylogs')}>Create Weekly Log</p>
               <button onClick={handleLogout} className="logout-btn">Logout </button>
@@ -43,6 +45,7 @@ function AppContent() {
                  <Route path='weeklylogs' element={<Weeklogs />}/>
                  <Route path='/inputweeklylogs' element={<Inputweeklylogs />}/>
                  <Route path='/createinternshipplacement' element={<CreateInternPlacement />}/>
+                  <Route path='/viewinternshipplacements' element={<ViewInternPlacement />}/>
               </Routes>
             </div>
 
