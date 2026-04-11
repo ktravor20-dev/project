@@ -95,17 +95,16 @@ def create_internship_placement(request):
 def get_internPlacement(request):
     user =request.user
     try:
-      if user.role == 'ACADEMIC_SUPERVISOR'or'INTERN_SUPERVISOR':
+      if user.role in ['ACADEMIC_SUPERVISOR', 'INTERN_SUPERVISOR']:
         placements = internshipPlacements.objects.all()
       elif user.role == 'STUDENT':
-        placements = internshipPlacements.objects.filter(Student_Name = request.user)
+        placements = internshipPlacements.objects.filter(Student_Name = user) # this line of code helps to only acesss his or her data only
       else:
-        while True:
-            return Response({'error':'ACCESS DENIED'})
-      serializer= InternshipPlacementsSerializer(placements)
+            return Response({'error':'ACCESS DENIED'}, status=403)
+      serializer= InternshipPlacementsSerializer(placements, many=True)
       return Response(serializer.data, status=200)
-    except:
-       return Response(serializer.error, status=400)
+    except Exception as e:
+       return Response({'error': str(e)}, status=400)
 
       
         

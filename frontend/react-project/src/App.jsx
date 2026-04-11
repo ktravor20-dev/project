@@ -6,6 +6,7 @@ import Weeklogs from './Weeklogs.jsx';
 import AppContent from './dashboard';
 import Inputweeklylogs from './Inputweeklylogs';
 import CreateInternPlacement from './CreateInternPlacement';
+import ViewInternPlacement from './ViewInternPlacement';
 import './App.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
               <Route path='/weeklylogs' element={<Weeklogs />}/>
               <Route path='/inputweeklylogs' element={<Inputweeklylogs />}/>
               <Route path='/createinternshipplacement' element={<CreateInternPlacement />}/>
+              <Route path='/viewinternshipplacements' element={<ViewInternPlacement />}/>
         </Routes>
         
 

@@ -49,11 +49,13 @@ function CreateInternPlacement() {
                 Internship_end_date: endDate
             },{headers: {
                 Authorization: `Bearer ${token}`
-            }});    
+            }});   
+            navigate('/viewinternshipplacements'); 
 
 
             }catch(error){
                 console.error('An error occurred while submitting the log:', error);
+                navigate('/studentDashboard');
             }
     }
 return (
