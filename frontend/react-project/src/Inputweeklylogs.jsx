@@ -2,6 +2,7 @@ import React,{useState,useEffect, } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
+import './Inputweeklylogs.css';
 
 function Inputweeklylogs() {
     const navigate = useNavigate();
@@ -58,27 +59,74 @@ function Inputweeklylogs() {
         label: `${student.first_name} ${student.last_name}`
     }));
 return (
-     <>
-     <div>
-        <h1>Input Weekly Logs</h1>
-        <div>
-            <Select
-                options={options}
-                onChange={(selectedOption) => setStudentName(selectedOption.value)}
-            />
-        </div>
-        <div><textarea placeholder='Activities' value={activities} onChange={(e)=>setActivities(e.target.value)}></textarea></div>
-        <p><input placeholder='Week Number' onChange={(e)=>setWeekNumber(e.target.value)} /></p>
-        <p><input placeholder='Supervisor' onChange={(e)=>setSupervisor(e.target.value)} /></p>
-        <div><textarea placeholder="Supervisor Comment" value={supervisorComment} onChange={(e)=>setSupervisorComment(e.target.value)} > </textarea></div>
-        <p><input placeholder='Progress' onChange={(e)=>setProgress(e.target.value)} /></p>
-        <p><input placeholder='Hours Worked' onChange={(e)=>setHoursWorked(e.target.value)} /></p>
-        <p><input placeholder='Remaining Time for Internship' onChange={(e)=>setRemainingTime(e.target.value)} /></p>
-        <button onClick={handleSubmit}>Submit</button>
-        <div><button onClick={() => navigate('/weeklylogs')}>View Weekly Logs</button></div>
-     </div> 
-     
-     </>
-)
+  <div className="form-container">
+    <h1>Input Weekly Logs</h1>
+
+    <div className="form-box">
+
+      <label>Select Student</label>
+      <Select
+        options={options}
+        onChange={(selectedOption) => setStudentName(selectedOption.value)}
+      />
+
+      <label>Activities</label>
+      <textarea
+        value={activities}
+        onChange={(e) => setActivities(e.target.value)}
+      />
+
+      <label>Week Number</label>
+      <input
+        type="number"
+        onChange={(e) => setWeekNumber(e.target.value)}
+      />
+
+      <label>Supervisor</label>
+      <input
+        type="text"
+        onChange={(e) => setSupervisor(e.target.value)}
+      />
+
+      <label>Supervisor Comment</label>
+      <textarea
+        value={supervisorComment}
+        onChange={(e) => setSupervisorComment(e.target.value)}
+      />
+
+      <label>Progress</label>
+      <input
+        type="text"
+        onChange={(e) => setProgress(e.target.value)}
+      />
+
+      <label>Hours Worked</label>
+      <input
+        type="number"
+        onChange={(e) => setHoursWorked(e.target.value)}
+      />
+
+      <label>Remaining Time</label>
+      <input
+        type="text"
+        onChange={(e) => setRemainingTime(e.target.value)}
+      />
+
+      <div className="form-buttons">
+        <button className="submit-btn" onClick={handleSubmit}>
+          Submit
+        </button>
+
+        <button
+          className="back-btn"
+          onClick={() => navigate('/studentDashboard/weeklylogs')}
+        >
+          View Weekly Logs
+        </button>
+      </div>
+
+    </div>
+  </div>
+);
 }
 export default Inputweeklylogs;

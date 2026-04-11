@@ -1,0 +1,33 @@
+.form-box {
+  max-width: 550px;
+}
+
+.form-box textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  margin-bottom: 18px;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  resize: none;
+
+  transition: 0.2s;
+}
+
+.form-box textarea:focus {
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+}
+
+.form-box .css-13cymwt-control {
+  margin-top: 8px;
+  margin-bottom: 18px;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+}
