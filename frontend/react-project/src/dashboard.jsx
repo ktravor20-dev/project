@@ -5,12 +5,17 @@ import Inputweeklylogs from './Inputweeklylogs';
 import CreateInternPlacement from './CreateInternPlacement';
 import DashboardHome from './DashboardHome';
 import ViewInternPlacement from './ViewInternPlacement';
+import { Outlet } from 'react-router-dom';
+import SupervisorDashboard from './SupervisorDashboard';
+import AdminDashboard from './AdminDashboard';
 
 
 function AppContent() {
     const location = useLocation();
 
     const navigate = useNavigate();
+
+    const role = localStorage.getItem('role');
 
     
 
@@ -40,12 +45,29 @@ function AppContent() {
             </div>
 
             <div className="main">
+             <Outlet />
               <Routes>
-                 <Route index element={<DashboardHome />}/>
-                 <Route path='weeklylogs' element={<Weeklogs />}/>
-                 <Route path='/inputweeklylogs' element={<Inputweeklylogs />}/>
-                 <Route path='/createinternshipplacement' element={<CreateInternPlacement />}/>
-                  <Route path='/viewinternshipplacements' element={<ViewInternPlacement />}/>
+                {role === 'STUDENT' && (
+                  <>
+                    <Route index element={<DashboardHome />}/>
+                    <Route path='weeklylogs' element={<Weeklogs />}/>
+                    <Route path='inputweeklylogs' element={<Inputweeklylogs />}/>
+                    <Route path='createinternshipplacement' element={<CreateInternPlacement />}/>
+                    <Route path='viewinternshipplacements' element={<ViewInternPlacement />}/>
+                  </>
+                )}
+
+                {role === 'INTERN_SUPERVISOR' && (
+                  <>
+                    <Route index element={<SupervisorDashboard />}/>
+                  </>
+                )}
+
+                {role === 'SYSTEM_ADMINSTRATOR' && (
+                  <>
+                    <Route path='/' element={<AdminDashboard />}/>
+                  </>
+                )}
               </Routes>
             </div>
 

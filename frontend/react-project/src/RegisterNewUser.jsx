@@ -52,7 +52,7 @@ function RegisterUser(){
             <option value="INTERN_SUPERVISOR">Intern Supervisor</option>
             <option value="ACADEMIC_SUPERVISOR">Academic Supervisor</option>
             <option value="COMPANY_MANAGER">Company Manager</option>
-            <option value="SYSTEM_ADMINISTRATOR">System Admin</option>
+            <option value="SYSTEM_ADMINSTRATOR">System Admin</option>
           </select>
 
           <input placeholder="Student ID" onChange={(e)=>setStudent_id(e.target.value)} />

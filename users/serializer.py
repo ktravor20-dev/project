@@ -23,6 +23,10 @@ class WeeklyLogsSerializer(serializers.ModelSerializer):
     class Meta:
         model = WeeklyLogs
         fields = '__all__'
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
         
 
 # Serializer for creating a new user 
