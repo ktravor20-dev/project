@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer
-from .models import WeeklyLogs,CustomUser
+from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer
+from .models import WeeklyLogs,CustomUser, internshipPlacements
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -89,6 +89,26 @@ def create_internship_placement(request):
        except CustomUser.DoesNotExist:
             return Response({'error':'student not found'}, status=404)       
        
+#This view is for getting information for the internship placement
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_internPlacement(request):
+    user =request.user
+    try:
+      if user.role == 'ACADEMIC_SUPERVISOR'or'INTERN_SUPERVISOR':
+        placements = internshipPlacements.objects.all()
+      elif user.role == 'STUDENT':
+        placements = internshipPlacements.objects.filter(Student_Name = request.user)
+      else:
+        while True:
+            return Response({'error':'ACCESS DENIED'})
+      serializer= InternshipPlacementsSerializer(placements)
+      return Response(serializer.data, status=200)
+    except:
+       return Response(serializer.error, status=400)
+
+      
+        
 
        
 
