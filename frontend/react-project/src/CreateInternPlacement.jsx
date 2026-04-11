@@ -2,6 +2,7 @@ import React,{useState,useEffect, } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
+import './CreateInternPlacement.css';
 
 function CreateInternPlacement() {
     const navigate = useNavigate();
@@ -56,31 +57,84 @@ function CreateInternPlacement() {
                 console.error('An error occurred while submitting the log:', error);
             }
     }
-return (
-    <div>
-        <h2>Create Internship Placement</h2>
-        <Select
-            options={options}
-            onChange={(selectedOption) => setStudentName(selectedOption.value)}
-            placeholder="Select Student"
-        />
-        <p><input type="text" placeholder="Company Name" value={companyName} onChange={(e) => setCompanyName(e.target.value)} /></p>
-        <p><input type="text" placeholder="Company Location" value={companyLocation} onChange={(e) => setCompanyLocation(e.target.value)} /></p>
-        <p><input type="text" placeholder="Supervisor Name" value={supervisorName} onChange={(e) => setSupervisorName(e.target.value)} /></p>
-        <p><input type="email" placeholder="Supervisor Email" value={supervisorEmail} onChange={(e) => setSupervisorEmail(e.target.value)} /></p>
-        <p><input type="text" placeholder="Supervisor Phone" value={supervisorPhone} onChange={(e) => setSupervisorPhone(e.target.value)} /></p>
-        <div>
-            <label>Internship Start Date</label>
-        <p><input type="date"  placeholder="Internship Start Date" value={startDate} onChange={(e) => setStartDate(e.target.value)} /></p>
+    return (
+        <div className="form-container">
+           <h1>Create Internship Placement</h1>
+
+           <div className="form-box">
+
+             <label>Select Student</label>
+             <Select
+               options={options}
+               onChange={(selectedOption) => setStudentName(selectedOption.value)}
+               placeholder="Select Student"
+             />
+
+             <label>Company Name</label>
+             <input
+               type="text"
+               value={companyName}
+               onChange={(e) => setCompanyName(e.target.value)}
+             />
+
+             <label>Company Location</label>
+             <input
+               type="text"
+               value={companyLocation}
+               onChange={(e) => setCompanyLocation(e.target.value)}
+             />
+
+             <label>Supervisor Name</label>
+             <input
+               type="text"
+               value={supervisorName}
+               onChange={(e) => setSupervisorName(e.target.value)}
+             />
+
+             <label>Supervisor Email</label>
+             <input
+               type="email"
+               value={supervisorEmail}
+               onChange={(e) => setSupervisorEmail(e.target.value)}
+             />
+
+             <label>Supervisor Phone</label>
+             <input
+               type="text"
+               value={supervisorPhone}
+               onChange={(e) => setSupervisorPhone(e.target.value)}
+             />
+
+             <label>Internship Start Date</label>
+             <input
+               type="date"
+               value={startDate}
+               onChange={(e) => setStartDate(e.target.value)}
+             />
+
+             <label>Internship End Date</label>
+             <input
+               type="date"
+               value={endDate}
+               onChange={(e) => setEndDate(e.target.value)}
+             />
+
+             <div className="form-buttons">
+               <button className="submit-btn" onClick={handleSubmit}>
+                 Create Internship
+               </button>
+
+               <button
+                 className="back-btn"
+                 onClick={() => navigate('/studentDashboard')}
+               >
+                 Back
+               </button>
+             </div>
+
+           </div>
         </div>
-        <div>
-            <label>Internship End Date</label>
-        <p><input type="date" placeholder="Internship End Date" value={endDate} onChange={(e) => setEndDate(e.target.value)} /></p>
-        </div>
-        <button onClick={handleSubmit}>Create Internship Placement</button>
-        <button onClick={() => navigate('/studentDashboard')} style={{cursor: 'pointer'}}>Back to Dashboard</button>
-    </div>   
-); 
+    ); 
         
 };
 export default CreateInternPlacement;
