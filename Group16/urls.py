@@ -31,6 +31,7 @@ urlpatterns = [
     path('api/get_user_id/',views.get_user_id, name='get_user_id'),
     path('api/create_weekly_logs/',views.create_weekly_logs, name='create_weekly_logs'),
     path('api/internship_placements/',views.create_internship_placement, name='internship_placements'),
-    
+    path('api/get_placements/',views.get_internPlacement,name='get_placement'),
     path('api/get_weekly_logs/',views.get_weekly_logs, name='get_weekly_logs'),
+
 ]
