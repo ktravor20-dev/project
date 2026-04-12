@@ -11,9 +11,11 @@ function App() {
       <Router>
         <Routes>
               <Route path='/' element={<Login />}/>
-              <Route path='/studentDashboard/*' element={<AppContent />}/>
+              <Route path='/studentDashboard/*' element={<AppContent role="student" />} />
               <Route path='/login' element={<Login />}/>
               <Route path='/register' element={<RegisterUser/>}/>
+              <Route path='/supervisorDashboard/*' element={<AppContent role="supervisor" />} />
+              <Route path='/adminDashboard/*' element={<AppContent role="admin" />} />
         </Routes>
         
 

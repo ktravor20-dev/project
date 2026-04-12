@@ -10,20 +10,38 @@ function Login(){
     const[password, setPassword] = useState('');
 
     const handleLogin = async () => {
-        try {
-            const response = await axios.post('http://localhost:8000/api/login/', {
-                username: username,
-                password: password
-            });
-            localStorage.setItem('token', response.data.access);
-            localStorage.setItem('username', username);
-            console.log('Login successful:', response.data);
-            alert('log in successful')
-            navigate('/studentDashboard');
-        } catch (error) {
-            console.log('Error logging in:', error);
+      try {
+        const response = await axios.post('http://localhost:8000/api/login/', {
+          username: username,
+          password: password
+        });
+
+        // save token
+        localStorage.setItem('token', response.data.access);
+        localStorage.setItem('username', response.data.username);
+
+        // get role 
+        const role = response.data.role;  //
+
+        localStorage.setItem('role', role);
+
+        console.log("Login successful:", response.data);
+
+        alert('log in successful');
+
+        //redirect based on role
+        if (role === "STUDENT") {
+          navigate('/studentDashboard');
+        } else if (role === "INTERN_SUPERVISOR") {
+          navigate('/supervisorDashboard');
+        } else if (role === "SYSTEM_ADMINSTRATOR") {
+          navigate('/adminDashboard');
         }
-    } ; 
+
+      } catch (error) {
+        console.log('Error logging in:', error);
+      }
+    }; 
     
 
     return (

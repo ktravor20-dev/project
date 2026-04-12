@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,StaffSerializer
+from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer
 from .models import WeeklyLogs,CustomUser, internshipPlacements
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
 
 
 # Create your views here.
@@ -36,6 +38,31 @@ def get_user_id(request):
     id=CustomUser.objects.all()    
     serializer=idSerializer(id, many=True)
     return Response(serializer.data)
+   
+
+@api_view(['POST'])
+def login(request):
+   serializer = LoginSerializer(data=request.data)
+
+   if serializer.is_valid():
+      username = serializer.validated_data['username']
+      password = serializer.validated_data['password']
+
+      user = authenticate(request, username=username, password=password)
+
+      if user is not None:
+         refresh = RefreshToken.for_user(user)
+
+         role = user.role
+
+         return Response({
+               'access': str(refresh.access_token),
+               'refresh': str(refresh),
+               'role': user.role,
+               'username': user.username
+         })
+      else:
+         return Response({'error': 'Invalid credentials'}, status=400)
       
 
 
