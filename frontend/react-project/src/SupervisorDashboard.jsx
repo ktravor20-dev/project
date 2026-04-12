@@ -20,7 +20,7 @@ function SupervisorDashboard() {
     <div className='app'>
       
 
-      <div className='sidebar'> 
+      <div className='sidebar'style={{background:'#18cd48'}}> 
 
               <h2>Welcome {localStorage.getItem('username') || 'User'}</h2>
               <p  onClick={() => navigate('/supervisorDashboard/weeklylogs')}> View Weekly Logs</p>

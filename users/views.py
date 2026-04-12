@@ -147,7 +147,7 @@ def get_internPlacement(request):
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def delete_weekly_log(request,pk):
-   # pk stands for primary key(ID for the we want to delete)
+   # pk stands for primary key(ID for the log we want to delete)
    user=request.user
    if user.role == "INTERN_SUPERVISOR":
       try:

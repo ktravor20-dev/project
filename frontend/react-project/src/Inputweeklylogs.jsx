@@ -30,9 +30,13 @@ function Inputweeklylogs() {
             Remaining_time_for_Internship: remainingTime
          },{headers: {
             Authorization: `Bearer ${token}`
-        }});}catch(error){
+        }});
+        navigate('/supervisorDashboard/weeklylogs')
+      }catch(error){
             console.error('An error occurred while submitting the log:', error);
+            alert('An error has occured')
         }
+        
     };
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -58,6 +62,7 @@ function Inputweeklylogs() {
         value: student.id,
         label: `${student.first_name} ${student.last_name}`
     }));
+     
 return (
   <div className="form-container">
     <h1>Input Weekly Logs</h1>
@@ -119,7 +124,7 @@ return (
 
         <button
           className="back-btn"
-          onClick={() => navigate('/studentDashboard/weeklylogs')}
+          onClick={() => navigate('/supervisorDashboard/weeklylogs')}
         >
           View Weekly Logs
         </button>

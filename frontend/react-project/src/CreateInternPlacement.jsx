@@ -56,9 +56,22 @@ function CreateInternPlacement() {
 
             }catch(error){
                 console.error('An error occurred while submitting the log:', error);
-                navigate('/studentDashboard');
+                alert('An error has occurred while submitting')
+                
             }
     }
+     const Return=()=>{
+        const role=localStorage.getItem('role')
+        if (role === 'STUDENT'){
+            navigate('/studentDashboard');
+        }
+        else if( role ==='INTERN_SUPERVISOR'){
+            navigate('/supervisorDashboard');} 
+        else if (role ==='ACADEMIC_SUPERVISOR'){
+            navigate('/adminDashboard');
+        } else if (role==='SYSTEM_ADMINSTRATOR') {
+            navigate('/systemDashboard')
+        } }
     return (
         <div className="form-container">
            <h1>Create Internship Placement</h1>
@@ -128,7 +141,7 @@ function CreateInternPlacement() {
 
                <button
                  className="back-btn"
-                 onClick={() => navigate('/studentDashboard')}
+                 onClick={Return}
                >
                  Back
                </button>

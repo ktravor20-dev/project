@@ -33,8 +33,18 @@ function Weeklogs() {
         };
         fetchLogs();
     },[]);
-    const Return = () =>{
-        navigate('/studentDashboard'); 
+     const Return=()=>{
+        const role=localStorage.getItem('role')
+        if (role === 'STUDENT'){
+            navigate('/studentDashboard');
+        }
+        else if( role ==='INTERN_SUPERVISOR'){
+            navigate('/supervisorDashboard');} 
+        else if (role ==='ACADEMIC_SUPERVISOR'){
+            navigate('/adminDashboard');
+        } else if (role==='SYSTEM_ADMINSTRATOR') {
+            navigate('/systemDashboard')
+        } 
     }
 
     const Delectlog=async (id) =>{

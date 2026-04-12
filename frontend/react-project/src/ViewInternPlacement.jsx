@@ -22,8 +22,24 @@ function ViewInternPlacement() {
         
         }
         fetchPlacements();
+
+
             
     },[]);
+    const Return=()=>{
+        const role=localStorage.getItem('role')
+        if (role === 'STUDENT'){
+            navigate('/studentDashboard');
+        }
+        else if( role ==='INTERN_SUPERVISOR'){
+            navigate('/supervisorDashboard');} 
+        else if (role ==='ACADEMIC_SUPERVISOR'){
+            navigate('/adminDashboard');
+        } else if (role==='SYSTEM_ADMINSTRATOR') {
+            navigate('/systemDashboard')
+        } 
+
+    }
     return(
         <div>
             <h2>Internship Placements</h2>
@@ -58,7 +74,7 @@ function ViewInternPlacement() {
                 </tbody>
 
             </table>
-            <button onClick={() => navigate('/studentDashboard ')}>Return to Dashboard</button>
+            <button onClick={Return}>Return to Dashboard</button>
                 
 
         </div>
