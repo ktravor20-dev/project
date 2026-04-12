@@ -1,15 +1,50 @@
+import { Routes, Route } from 'react-router-dom';
+import Weeklogs from './Weeklogs';
+import { useNavigate } from 'react-router-dom';
+import Inputweeklylogs from './Inputweeklylogs';
+import { Outlet } from 'react-router-dom';
+import ViewInternPlacement from './ViewInternPlacement';
+import Supervisordefaultview from './Supervisordefaultview';
+
+
 function SupervisorDashboard() {
+  const navigate = useNavigate();
+  const logout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
+ 
+
   return (
-    <div>
-      <h1>Supervisor Dashboard</h1>
+    <div className='app'>
+      
 
-      <div className="cards">
-        <div className="card">Students Assigned</div>
-        <div className="card">Pending Approvals</div>
-      </div>
+      <div className='sidebar'> 
 
-      <h3>Recent Activity</h3>
-      <p>Student X submitted week 4 log</p>
+              <h2>Welcome {localStorage.getItem('username') || 'User'}</h2>
+              <p  onClick={() => navigate('/supervisorDashboard/weeklylogs')}> View Weekly Logs</p>
+              <p  onClick={() => navigate('/supervisorDashboard/inputweeklylogs')}>Create Weekly Log</p>
+              <p  onClick={() => navigate('/supervisorDashboard/viewinternshipplacements')}>View Internship Placements</p>
+              <button onClick={logout} className="logout-btn">Logout </button>
+      </div>        
+
+              
+      
+       <div className='main'>
+         
+        
+         <Routes>
+          <Route index element={<Supervisordefaultview />}/>
+          <Route path='weeklylogs' element={<Weeklogs />}/>
+          <Route path='inputweeklylogs' element={<Inputweeklylogs />}/>
+          <Route path='viewinternshipplacements' element={<ViewInternPlacement />}/>
+         </Routes>
+        
+        </div> 
+      
+
+      
     </div>
   );
 }

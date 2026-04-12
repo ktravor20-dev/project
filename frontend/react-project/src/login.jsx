@@ -65,7 +65,10 @@ function Login(){
 
 
           <p onClick={() => navigate('/register')} className="link">
-            Don’t have an account? Register
+            Don’t have an account? Create a student account
+          </p>
+          <p onClick={() => navigate('/staffRegister')} className="link">
+            Don’t have an account? Create a staff account
           </p>
         </div>
       </div>

@@ -36,11 +36,11 @@ function AppContent() {
               <h2>Welcome {localStorage.getItem('username') || 'User'}</h2>
               
               <p  onClick={() => navigate('/studentDashboard/weeklylogs')}>Weekly Logs</p>
-              <p>Students</p>
-              <p>Supervisors</p>
+              
+              
               <p  onClick={() => navigate('/studentDashboard/createinternshipplacement')}> Create Internship Placements</p>
               <p  onClick={() => navigate('/studentDashboard/viewinternshipplacements')}>View Internship Placements</p>
-              <p  onClick={() => navigate('/studentDashboard/registerstaff')}>Register Staff</p>
+              
               
               <p  onClick={() => navigate('/studentDashboard/inputweeklylogs')}>Create Weekly Log</p>
               <button onClick={handleLogout} className="logout-btn">Logout </button>
@@ -49,28 +49,15 @@ function AppContent() {
             <div className="main">
              <Outlet />
               <Routes>
-                {role === 'STUDENT' && (
+                
                   <>
                     <Route index element={<DashboardHome />}/>
                     <Route path='weeklylogs' element={<Weeklogs />}/>
                     <Route path='inputweeklylogs' element={<Inputweeklylogs />}/>
                     <Route path='createinternshipplacement' element={<CreateInternPlacement />}/>
                     <Route path='viewinternshipplacements' element={<ViewInternPlacement />}/>
-                    <Route path='registerstaff' element={<StaffRegistration />}/>
+                    
                   </>
-                )}
-
-                {role === 'INTERN_SUPERVISOR' && (
-                  <>
-                    <Route index element={<SupervisorDashboard />}/>
-                  </>
-                )}
-
-                {role === 'SYSTEM_ADMINSTRATOR' && (
-                  <>
-                    <Route path='/' element={<AdminDashboard />}/>
-                  </>
-                )}
                   
               </Routes>
             </div>
