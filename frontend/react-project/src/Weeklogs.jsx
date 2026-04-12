@@ -34,8 +34,26 @@ function Weeklogs() {
         fetchLogs();
     },[]);
     const Return = () =>{
-        navigate('/studentDashboard');
+        navigate('/studentDashboard'); 
     }
+
+    const Delectlog=async (id) =>{
+        try {
+            if (window.confirm('Are you sure you want to delete this log?')) {
+                const token = localStorage.getItem('token');
+                await axios.delete(`http://localhost:8000/api/delete_weekly_log/${id}/`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setlogs(logs.filter(log => log.id !== id));
+            }}
+            catch (error) {
+                console.error('An error occurred while deleting the log:', error);
+            }
+        
+    }    
+    
     
      return (
         <>
@@ -62,6 +80,7 @@ function Weeklogs() {
                         </div>
                         <p><span className="label">Hours_worked: {log.Hours_Worked} </span></p>
                         <p><span className="label">Remaining Time for Internship to end:</span> {log.Remaining_time_for_Internship }hours </p>
+                        <button onClick={() => Delectlog(log.id)} className="delete-btn">Delete</button>
                         
                     </div>
                 ))}

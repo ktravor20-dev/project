@@ -115,7 +115,22 @@ def get_internPlacement(request):
       return Response(serializer.data, status=200)
     except Exception as e:
        return Response({'error': str(e)}, status=400)
-
+    
+#this is to delete a weeklylog of a specific person
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_weekly_log(request,pk):
+   # pk stands for primary key(ID for the we want to delete)
+   user=request.user
+   if user.role == "INTERN_SUPERVISOR":
+      try:
+         log=WeeklyLogs.objects.get(id=pk)# here we are finding a specfic log in database using its id
+         log.delete()#here we are telling the database to delete that log
+         return Response (status=204)
+      except WeeklyLogs.DoesNotExist:
+         return Response({'error': 'Weekly log not found'}, status=404)
+   else:
+      return Response({'error': 'You are not authorized to delete this log'}, status=403)
       
         
 
