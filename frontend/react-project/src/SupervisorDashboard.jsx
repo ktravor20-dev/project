@@ -5,6 +5,8 @@ import Inputweeklylogs from './Inputweeklylogs';
 import { Outlet } from 'react-router-dom';
 import ViewInternPlacement from './ViewInternPlacement';
 import Supervisordefaultview from './Supervisordefaultview';
+import Log from '../searchlog';
+import Getstudent from './getstudent';
 
 
 function SupervisorDashboard() {
@@ -26,6 +28,8 @@ function SupervisorDashboard() {
               <p  onClick={() => navigate('/supervisorDashboard/weeklylogs')}> View Weekly Logs</p>
               <p  onClick={() => navigate('/supervisorDashboard/inputweeklylogs')}>Create Weekly Log</p>
               <p  onClick={() => navigate('/supervisorDashboard/viewinternshipplacements')}>View Internship Placements</p>
+              <p onClick={()=> navigate('/supervisorDashboard/searchLog')}>search for a weeklog</p>
+              
               <button onClick={logout} className="logout-btn">Logout </button>
       </div>        
 
@@ -39,6 +43,8 @@ function SupervisorDashboard() {
           <Route path='weeklylogs' element={<Weeklogs />}/>
           <Route path='inputweeklylogs' element={<Inputweeklylogs />}/>
           <Route path='viewinternshipplacements' element={<ViewInternPlacement />}/>
+          <Route path='studentLog' element={<Log/>}/>
+          <Route path='searchLog'element={<Getstudent/>}/>
          </Routes>
         
         </div> 

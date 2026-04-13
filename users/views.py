@@ -35,9 +35,27 @@ def create_staff(request):
 def get_user_id(request):
    user=request.user
    if user.role  != 'STUDENT':
-    id=CustomUser.objects.all()    
+    id=CustomUser.objects.filter(role='STUDENT')    
     serializer=idSerializer(id, many=True)
     return Response(serializer.data)
+   
+
+# this veiw helps the intern supervisor to get weekly log for a specific student
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_log(request):
+ user = request.user
+ if user.role =='INTERN_SUPERVISOR':
+    try:
+     student =request.query_params.get('student_id')
+     log= WeeklyLogs.objects.filter(Student_Name= student)
+     serializer= WeeklyLogsSerializer(log ,many=True)
+     return Response(serializer.data)
+    except :
+     return Response({'error':'Error occurred'})
+ else:
+    return Response({'error':'Access denied'},status=403)
+      
    
 
 @api_view(['POST'])

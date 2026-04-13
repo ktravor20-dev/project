@@ -35,5 +35,6 @@ urlpatterns = [
     path('api/get_weekly_logs/',views.get_weekly_logs, name='get_weekly_logs'),
     path('api/create_staff/',views.create_staff, name='create_staff'),
     path('api/delete_weekly_log/<int:pk>/',views.delete_weekly_log, name='delete_weekly_log'),
+    path('api/get_log/',views.get_log, name='log'),
 
 ]
