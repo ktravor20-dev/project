@@ -4,26 +4,59 @@ import Login from './login';
 import RegisterUser from './RegisterNewUser';
 import AppContent from './dashboard';
 import StaffRegistration from './StaffRegistration';  
-import SupervisorDashboard from './SupervisorDashboard';
 import AdminDashboard from './AdminDashboard';
+import DashboardHome from './DashboardHome';
+import Weeklogs from './Weeklogs';
+import Inputweeklylogs from './Inputweeklylogs';
+import CreateInternPlacement from './CreateInternPlacement';
+import ViewInternPlacement from './ViewInternPlacement';
+import Log from '../searchlog';
+import Getstudent from './getstudent';
+import Supervisordefaultview from './Supervisordefaultview'
+import SupervisorSidebar from './SupervisorSidebar'
+
 
 import './App.css';
 
 function App() {
     return (
       <Router>
-        <Routes>
-              <Route path='/' element={<Login />}/>
-              <Route path='/studentDashboard/*' element={<AppContent />} />
-              <Route path='/login' element={<Login />}/>
-              <Route path='/register' element={<RegisterUser/>}/>
-              <Route path='/supervisorDashboard/*' element={<SupervisorDashboard/>} />
-              <Route path='/adminDashboard/*' element={< AdminDashboard/>} />
-              <Route path='/staffRegister' element={<StaffRegistration />}/>
-        </Routes>
-        
+       <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<RegisterUser />} />
 
-        
+        {/* STUDENT */}
+        <Route path="/studentDashboard" element={<AppContent role="STUDENT" />}>
+          <Route index element={<DashboardHome />} />
+          <Route path="weeklylogs" element={<Weeklogs />} />
+          <Route path="inputweeklylogs" element={<Inputweeklylogs />} />
+          <Route path="createinternshipplacement" element={<CreateInternPlacement />} />
+          <Route path="viewinternshipplacements" element={<ViewInternPlacement />} />
+        </Route>
+
+        {/* SUPERVISOR */}
+        <Route path="/supervisorDashboard" element={<AppContent role="INTERN_SUPERVISOR" />}>
+          <Route index element={<Supervisordefaultview />} />
+          <Route path="weeklylogs" element={<Weeklogs />} />
+          <Route path="inputweeklylogs" element={<Inputweeklylogs />} />
+          <Route path="viewinternshipplacements" element={<ViewInternPlacement />} />
+          <Route path="studentlog" element={<Log />} />
+          <Route path="searchlog" element={<Getstudent />} />
+
+        </Route>
+
+        {/* ADMIN */}
+        <Route path="/adminDashboard" element={<AppContent role="SYSTEM_ADMINSTRATOR" />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="viewinternshipplacements" element={<ViewInternPlacement />} />
+          <Route path="studentlog" element={<Log />} />
+          <Route path="searchlog" element={<Getstudent />} />
+        </Route>
+
+        <Route path="/staffRegister" element={<StaffRegistration />} />
+
+       </Routes> 
       </Router>
     );
 }
