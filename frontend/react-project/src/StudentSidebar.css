@@ -1,0 +1,23 @@
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.sidebar-links .active {
+  color: #4fc3f7;
+  font-weight: bold;
+}
+
+.sidebar-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 0;
+  display: block;
+}
+
+.sidebar-links a:hover {
+  color: #4fc3f7;
+}

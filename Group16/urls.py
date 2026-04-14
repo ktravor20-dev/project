@@ -25,9 +25,16 @@ from  users import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='Get_Token'),
+    path('api/login/', views.login, name='login'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/register/',views.register, name='register'),
-    
+    path('api/get_user_id/',views.get_user_id, name='get_user_id'),
+    path('api/create_weekly_logs/',views.create_weekly_logs, name='create_weekly_logs'),
+    path('api/internship_placements/',views.create_internship_placement, name='internship_placements'),
+    path('api/get_placements/',views.get_internPlacement,name='get_placement'),
     path('api/get_weekly_logs/',views.get_weekly_logs, name='get_weekly_logs'),
+    path('api/create_staff/',views.create_staff, name='create_staff'),
+    path('api/delete_weekly_log/<int:pk>/',views.delete_weekly_log, name='delete_weekly_log'),
+    path('api/get_log/',views.get_log, name='log'),
+
 ]

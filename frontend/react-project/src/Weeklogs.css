@@ -1,63 +1,73 @@
-body{
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    min-height: 100vh;
-    
-    
-    align-items: left;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-
-   
-    
-   
-
-    
-
-    
-}
-.page:hover{
-    background: linear-gradient(135deg, #33417e, #48165f);
-    min-height: 100vh;
-
-    
-    flex-direction: column;
-    align-items: left;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    
-    
-    
-}
 .student-name{
-    font-size: 25px;
-    color: goldenrod;
-    align-items: center;
-    justify-content: center;
-    padding-left: 150px;
+    font-size: 20px;
+    color: #764ba2;;
+    margin-bottom: 10px;
+    font-weight: bold;
 }
     
     
     
- .log{
-    background: rgba(52, 152, 219, 0.4);
-    border: sandybrown solid 1px;
-    
-    
+.log{
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    margin: 20px 0;
+    padding: 25px;
     border-radius: 15px;
-    
-    padding: 15px;
-    
-    color : white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+    animation: fadeIn 0.4s ease;
 
 }
 
-
-    
-
-    h1{
-        text-align: center;
-        color: green;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 50px;
-
+@keyframes fadeIn {
+    from{
+        opacity: 0;
+        transform: translateY(10px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.log  p {
+    margin: 6px 0;
+    color: #444;
+}
+
     
+.log:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+}
+
+.page-title {
+  font-size: 30px;
+  margin-bottom: 25px;
+  color: #1e293b;
+  font-weight: bold;
+}
+.progress {
+    background: #eee;
+    border-radius: 10px;
+    height: 10px;
+    margin: 8px 0 15px;
+    overflow: hidden;
+}
+.progress-bar {
+    background: linear-gradient(to right, #667eea, #764ba2);
+    height: 100%;
+    transition: width 0.4s ease;
+}
+.label{
+    font-weight: 600;
+    color: #222;
+}
+
+.logs-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+   
+}
