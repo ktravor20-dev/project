@@ -9,11 +9,14 @@ import StaffRegistration from './StaffRegistration';
 import StudentSidebar from "./StudentSidebar";
 import SupervisorSidebar from "./SupervisorSidebar";
 import AdminSidebar from "./AdminSidebar";
+import AcademicSupervisorSidebar from "./AcademicSupervisorSidebar";
 
-function AppContent({role}) {
+function AppContent() {
     const location = useLocation();
 
     const navigate = useNavigate();
+
+    const role = localStorage.getItem('role');
 
     
 

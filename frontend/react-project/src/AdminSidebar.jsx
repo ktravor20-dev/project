@@ -7,7 +7,8 @@ function AdminSidebar() {
       <h2>Admin</h2>
 
       <NavLink to="">Dashboard</NavLink>
-      <NavLink to="users">Manage Users</NavLink>
+      <NavLink to="weeklylogs">Weekly Logs</NavLink>
+      <NavLink to="searchlog">Search Logs</NavLink>
       <NavLink to="viewinternshipplacements">View Placements</NavLink>
 
       

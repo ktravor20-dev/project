@@ -32,6 +32,8 @@ function App() {
           <Route index element={<DashboardHome />} />
           <Route path="weeklylogs" element={<Weeklogs />} />
           <Route path="inputweeklylogs" element={<Inputweeklylogs />} />
+          <Route path="viewinternshipplacements" element={<ViewInternPlacement />} />
+          <Route path="searchlog" element={<Getstudent />} />
         </Route>
 
         {/*INTERNSHIP SUPERVISOR */}
@@ -54,6 +56,7 @@ function App() {
           <Route path="viewinternshipplacements" element={<ViewInternPlacement />} />
           <Route path="studentlog" element={<Log />} />
           <Route path="searchlog" element={<Getstudent />} />
+          <Route path="createinternshipplacements" element={<CreateInternPlacement />} />
 
         </Route>
 

@@ -36,6 +36,8 @@ function Login(){
           navigate('/supervisorDashboard');
         } else if (role === "SYSTEM_ADMINSTRATOR") {
           navigate('/adminDashboard');
+        } else if (role === "ACADEMIC_SUPERVISOR") {
+          navigate('/academicSupervisorDashboard');
         }
 
       } catch (error) {
