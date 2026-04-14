@@ -37,6 +37,7 @@ function AppContent({role}) {
               {role === 'STUDENT' && <StudentSidebar />}
               {role === 'INTERN_SUPERVISOR' && <SupervisorSidebar />}
               {role === 'SYSTEM_ADMINSTRATOR' && <AdminSidebar />}
+              {role === 'ACADEMIC_SUPERVISOR' && <AcademicSupervisorSidebar />}
               <button onClick={handleLogout} className="logout-btn">Logout </button>
           </div>
 
