@@ -33,7 +33,6 @@ function App() {
           <Route path="weeklylogs" element={<Weeklogs />} />
           <Route path="inputweeklylogs" element={<Inputweeklylogs />} />
           <Route path="viewinternshipplacements" element={<ViewInternPlacement />} />
-          <Route path="searchlog" element={<Getstudent />} />
         </Route>
 
         {/*INTERNSHIP SUPERVISOR */}

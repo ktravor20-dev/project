@@ -2,9 +2,11 @@
   display: flex;
   gap: 20px;
   margin-top: 20px;
+
 }
 
 .card {
+  position: relative; 
   padding: 25px;
   justify-content: center;
   align-items: center;
@@ -18,11 +20,18 @@
   transition: all 0.3s ease;
   color: white;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .card:hover {
-  transform: translateY(-5px) scale(1.02);
+  transform: translateY(-6px) scale(1.03);
 }
+/* activating gold ring on hover */
+.card:hover::before,
+.card:hover::after {
+  opacity: 1;
+}
+
 
 .green {
   background: #28a745;
@@ -54,4 +63,49 @@ h3 {
 
 p {
   color: #555;
+}
+
+/*for smooth glowing animation before */
+/* GOLD RING BORDER */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 14px;
+  background: linear-gradient(120deg, #d4af37, #ffd700, #fff1a8, #d4af37);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 0;
+
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+
+
+/* for smooth glowing animation after */
+.card::after{
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 18px;
+  background: radial-gradient(circle, rgba(255,215,0,0.4), transparent);
+  opacity: 0; 
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+/*ensuring that our content stays above glow */
+.card * {
+  position: relative;
+  z-index: 1;
+}
+
+/* responsiveness*/ 
+@media (max-width: 768px) {
+  .cards {
+    flex-direction: column;
+  }
 }

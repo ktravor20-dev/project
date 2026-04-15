@@ -2,12 +2,12 @@ import { FaClipboardList } from "react-icons/fa";
 import './DashboardHome.css';
 function DashboardHome() {
   return (
-    <div>
+    <div className="main"> 
       <h1>Dashboard</h1>
 
       <div className="cards">
         <div className="card green">
-          <FaClipboardList style={{ marginnRight: "8px" }}/>Total Logs: 12
+          <FaClipboardList style={{ marginRight: "8px" }}/>Total Logs: 12
         </div>
 
         <div className="card orange">
