@@ -13,6 +13,11 @@ function GetStudent(){
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+         if (!token) {
+      setError('You are not logged in.');
+      setLoading(false);
+      return;
+    }
         const fetchUserId = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/get_user_id/', {
