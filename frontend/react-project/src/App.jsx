@@ -12,8 +12,9 @@ import CreateInternPlacement from './CreateInternPlacement';
 import ViewInternPlacement from './ViewInternPlacement';
 import Log from '../searchlog';
 import Getstudent from './getstudent';
-import Supervisordefaultview from './Supervisordefaultview'
-import SupervisorSidebar from './SupervisorSidebar'
+import Supervisordefaultview from './Supervisordefaultview';
+import SupervisorSidebar from './SupervisorSidebar';
+import AcademicSupervisorDashboard from './AcademicSupervisorDashboard';
 
 
 import './App.css';
@@ -31,11 +32,11 @@ function App() {
           <Route index element={<DashboardHome />} />
           <Route path="weeklylogs" element={<Weeklogs />} />
           <Route path="inputweeklylogs" element={<Inputweeklylogs />} />
-          <Route path="createinternshipplacement" element={<CreateInternPlacement />} />
           <Route path="viewinternshipplacements" element={<ViewInternPlacement />} />
+          <Route path="searchlog" element={<Getstudent />} />
         </Route>
 
-        {/* SUPERVISOR */}
+        {/*INTERNSHIP SUPERVISOR */}
         <Route path="/supervisorDashboard" element={<AppContent role="INTERN_SUPERVISOR" />}>
           <Route index element={<Supervisordefaultview />} />
           <Route path="weeklylogs" element={<Weeklogs />} />
@@ -43,6 +44,19 @@ function App() {
           <Route path="viewinternshipplacements" element={<ViewInternPlacement />} />
           <Route path="studentlog" element={<Log />} />
           <Route path="searchlog" element={<Getstudent />} />
+
+        </Route>
+
+
+        {/*ACADEMIC SUPERVISOR */}
+        <Route path="/academicSupervisorDashboard" element={<AppContent role="ACADEMIC_SUPERVISOR" />}>
+          <Route index element={<AcademicSupervisorDashboard />} />
+          <Route path="weeklylogs" element={<Weeklogs />} />
+          <Route path="inputweeklylogs" element={<Inputweeklylogs />} />
+          <Route path="viewinternshipplacements" element={<ViewInternPlacement />} />
+          <Route path="studentlog" element={<Log />} />
+          <Route path="searchlog" element={<Getstudent />} />
+          <Route path="createinternshipplacements" element={<CreateInternPlacement />} />
 
         </Route>
 

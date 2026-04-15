@@ -3,13 +3,21 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 
-function Getstudent(){
-    const[students, setStudents]=useState([])
-    const[student_id, setStudentid]=useState('')
+function GetStudent(){
+    const [students, setStudents]=useState([])
+    const [student_id, setStudentid]=useState('')
+    const [selectedOption, setSelectedOption] = usestate(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
     const navigate=useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+         if (!token) {
+      setError('You are not logged in.');
+      setLoading(false);
+      return;
+    }
         const fetchUserId = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/get_user_id/', {
@@ -19,31 +27,64 @@ function Getstudent(){
                     }
 
                 });
-                setStudents(response.data);
+                setStudents(Array.isArray(response.data) ? response.data : []);
                 
             } catch (error) {
                 console.error('An error occurred while fetching user ID:', error);
+                setError('Failed to load students.');
+            }   finally {
+                setLoading(false);
             }
+            
         };
         fetchUserId();
-    }, []);
+    }, []); }
+
     // Transform the students data into options for the Selection
     const options= students.map(student => ({
         value: student.id,
         label: `${student.first_name} ${student.last_name}`
     }));
-     localStorage.setItem('studentid',student_id);
 
+    const handleChange = (selected) => {
+      setSelectedOption(selected);
+      const value = selected ? selected.value : '';
+      setStudentId(value);
+      localStorage.setItem('studentid',student_id);
+
+    };
     
-    return(
-        <div>
-            <label>Select Student</label>
-      <Select
-        options={options}
-        onChange={(selectedOption) => setStudentid(selectedOption.value)}/>
-        <button onClick={()=>navigate('/supervisorDashboard/studentLog')}>Search</button>
-        </div>
-    )
+    const handleSearch = () => {
+    if (!studentId) {
+      alert('Please select a student first.');
+      return;
+    }
 
-}
-export default Getstudent;
+    navigate('/supervisorDashboard/studentLog');
+  };
+
+  return (
+    <div>
+      <label>Select Student</label>
+
+      {loading && <p>Loading students...</p>}
+      {error && <p>{error}</p>}
+
+      {!loading && !error && (
+        <>
+          <Select
+            options={options}
+            value={selectedOption}
+            onChange={handleChange}
+            placeholder="Choose a student"
+            isClearable
+          />
+
+          <button onClick={handleSearch}>Search</button>
+        </>
+      )}
+    </div>
+  );
+
+
+export default GetStudent;
