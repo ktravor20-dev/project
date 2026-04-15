@@ -27,11 +27,15 @@ function GetStudent(){
                     }
 
                 });
-                setStudents(response.data);
+                setStudents(Array.isArray(response.data) ? response.data : []);
                 
             } catch (error) {
                 console.error('An error occurred while fetching user ID:', error);
+                setError('Failed to load students.');
+            }   finally {
+                setLoading(false);
             }
+            
         };
         fetchUserId();
     }, []);
