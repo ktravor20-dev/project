@@ -3,9 +3,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 
-function Getstudent(){
-    const[students, setStudents]=useState([])
-    const[student_id, setStudentid]=useState('')
+function GetStudent(){
+    const [students, setStudents]=useState([])
+    const [student_id, setStudentid]=useState('')
+    const [selectedOption, setSelectedOption] = usestate(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
     const navigate=useNavigate();
 
     useEffect(() => {
