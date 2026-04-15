@@ -38,24 +38,53 @@ function GetStudent(){
             
         };
         fetchUserId();
-    }, []);
+    }, []); }
+
     // Transform the students data into options for the Selection
     const options= students.map(student => ({
         value: student.id,
         label: `${student.first_name} ${student.last_name}`
     }));
-     localStorage.setItem('studentid',student_id);
 
+    const handleChange = (selected) => {
+      setSelectedOption(selected);
+      const value = selected ? selected.value : '';
+      setStudentId(value);
+      localStorage.setItem('studentid',student_id);
+
+    };
     
-    return(
-        <div>
-            <label>Select Student</label>
-      <Select
-        options={options}
-        onChange={(selectedOption) => setStudentid(selectedOption.value)}/>
-        <button onClick={()=>navigate('/supervisorDashboard/studentLog')}>Search</button>
-        </div>
-    )
+    const handleSearch = () => {
+    if (!studentId) {
+      alert('Please select a student first.');
+      return;
+    }
 
-}
-export default Getstudent;
+    navigate('/supervisorDashboard/studentLog');
+  };
+
+  return (
+    <div>
+      <label>Select Student</label>
+
+      {loading && <p>Loading students...</p>}
+      {error && <p>{error}</p>}
+
+      {!loading && !error && (
+        <>
+          <Select
+            options={options}
+            value={selectedOption}
+            onChange={handleChange}
+            placeholder="Choose a student"
+            isClearable
+          />
+
+          <button onClick={handleSearch}>Search</button>
+        </>
+      )}
+    </div>
+  );
+
+
+export default GetStudent;
