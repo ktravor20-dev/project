@@ -36,5 +36,10 @@ urlpatterns = [
     path('api/create_staff/',views.create_staff, name='create_staff'),
     path('api/delete_weekly_log/<int:pk>/',views.delete_weekly_log, name='delete_weekly_log'),
     path('api/get_log/',views.get_log, name='log'),
+    path('api/createstudentlog/',views.createlog,name='create_log'),
+    path('api/get_supervisors/',views.get_supervisors,name='supervisors'),
+    path('api/getstudentlog/',views.viewStudentlog,name='viewLog'),
+    path('api/delete_student_log/<int:pk>/',views.delete_student_log, name='delete_student_log'),
+    path('api/update_log_status/<int:pk>/',views.mark_as_read,name='seen')
 
 ]

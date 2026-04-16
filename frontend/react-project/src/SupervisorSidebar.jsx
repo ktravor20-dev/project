@@ -11,6 +11,7 @@ function SupervisorSidebar() {
       <NavLink to="weeklylogs">Weekly Logs</NavLink>
       <NavLink to="searchlog">Search Logs</NavLink>
       <NavLink to="inputweeklylogs">Create Weekly Log</NavLink>
+      <NavLink to='viewstudentlog'>View student Logs</NavLink>
 
       
 

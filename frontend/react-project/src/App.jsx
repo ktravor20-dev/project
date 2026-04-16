@@ -15,6 +15,8 @@ import Getstudent from './getstudent';
 import Supervisordefaultview from './Supervisordefaultview';
 import SupervisorSidebar from './SupervisorSidebar';
 import AcademicSupervisorDashboard from './AcademicSupervisorDashboard';
+import CreateStudentLog from './CreateStudentlog';
+import ViewStudentLog from './ViewStudentLog';
 
 
 import './App.css';
@@ -33,6 +35,8 @@ function App() {
           <Route path="weeklylogs" element={<Weeklogs />} />
           <Route path="inputweeklylogs" element={<Inputweeklylogs />} />
           <Route path="viewinternshipplacements" element={<ViewInternPlacement />} />
+          <Route path="createstudentlog" element={<CreateStudentLog/>}/>
+          <Route path ='viewstudentlog' element={<ViewStudentLog/>}/>
         </Route>
 
         {/*INTERNSHIP SUPERVISOR */}
@@ -43,6 +47,7 @@ function App() {
           <Route path="viewinternshipplacements" element={<ViewInternPlacement />} />
           <Route path="studentlog" element={<Log />} />
           <Route path="searchlog" element={<Getstudent />} />
+          <Route path ='viewstudentlog' element={<ViewStudentLog/>}/>
 
         </Route>
 

@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer
-from .models import WeeklyLogs,CustomUser, internshipPlacements
+from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer,createStudentlogSerializer
+from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
@@ -176,7 +176,95 @@ def delete_weekly_log(request,pk):
          return Response({'error': 'Weekly log not found'}, status=404)
    else:
       return Response({'error': 'You are not authorized to delete this log'}, status=403)
-      
+       
+# this view is for creating student logs
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createlog(request):
+   user=request.user
+   if user.role=='STUDENT':
+      supervisor_id= request.data.get('Supervisor') #get the id for the supervisor from the data sent from the forntend
+
+      try:
+         supervisor=CustomUser.objects.get(id=supervisor_id)
+      except CustomUser.DoesNotExist:
+         return Response({'error':'Ivalid supervisor id'})
+      serializer=createStudentlogSerializer(data=request.data)
+      if serializer.is_valid():
+         serializer.save(Student_Name=request.user,Supervisor=supervisor)
+         return Response(serializer.data, status=201)
+      else:
+         return Response(serializer.errors,status=400)
+
+       
+   else:
+      return Response({'error':'you are not allowed to perform this operation'})  
+   
+# this view is to return all supervisors   
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_supervisors(request):
+   try:
+    supervisors=CustomUser.objects.filter(role='INTERN_SUPERVISOR')
+    serializer= idSerializer(supervisors,many=True)
+    return Response(serializer.data, status=203)
+   except:
+      return Response({'error':'an error while fetching data'},status=400)
+
+         
+#this view is to get student logs
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def viewStudentlog(request):
+   user=request.user
+   try:
+      if user.role == 'STUDENT':
+         data= Studentlog.objects.filter(Student_Name=request.user)
+         serializer=createStudentlogSerializer(data,many=True)
+         return Response(serializer.data,status=200)
+      elif user.role =='INTERN_SUPERVISOR':
+         data = Studentlog.objects.filter(Supervisor=request.user)
+         serializer=createStudentlogSerializer(data,many=True)
+         return Response(serializer.data,status=201)
+
+      else:
+         return Response({'Error':'ACCESS DENIED'},status=203) 
+   except:
+      return Response(serializer.errors,status=400)     
+
+
+# this is to delete a student log
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_student_log(request,pk):
+   # pk stands for primary key(ID for the log we want to delete)
+   user=request.user
+   if user.role == "STUDENT":
+      try:
+         log=Studentlog.objects.get(id=pk)# here we are finding a specfic log in database using its id
+         log.delete()#here we are telling the database to delete that log
+         return Response (status=204)
+      except Studentlog.DoesNotExist:
+         return Response({'error': 'Student log not found'}, status=404)
+   else:
+      return Response({'error': 'You are not authorized to delete this log'}, status=403)
+   
+#this view is for the status changes
+@api_view(['PATCH'])   
+@permission_classes([IsAuthenticated])
+def mark_as_read(request,pk):
+   user=request.user
+   if user.role =='INTERN_SUPERVISOR':
+      try:
+         log=Studentlog.objects.get(id=pk)
+         log.is_read=True
+         log.save()
+         return Response({'message':'Log marked as read'}, status=200)
+      except Studentlog.DoesNotExist:
+         return Response({'error':'log not found'}, status=404)
+    
+
+
         
 
        
