@@ -15,6 +15,7 @@ import Getstudent from './getstudent';
 import Supervisordefaultview from './Supervisordefaultview';
 import SupervisorSidebar from './SupervisorSidebar';
 import AcademicSupervisorDashboard from './AcademicSupervisorDashboard';
+import ProtectedRoute from './ProtectedRoute';
 
 
 import './App.css';
@@ -28,7 +29,12 @@ function App() {
         <Route path="/register" element={<RegisterUser />} />
 
         {/* STUDENT */}
-        <Route path="/studentDashboard" element={<AppContent role="STUDENT" />}>
+        <Route path="/studentDashboard" element={
+          <ProtectedRoute allowedRoles={["STUDENT"]}>
+            <AppContent />
+          </ProtectedRoute>
+          }
+           >
           <Route index element={<DashboardHome />} />
           <Route path="weeklylogs" element={<Weeklogs />} />
           <Route path="inputweeklylogs" element={<Inputweeklylogs />} />
@@ -36,7 +42,11 @@ function App() {
         </Route>
 
         {/*INTERNSHIP SUPERVISOR */}
-        <Route path="/supervisorDashboard" element={<AppContent role="INTERN_SUPERVISOR" />}>
+        <Route path="/supervisorDashboard" element={
+          <ProtectedRoute allowedRoles={["INTERN_SUPERVISOR"]}>
+            <AppContent />
+          </ProtectedRoute>
+        }>
           <Route index element={<Supervisordefaultview />} />
           <Route path="weeklylogs" element={<Weeklogs />} />
           <Route path="inputweeklylogs" element={<Inputweeklylogs />} />
@@ -48,7 +58,11 @@ function App() {
 
 
         {/*ACADEMIC SUPERVISOR */}
-        <Route path="/academicSupervisorDashboard" element={<AppContent role="ACADEMIC_SUPERVISOR" />}>
+        <Route path="/academicSupervisorDashboard" element={
+          <ProtectedRoute allowedRoles={["ACADEMIC_SUPERVISOR"]}>
+            <AppContent />
+          </ProtectedRoute>
+        }>
           <Route index element={<AcademicSupervisorDashboard />} />
           <Route path="weeklylogs" element={<Weeklogs />} />
           <Route path="inputweeklylogs" element={<Inputweeklylogs />} />
@@ -60,10 +74,15 @@ function App() {
         </Route>
 
         {/* ADMIN */}
-        <Route path="/adminDashboard" element={<AppContent role="SYSTEM_ADMINSTRATOR" />}>
+        <Route path="/adminDashboard" element={
+          <ProtectedRoute allowedRoles={["SYSTEM_ADMINSTRATOR"]}>
+            <AppContent />
+          </ProtectedRoute>
+        }>
           <Route index element={<AdminDashboard />} />
           <Route path="viewinternshipplacements" element={<ViewInternPlacement />} />
           <Route path="studentlog" element={<Log />} />
+          <Route path="weeklylogs" element={<Weeklogs />} />
           <Route path="searchlog" element={<Getstudent />} />
         </Route>
 

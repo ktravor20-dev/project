@@ -8,7 +8,6 @@ function AdminSidebar() {
 
       <NavLink to="">Dashboard</NavLink>
       <NavLink to="weeklylogs">Weekly Logs</NavLink>
-      <NavLink to="searchlog">Search Logs</NavLink>
       <NavLink to="viewinternshipplacements">View Placements</NavLink>
 
       
