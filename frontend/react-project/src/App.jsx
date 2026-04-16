@@ -16,6 +16,9 @@ import Supervisordefaultview from './Supervisordefaultview';
 import SupervisorSidebar from './SupervisorSidebar';
 import AcademicSupervisorDashboard from './AcademicSupervisorDashboard';
 import ProtectedRoute from './ProtectedRoute';
+import CreateStudentLog from './CreateStudentlog';
+import ViewStudentLog from './ViewStudentLog'
+
 
 
 import './App.css';
