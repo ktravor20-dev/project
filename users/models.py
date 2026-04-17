@@ -79,3 +79,13 @@ class Studentlog(models.Model):
         return f'{self.Student_Name.username}- {self.Week_Number}'
 
     
+class supervisorlog(models.Model):
+    Supervisor_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='supervisor_logs')  
+    Student_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='student_logs')  
+    Week_Number=models.PositiveIntegerField()
+    feedback=models.TextField()
+    is_read =models.BooleanField(default=False)
+    submittion_date=models.DateField(auto_now_add=True)
+    
+    def __str__(self):
+        return f'{self.Supervisor_Name.username}- {self.Student_Name.username}- {self.Week_Number}'
