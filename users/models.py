@@ -66,3 +66,16 @@ class academicSupervisor(models.Model):
     def __str__(self):
         return f'{self.user.username} - {self.Stuff_id}'
     
+class Studentlog(models.Model):
+    Student_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='student_details')  
+    Supervisor= models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='supervisor_details')  
+    Week_Number=models.PositiveIntegerField()
+    Submittion_Date=models.DateField(auto_now_add=True)
+    Activities_Done=models.TextField()
+    Challenges=models.TextField()
+    is_read =models.BooleanField(default=False)
+     
+    def __str__(self):
+        return f'{self.Student_Name.username}- {self.Week_Number}'
+
+    

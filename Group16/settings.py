@@ -47,6 +47,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_PERMISSION_CLASS':('rest_framework.permissions.IsAuthenticated',),
 }
 
 SIMPLE_JWT = {
@@ -133,3 +134,12 @@ USE_TZ = True
 STATIC_URL = 'static/'
 AUTH_USER_MODEL='users.CustomUser'
 CORS_ALLOW_ALL_ORIGINS=True
+CORS_ALLOW_CREDENTIALS=True
+CORS_ALLOW_HEADERS=[
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]

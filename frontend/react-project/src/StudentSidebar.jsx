@@ -8,9 +8,10 @@ function StudentSidebar() {
 
       <NavLink to="">Dashboard</NavLink>
       <NavLink to="weeklylogs">Weekly Logs</NavLink>
-      <NavLink to="inputweeklylogs">Create Weekly Log</NavLink>
-      <NavLink to="searchlog">Search Logs</NavLink>
+      <NavLink to="createstudentlog">Create your Student Log</NavLink>
+      <NavLink to='viewstudentlog'>View student Log</NavLink>
       <NavLink to="viewinternshipplacements">View Placements</NavLink>
+      
       
 
     </div>
