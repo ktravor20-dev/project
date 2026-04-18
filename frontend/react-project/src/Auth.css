@@ -17,6 +17,12 @@ body {
   padding: 20px;
 }
 
+.auth-container::before {
+  content: " ";
+  position: absolute;
+  
+}
+
 .auth-card {
   background: #fff;
   padding: 30px;
