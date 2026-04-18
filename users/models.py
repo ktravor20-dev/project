@@ -83,7 +83,7 @@ class supervisorlog(models.Model):
     Supervisor_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='supervisor_logs')  
     Student_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='student_logs')  
     Week_Number=models.PositiveIntegerField()
-    feedback=models.TextField()
+    Feedback=models.TextField()
     is_read =models.BooleanField(default=False)
     submittion_date=models.DateField(auto_now_add=True)
     
