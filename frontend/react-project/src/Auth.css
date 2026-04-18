@@ -24,8 +24,7 @@ body {
   background: url("/login-bg.jpg") center center / cover no-repeat;
   filter: blur (6px);
   transform: scale(1.08);
-  z-index: 0;
-  
+  z-index: 0; 
 }
 
 .auth-card {
