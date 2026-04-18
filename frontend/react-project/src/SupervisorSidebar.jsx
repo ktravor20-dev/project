@@ -15,12 +15,6 @@ function SupervisorSidebar() {
 
       
     </div>
-
-
-
-
-
-
   );
 }
 
