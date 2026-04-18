@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor,Studentlog
+from .models import WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor,Studentlog, supervisorlog
 
 class idSerializer(serializers.ModelSerializer):
     class Meta:
@@ -124,5 +124,13 @@ class createStudentlogSerializer(serializers.ModelSerializer):
         fields=['id','Supervisor','Activities_Done','Challenges','Week_Number','is_read']
 
 
-        
+        #this serializer is for creating a supervisorlog
+class createSupervisorlogSerializer(serializers.ModelSerializer):
+    Student_Name=idSerializer(read_only=True)
+    Supervisor_Name=idSerializer(read_only=True)
+
+    class Meta:
+        model=supervisorlog
+        fields='__all__'
+    
 
