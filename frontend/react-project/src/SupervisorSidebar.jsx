@@ -17,10 +17,4 @@ function SupervisorSidebar() {
     </div>
   );
 }
-
-
-
-
-
-
 export default SupervisorSidebar;
