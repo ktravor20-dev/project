@@ -13,6 +13,15 @@ function SupervisorSidebar() {
       <NavLink to="inputweeklylogs">Create Supervisor Feedback</NavLink>
       <NavLink to='viewstudentlog'>View student Logs</NavLink>
 
+
+
+
+
+
+
+
+
+
       
 
       
