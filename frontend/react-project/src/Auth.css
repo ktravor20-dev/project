@@ -8,11 +8,14 @@ body {
 }
 
 .auth-container {
-  height: 100vh;
+  position: relative;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f4f6f8;
+  overflow: hidden;
+  padding: 20px;
+  
 }
 
 .auth-card {
