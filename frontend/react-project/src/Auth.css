@@ -84,6 +84,7 @@ body {
 
 .auth-card button:hover {
   background: #1d4ed8;
+  transform: translateY(-1px);
 }
 
 .logout-btn {
@@ -98,4 +99,5 @@ body {
   text-align: center;
   color: #2563eb;
   cursor: pointer;
+  margin-top: 10px;
 }
