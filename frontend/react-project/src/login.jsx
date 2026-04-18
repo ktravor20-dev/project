@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import './Auth.css';
 
 function Login(){
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
 
@@ -22,11 +22,9 @@ function Login(){
 
         // get role 
         const role = response.data.role;  //
-
         localStorage.setItem('role', role);
 
         console.log("Login successful:", response.data);
-
         alert('log in successful');
 
         //redirect based on role
@@ -42,6 +40,7 @@ function Login(){
 
       } catch (error) {
         console.log('Error logging in:', error);
+        alert('Login Failed. Please check your details and try again.');
       }
     }; 
     
