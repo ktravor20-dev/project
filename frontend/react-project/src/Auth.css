@@ -20,6 +20,9 @@ body {
 .auth-container::before {
   content: " ";
   position: absolute;
+  inset: 0;
+  background: url("/login-bg.jpg") center center / cover no-repeat;
+  filter: blur (6px);
   
 }
 
