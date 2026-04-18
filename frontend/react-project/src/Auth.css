@@ -58,9 +58,12 @@ body {
 .auth-card input,
 .auth-card select {
   margin-bottom: 15px;
-  padding: 10px;
+  padding: 12px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  background: #eaf0fb;
+  font-size: 16px;
+  outline: none;
 }
 
 .auth-card button {
