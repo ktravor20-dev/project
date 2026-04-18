@@ -27,6 +27,16 @@ body {
   z-index: 0; 
 }
 
+.auth-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.45);
+  z-index: 1; 
+
+}
+
+
 .auth-card {
   background: #fff;
   padding: 30px;
