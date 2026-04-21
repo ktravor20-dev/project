@@ -61,6 +61,7 @@ function App() {
           <Route path="studentlog" element={<Log />} />
           <Route path="searchlog" element={<Getstudent />} />
           <Route path ='viewstudentlog' element={<ViewStudentLog/>}/>
+          <Route path="messages" element={<Messages />} />
 
         </Route>
 
