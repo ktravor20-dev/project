@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor,Studentlog, supervisorlog
+from .models import WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor,Studentlog, supervisorlog, SupervisorMessage
 
 class idSerializer(serializers.ModelSerializer):
     class Meta:
@@ -132,5 +132,13 @@ class createSupervisorlogSerializer(serializers.ModelSerializer):
     class Meta:
         model=supervisorlog
         fields='__all__'
+
+#This serializer is for the supervisors messaging
     
+class SupervisorMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SupervisorMessage
+        fields = '__all__'
+        read_only_fields = ['sender', 'created_at', 'updated_at']
+
 

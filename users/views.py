@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer,createStudentlogSerializer
-from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog
+from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer,createStudentlogSerializer, SupervisorMessageSerializer
+from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog, SupervisorMessage
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
@@ -263,7 +263,33 @@ def mark_as_read(request,pk):
       except Studentlog.DoesNotExist:
          return Response({'error':'log not found'}, status=404)
     
+#This view is for the supervisors messaging:
+#sending messages
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_message(request):
+   serializer = SupervisorMessageSerializer(data=request.data)
+   try:
+      if serializer.is_valid():
+         serializer.save(sender=request.user)
+         return Response(serializer.data, status=201)
+   except:
+      return Response(serializer.errors, status=400)
+   
+#receiving messages
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_messages(request):
+    messages = SupervisorMessage.objects.filter(
+        sender=request.user
+    ) | SupervisorMessage.objects.filter(
+        receiver=request.user
+    )
 
+    messages = messages.order_by('created_at')
+
+    serializer = SupervisorMessageSerializer(messages, many=True)
+    return Response(serializer.data)
 
         
 
