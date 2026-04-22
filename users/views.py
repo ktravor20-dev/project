@@ -6,6 +6,7 @@ from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog, Supe
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
+from django.db.models import Q
 
 
 # Create your views here.
@@ -277,19 +278,27 @@ def send_message(request):
       return Response(serializer.errors, status=400)
    
 #receiving messages
+
+from django.db.models import Q
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_messages(request):
-    messages = SupervisorMessage.objects.filter(
-        sender=request.user
-    ) | SupervisorMessage.objects.filter(
-        receiver=request.user
-    )
+    user = request.user
 
-    messages = messages.order_by('created_at')
+    if user.role not in ['INTERN_SUPERVISOR', 'ACADEMIC_SUPERVISOR']:
+        return Response({"error": "Access denied"}, status=403)
+
+    messages = SupervisorMessage.objects.filter(
+        Q(sender=user) | Q(receiver=user)
+    ).order_by('-created_at')
 
     serializer = SupervisorMessageSerializer(messages, many=True)
     return Response(serializer.data)
+
 
         
 
