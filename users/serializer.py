@@ -136,9 +136,12 @@ class createSupervisorlogSerializer(serializers.ModelSerializer):
 #This serializer is for the supervisors messaging
     
 class SupervisorMessageSerializer(serializers.ModelSerializer):
+    is_sender = serializers.SerializerMethodField()
     class Meta:
         model = SupervisorMessage
         fields = '__all__'
-        read_only_fields = ['sender', 'created_at', 'updated_at']
+    def get_is_sender(self, obj):
+        request = self.context.get("request")
+        return obj.sender == request.user
 
 
