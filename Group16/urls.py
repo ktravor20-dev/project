@@ -43,7 +43,7 @@ urlpatterns = [
     path('api/getstudentlog/',views.viewStudentlog,name='viewLog'),
     path('api/delete_student_log/<int:pk>/',views.delete_student_log, name='delete_student_log'),
     path('api/update_log_status/<int:pk>/',views.mark_as_read,name='seen'),
-    path('api/messages/send',views.send_message),
+    path('api/messages/send/',views.send_message),
     path('api/messages/',views.get_messages),
     
     
