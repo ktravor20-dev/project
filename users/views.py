@@ -5,8 +5,10 @@ from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWe
 from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog, SupervisorMessage
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.db.models import Q
+
+User = get_user_model()
 
 
 # Create your views here.
@@ -269,20 +271,41 @@ def mark_as_read(request,pk):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def send_message(request):
-   serializer = SupervisorMessageSerializer(data=request.data)
-   try:
-      if serializer.is_valid():
-         serializer.save(sender=request.user)
-         return Response(serializer.data, status=201)
-   except:
-      return Response(serializer.errors, status=400)
+    sender = request.user
+    receiver_id = request.data.get('receiver')
+    message_text = request.data.get('message')
+
+    if not receiver_id or not message_text:
+        return Response({"error": "receiver and message are required"}, status=400)
+
+    try:
+        receiver = User.objects.get(id=receiver_id)
+    except User.DoesNotExist:
+        return Response({"error": "Receiver not found"}, status=404)
+
+    allowed_roles = ['INTERN_SUPERVISOR', 'ACADEMIC_SUPERVISOR']
+
+    if sender.role not in allowed_roles or receiver.role not in allowed_roles:
+        return Response({"error": "Not allowed to send messages"}, status=403)
+
+    msg = SupervisorMessage.objects.create(
+        sender=sender,
+        receiver=receiver,
+        message=message_text
+    )
+
+    serializer = SupervisorMessageSerializer(msg)
+    return Response(serializer.data, status=201)
+
+
+
+
+
+
+
+
    
 #receiving messages
-
-from django.db.models import Q
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
