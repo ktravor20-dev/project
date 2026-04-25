@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer,createStudentlogSerializer
-from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog
+from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer,createStudentlogSerializer, SupervisorMessageSerializer
+from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog, SupervisorMessage
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
+from django.db.models import Q
+
+User = get_user_model()
 
 
 # Create your views here.
@@ -263,6 +266,61 @@ def mark_as_read(request,pk):
       except Studentlog.DoesNotExist:
          return Response({'error':'log not found'}, status=404)
     
+#This view is for the supervisors messaging:
+#sending messages
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_message(request):
+    sender = request.user
+    receiver_id = request.data.get('receiver')
+    message_text = request.data.get('message')
+
+    if not receiver_id or not message_text:
+        return Response({"error": "receiver and message are required"}, status=400)
+
+    try:
+        receiver = User.objects.get(id=receiver_id)
+    except User.DoesNotExist:
+        return Response({"error": "Receiver not found"}, status=404)
+
+    allowed_roles = ['INTERN_SUPERVISOR', 'ACADEMIC_SUPERVISOR']
+
+    if sender.role not in allowed_roles or receiver.role not in allowed_roles:
+        return Response({"error": "Not allowed to send messages"}, status=403)
+
+    msg = SupervisorMessage.objects.create(
+        sender=sender,
+        receiver=receiver,
+        message=message_text
+    )
+
+    serializer = SupervisorMessageSerializer(msg)
+    return Response(serializer.data, status=201)
+
+
+
+
+
+
+
+
+   
+#receiving messages
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_messages(request):
+    user = request.user
+
+    if user.role not in ['INTERN_SUPERVISOR', 'ACADEMIC_SUPERVISOR']:
+        return Response({"error": "Access denied"}, status=403)
+
+    messages = SupervisorMessage.objects.filter(
+        Q(sender=user) | Q(receiver=user)
+    ).order_by('-created_at')
+
+    serializer = SupervisorMessageSerializer(messages, many=True)
+    return Response(serializer.data)
 
 
         

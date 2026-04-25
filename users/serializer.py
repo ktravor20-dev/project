@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor,Studentlog, supervisorlog
+from .models import WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor,Studentlog, supervisorlog, SupervisorMessage
 
 class idSerializer(serializers.ModelSerializer):
     class Meta:
@@ -132,5 +132,16 @@ class createSupervisorlogSerializer(serializers.ModelSerializer):
     class Meta:
         model=supervisorlog
         fields='__all__'
+
+#This serializer is for the supervisors messaging
     
+class SupervisorMessageSerializer(serializers.ModelSerializer):
+    is_sender = serializers.SerializerMethodField()
+    class Meta:
+        model = SupervisorMessage
+        fields = '__all__'
+    def get_is_sender(self, obj):
+        request = self.context.get("request")
+        return obj.sender == request.user
+
 

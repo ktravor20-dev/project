@@ -22,7 +22,7 @@ body {
   position: absolute;
   inset: 0;
   background: url("/login-bg.png") center center / cover no-repeat;
-  filter: blur (6px);
+  filter: blur(6px);
   transform: scale(1.08);
   z-index: 0; 
 }
@@ -40,7 +40,7 @@ body {
   z-index: 2;
   background: rgba(255, 255, 255, 0.92);
   padding: 30px;
-  width: 100px;
+  width: 100%;
   max-width: 520px;
   border-radius: 16px;
   box-shadow: 0 10px 28px rgba(0,0,0,0.15);
@@ -75,7 +75,7 @@ body {
 }
 
 .auth-card input:focus,
-.authcard select:focus {
+.auth-card select:focus {
   border-color: #2563eb;
 }
 

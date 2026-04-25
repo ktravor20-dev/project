@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
 
 # Create your models here.
 #this is it
@@ -89,3 +91,19 @@ class supervisorlog(models.Model):
     
     def __str__(self):
         return f'{self.Supervisor_Name.username}- {self.Student_Name.username}- {self.Week_Number}'
+    
+#This model enables communication between the two supervisors
+class SupervisorMessage(models.Model):
+    sender=models.ForeignKey(User,on_delete=models.CASCADE, related_name='sent_messages' )
+    receiver=models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
+    student=models.ForeignKey(User, on_delete=models.CASCADE, related_name='related_messages')
+    message=models.TextField()
+    is_read=models.BooleanField(default=False)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering=['created_at']
+    def __str__(self):
+        return f"{self.sender}->{self.receiver}-({self.student})"
+    
