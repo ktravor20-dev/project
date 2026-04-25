@@ -6,6 +6,20 @@ class idSerializer(serializers.ModelSerializer):
         model= CustomUser
         fields =['id','first_name','last_name' ]
 
+class MessagingUserSerializer(serializers.ModelSerializer):
+    student_id = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'first_name', 'last_name', 'student_id']
+
+    def get_student_id(self, obj):
+        if obj.role == 'INTERN_SUPERVISOR':
+            profile = obj.intern_supervisor_profile.first()
+            if profile and profile.Supervises_Who:
+                return profile.Supervises_Who.user.id
+        return None
+
 class UserdetailSerializer(serializers.ModelSerializer):
     class Meta:
         model= CustomUser
@@ -143,5 +157,3 @@ class SupervisorMessageSerializer(serializers.ModelSerializer):
     def get_is_sender(self, obj):
         request = self.context.get("request")
         return obj.sender == request.user
-
-
