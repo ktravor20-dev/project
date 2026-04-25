@@ -305,9 +305,6 @@ def send_message(request):
             if profile and profile.Supervises_Who:
                 student = profile.Supervises_Who.user
 
-    if not student:
-        return Response({"error": "A student context could not be determined. Make sure the intern supervisor has an assigned student."}, status=400)
-
     msg = SupervisorMessage.objects.create(
         sender=sender,
         receiver=receiver,
@@ -315,7 +312,7 @@ def send_message(request):
         message=message_text
     )
 
-    serializer = SupervisorMessageSerializer(msg)
+    serializer = SupervisorMessageSerializer(msg, context={'request': request})
     return Response(serializer.data, status=201)
 
 
@@ -340,7 +337,7 @@ def get_messages(request):
         Q(sender=user) | Q(receiver=user)
     ).order_by('-created_at')
 
-    serializer = SupervisorMessageSerializer(messages, many=True)
+    serializer = SupervisorMessageSerializer(messages, many=True, context={'request': request})
     return Response(serializer.data)
 
 
