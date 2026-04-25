@@ -4,7 +4,6 @@ from django.conf import settings
 User = settings.AUTH_USER_MODEL
 
 # Create your models here.
-#this is it
 class CustomUser(AbstractUser):
     class Role(models.TextChoices):
         STUDENT='STUDENT','student'

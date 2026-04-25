@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 
 function Messaging() {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
+  const [supervisors, setSupervisors] = useState([]);
+  const [selectedReceiver, setSelectedReceiver] = useState("");
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/messages/", {
@@ -13,11 +15,31 @@ function Messaging() {
       .then((res) => res.json())
       .then((data) => setMessages(data))
       .catch((err) => console.error(err));
+
+    fetch("http://127.0.0.1:8000/api/get_supervisors/", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setSupervisors(data);
+          if (data.length > 0) {
+            setSelectedReceiver(data[0].id);
+          }
+        }
+      })
+      .catch((err) => console.error(err));
   }, []);
 
-  // 📤 send message
   const sendMessage = async () => {
-    if (!text.trim()) return;
+    if (!text.trim() || !selectedReceiver) return;
+
+    const selectedSupervisor = supervisors.find(
+      (s) => s.id === Number(selectedReceiver) || s.id === String(selectedReceiver)
+    );
+    const studentId = selectedSupervisor?.student_id;
 
     const res = await fetch("http://127.0.0.1:8000/api/messages/send/", {
       method: "POST",
@@ -27,7 +49,8 @@ function Messaging() {
       },
       body: JSON.stringify({
         message: text,
-        receiver: 2, // ⚠️ replace later with dynamic user selection
+        receiver: selectedReceiver,
+        student: studentId,
       }),
     });
 
@@ -36,13 +59,30 @@ function Messaging() {
     if (res.ok) {
       setMessages([...messages, data]); // instantly show new message
       setText("");
+    } else {
+      console.error("Error sending message:", data);
+      alert(data.error || "Failed to send message. Ensure the intern supervisor has an assigned student.");
     }
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.chatBox}>
-        <h3>Chat</h3>
+        <div style={styles.header}>
+          <h3 style={{ margin: 0 }}>Chat</h3>
+          <select
+            value={selectedReceiver}
+            onChange={(e) => setSelectedReceiver(e.target.value)}
+            style={styles.select}
+          >
+            <option value="" disabled>Select a recipient</option>
+            {supervisors.map((supervisor) => (
+              <option key={supervisor.id} value={supervisor.id}>
+                {supervisor.first_name} {supervisor.last_name}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div style={styles.messages}>
           {messages.map((msg) => (
@@ -92,6 +132,20 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     height: "500px",
+  },
+  header: {
+    padding: "15px",
+    borderBottom: "1px solid #ccc",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  select: {
+    padding: "8px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+    outline: "none",
+    maxWidth: "200px",
   },
   messages: {
     flex: 1,
