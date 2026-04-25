@@ -335,7 +335,7 @@ def get_messages(request):
 
     messages = SupervisorMessage.objects.filter(
         Q(sender=user) | Q(receiver=user)
-    ).order_by('-created_at')
+    ).order_by('created_at')
 
     serializer = SupervisorMessageSerializer(messages, many=True, context={'request': request})
     return Response(serializer.data)
