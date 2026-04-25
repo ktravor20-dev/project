@@ -11,7 +11,7 @@ class MessagingUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'first_name', 'last_name', 'student_id']
+        fields = ['id', 'first_name', 'last_name', 'student_id', 'role']
 
     def get_student_id(self, obj):
         if obj.role == 'INTERN_SUPERVISOR':
