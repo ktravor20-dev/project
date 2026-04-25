@@ -65,27 +65,42 @@ function Messaging() {
     }
   };
 
+  // Only show messages where the selected receiver is either the sender or receiver
+  const filteredMessages = messages.filter((msg) => {
+    if (!selectedReceiver) return false;
+    const receiverId = String(selectedReceiver);
+    return String(msg.sender) === receiverId || String(msg.receiver) === receiverId;
+  });
+
+  const isInternSupervisorLoggedIn = supervisors.length > 0 && supervisors[0].role === 'ACADEMIC_SUPERVISOR';
+
   return (
     <div style={styles.container}>
       <div style={styles.chatBox}>
         <div style={styles.header}>
           <h3 style={{ margin: 0 }}>Chat</h3>
-          <select
-            value={selectedReceiver}
-            onChange={(e) => setSelectedReceiver(e.target.value)}
-            style={styles.select}
-          >
-            <option value="" disabled>Select a recipient</option>
-            {supervisors.map((supervisor) => (
-              <option key={supervisor.id} value={supervisor.id}>
-                {supervisor.first_name} {supervisor.last_name}
-              </option>
-            ))}
-          </select>
+          {isInternSupervisorLoggedIn ? (
+            <span style={{ fontWeight: 'bold', marginLeft: '5px', fontSize: '1.17em' }}>
+              with Academic Supervisor
+            </span>
+          ) : (
+            <select
+              value={selectedReceiver}
+              onChange={(e) => setSelectedReceiver(e.target.value)}
+              style={styles.select}
+            >
+              <option value="" disabled>Select a recipient</option>
+              {supervisors.map((supervisor) => (
+                <option key={supervisor.id} value={supervisor.id}>
+                  {supervisor.first_name} {supervisor.last_name}
+                </option>
+              ))}
+            </select>
+          )}
         </div>
 
         <div style={styles.messages}>
-          {messages.map((msg) => (
+          {filteredMessages.map((msg) => (
             <div
               key={msg.id}
               style={{
