@@ -143,10 +143,10 @@ function Messaging() {
         </div>
 
         <div style={styles.messages}>
-          {messages.length === 0 ? (
-            <p style={{ textAlign: 'center', color: '#888' }}>No messages found.</p>
+          {filteredMessages.length === 0 ? (
+            <p style={{ textAlign: 'center', color: '#888' }}>No messages found in this view.</p>
           ) : (
-            messages.map((msg) => {
+            filteredMessages.map((msg) => {
               const isMe = String(msg.sender) === String(currentUser?.id);
               
               return (
