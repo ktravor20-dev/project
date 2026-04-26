@@ -151,9 +151,14 @@ class createSupervisorlogSerializer(serializers.ModelSerializer):
     
 class SupervisorMessageSerializer(serializers.ModelSerializer):
     is_sender = serializers.SerializerMethodField()
+    sender_name = serializers.SerializerMethodField()
     class Meta:
         model = SupervisorMessage
         fields = '__all__'
     def get_is_sender(self, obj):
         request = self.context.get("request")
-        return obj.sender == request.user
+        if not request or not request.user:
+            return False
+        return obj.sender_id == request.user.id
+    def get_sender_name(self, obj):
+        return f"{obj.sender.first_name} {obj.sender.last_name}"
