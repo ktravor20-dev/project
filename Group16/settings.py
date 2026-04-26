@@ -143,3 +143,7 @@ CORS_ALLOW_HEADERS=[
     "x-csrftoken",
     "x-requested-with",
 ]
+
+# Email Configuration (Console Backend for Testing)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@sdp-project.com'
