@@ -45,6 +45,7 @@ urlpatterns = [
     path('api/update_log_status/<int:pk>/',views.mark_as_read,name='seen'),
     path('api/messages/send/',views.send_message),
     path('api/messages/',views.get_messages),
+    path('api/current_user/',views.current_user),
     
     
 
