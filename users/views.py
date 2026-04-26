@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer,createStudentlogSerializer, SupervisorMessageSerializer
+from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer,createStudentlogSerializer, SupervisorMessageSerializer, MessagingUserSerializer
 from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog, SupervisorMessage
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -86,11 +86,6 @@ def login(request):
          return Response({'error': 'Invalid credentials'}, status=400)
       
 
-
-
-
-
-
 # this view is for getting and creating weekly logs
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -99,9 +94,9 @@ def get_weekly_logs(request):
     
     
     if user.role =='STUDENT':
-          logs= WeeklyLogs.objects.filter(Student_Name=request.user) # this line of code helps to only acesss his or her data only
+          logs= WeeklyLogs.objects.filter(Student_Name=request.user) 
     elif user.role == 'ACADEMIC_SUPERVISOR' or 'INTERN_SUPERVISOR':
-            logs= WeeklyLogs.objects.all() # here the academic supervisor and intern supervisor call view all the weekly logs inthe database
+            logs= WeeklyLogs.objects.all() 
     serializer= WeeklyLogsSerializer(logs, many=True)
     return Response(serializer.data)
 
@@ -156,7 +151,7 @@ def get_internPlacement(request):
       if user.role in ['ACADEMIC_SUPERVISOR', 'INTERN_SUPERVISOR']:
         placements = internshipPlacements.objects.all()
       elif user.role == 'STUDENT':
-        placements = internshipPlacements.objects.filter(Student_Name = user) # this line of code helps to only acesss his or her data only
+        placements = internshipPlacements.objects.filter(Student_Name = user) 
       else:
             return Response({'error':'ACCESS DENIED'}, status=403)
       serializer= InternshipPlacementsSerializer(placements, many=True)
@@ -168,25 +163,24 @@ def get_internPlacement(request):
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def delete_weekly_log(request,pk):
-   # pk stands for primary key(ID for the log we want to delete)
+ 
    user=request.user
    if user.role == "INTERN_SUPERVISOR":
       try:
-         log=WeeklyLogs.objects.get(id=pk)# here we are finding a specfic log in database using its id
-         log.delete()#here we are telling the database to delete that log
+         log=WeeklyLogs.objects.get(id=pk)
+         log.delete()
          return Response (status=204)
       except WeeklyLogs.DoesNotExist:
          return Response({'error': 'Weekly log not found'}, status=404)
    else:
       return Response({'error': 'You are not authorized to delete this log'}, status=403)
        
-# this view is for creating student logs
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def createlog(request):
    user=request.user
    if user.role=='STUDENT':
-      supervisor_id= request.data.get('Supervisor') #get the id for the supervisor from the data sent from the forntend
+      supervisor_id= request.data.get('Supervisor') 
 
       try:
          supervisor=CustomUser.objects.get(id=supervisor_id)
@@ -208,11 +202,20 @@ def createlog(request):
 @permission_classes([IsAuthenticated])
 def get_supervisors(request):
    try:
-    supervisors=CustomUser.objects.filter(role='INTERN_SUPERVISOR')
-    serializer= idSerializer(supervisors,many=True)
-    return Response(serializer.data, status=203)
-   except:
-      return Response({'error':'an error while fetching data'},status=400)
+      user = request.user
+      if user.role == 'ACADEMIC_SUPERVISOR':
+         supervisors = CustomUser.objects.filter(
+            role='INTERN_SUPERVISOR'
+         ).distinct()
+      elif user.role == 'INTERN_SUPERVISOR':
+         supervisors = CustomUser.objects.filter(role='ACADEMIC_SUPERVISOR')
+      else:
+         supervisors = CustomUser.objects.none()
+
+      serializer = MessagingUserSerializer(supervisors, many=True)
+      return Response(serializer.data, status=200)
+   except Exception as e:
+      return Response({'error': str(e)}, status=400)
 
          
 #this view is to get student logs
@@ -240,12 +243,12 @@ def viewStudentlog(request):
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def delete_student_log(request,pk):
-   # pk stands for primary key(ID for the log we want to delete)
+   
    user=request.user
    if user.role == "STUDENT":
       try:
-         log=Studentlog.objects.get(id=pk)# here we are finding a specfic log in database using its id
-         log.delete()#here we are telling the database to delete that log
+         log=Studentlog.objects.get(id=pk)
+         log.delete()
          return Response (status=204)
       except Studentlog.DoesNotExist:
          return Response({'error': 'Student log not found'}, status=404)
@@ -274,6 +277,7 @@ def send_message(request):
     sender = request.user
     receiver_id = request.data.get('receiver')
     message_text = request.data.get('message')
+    student_id = request.data.get('student')
 
     if not receiver_id or not message_text:
         return Response({"error": "receiver and message are required"}, status=400)
@@ -288,13 +292,27 @@ def send_message(request):
     if sender.role not in allowed_roles or receiver.role not in allowed_roles:
         return Response({"error": "Not allowed to send messages"}, status=403)
 
+    student = None
+    if student_id:
+        try:
+            student = User.objects.get(id=student_id)
+        except User.DoesNotExist:
+            return Response({"error": "Student not found"}, status=404)
+    else:
+        intern_sup = sender if sender.role == 'INTERN_SUPERVISOR' else (receiver if receiver.role == 'INTERN_SUPERVISOR' else None)
+        if intern_sup:
+            profile = intern_sup.intern_supervisor_profile.first()
+            if profile and profile.Supervises_Who:
+                student = profile.Supervises_Who.user
+
     msg = SupervisorMessage.objects.create(
         sender=sender,
         receiver=receiver,
+        student=student,
         message=message_text
     )
 
-    serializer = SupervisorMessageSerializer(msg)
+    serializer = SupervisorMessageSerializer(msg, context={'request': request})
     return Response(serializer.data, status=201)
 
 
@@ -319,7 +337,7 @@ def get_messages(request):
         Q(sender=user) | Q(receiver=user)
     ).order_by('-created_at')
 
-    serializer = SupervisorMessageSerializer(messages, many=True)
+    serializer = SupervisorMessageSerializer(messages, many=True, context={'request': request})
     return Response(serializer.data)
 
 
