@@ -110,10 +110,15 @@ def create_weekly_logs(request):
        student_id = request.data.get('Student_Name')
        try:
           student=CustomUser.objects.get(id=student_id)
-          if user.role != 'STUDENT':
+          if user.role == 'STUDENT':
            serializer =SaveWeeklyLogsSerializer(data = request.data)
            if serializer.is_valid():
-            serializer.save(Student_Name=student)
+            log = serializer.save(Student_Name=user)
+            try:
+                placement = internshipPlacements.objects.filter(Student_Name=user).last()
+                if placement and placement.Supervisor_email:
+                    send_mail(f'Log: {user.username}', f'Week {log.Week_Number}', settings.DEFAULT_FROM_EMAIL, [placement.Supervisor_email])
+            except: pass
             return Response(serializer.data, status=201)
            else:
               return Response(serializer.errors, status=400)
@@ -342,8 +347,14 @@ def send_message(request):
 #receiving messages
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_messages(request):
-    messages = SupervisorMessage.objects.all().order_by('created_at')
+    user = request.user
+    # Show messages where the user is either the sender or the receiver
+    messages = SupervisorMessage.objects.filter(
+        Q(sender=user) | Q(receiver=user)
+    ).order_by('created_at')
+    
     serializer = SupervisorMessageSerializer(messages, many=True, context={'request': request})
     return Response(serializer.data)
 
