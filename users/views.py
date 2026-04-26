@@ -7,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate, get_user_model
 from django.db.models import Q
+from django.core.mail import send_mail
+from django.conf import settings
 
 User = get_user_model()
 
@@ -189,6 +191,18 @@ def createlog(request):
       serializer=createStudentlogSerializer(data=request.data)
       if serializer.is_valid():
          serializer.save(Student_Name=request.user,Supervisor=supervisor)
+         
+         # Send email notification to the Intern Supervisor
+         if supervisor.email:
+             subject = f"New Weekly Log Submitted by {user.first_name} {user.last_name}"
+             message = f"Hello {supervisor.first_name},\n\nYour student {user.first_name} {user.last_name} has just submitted a new weekly log.\n\nPlease log in to the portal to review it."
+             from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@sdp-project.com')
+             
+             try:
+                 send_mail(subject, message, from_email, [supervisor.email], fail_silently=True)
+             except Exception as e:
+                 print(f"Error sending email: {e}")
+
          return Response(serializer.data, status=201)
       else:
          return Response(serializer.errors,status=400)
@@ -209,6 +223,8 @@ def get_supervisors(request):
          ).distinct()
       elif user.role == 'INTERN_SUPERVISOR':
          supervisors = CustomUser.objects.filter(role='ACADEMIC_SUPERVISOR')
+      elif user.role == 'STUDENT':
+         supervisors = CustomUser.objects.filter(role__in=['INTERN_SUPERVISOR', 'ACADEMIC_SUPERVISOR'])
       else:
          supervisors = CustomUser.objects.none()
 
@@ -326,19 +342,20 @@ def send_message(request):
 #receiving messages
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def get_messages(request):
-    user = request.user
-
-    if user.role not in ['INTERN_SUPERVISOR', 'ACADEMIC_SUPERVISOR']:
-        return Response({"error": "Access denied"}, status=403)
-
-    messages = SupervisorMessage.objects.filter(
-        Q(sender=user) | Q(receiver=user)
-    ).order_by('created_at')
-
+    messages = SupervisorMessage.objects.all().order_by('created_at')
     serializer = SupervisorMessageSerializer(messages, many=True, context={'request': request})
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def current_user(request):
+    return Response({
+        "id": request.user.id,
+        "username": request.user.username,
+        "role": request.user.role,
+        "full_name": f"{request.user.first_name} {request.user.last_name}"
+    })
 
 
         
