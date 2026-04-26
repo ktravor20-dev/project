@@ -7,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate, get_user_model
 from django.db.models import Q
+from django.core.mail import send_mail
+from django.conf import settings
 
 User = get_user_model()
 
@@ -108,10 +110,15 @@ def create_weekly_logs(request):
        student_id = request.data.get('Student_Name')
        try:
           student=CustomUser.objects.get(id=student_id)
-          if user.role != 'STUDENT':
+          if user.role == 'STUDENT':
            serializer =SaveWeeklyLogsSerializer(data = request.data)
            if serializer.is_valid():
-            serializer.save(Student_Name=student)
+            log = serializer.save(Student_Name=user)
+            try:
+                placement = internshipPlacements.objects.filter(Student_Name=user).last()
+                if placement and placement.Supervisor_email:
+                    send_mail(f'Log: {user.username}', f'Week {log.Week_Number}', settings.DEFAULT_FROM_EMAIL, [placement.Supervisor_email])
+            except: pass
             return Response(serializer.data, status=201)
            else:
               return Response(serializer.errors, status=400)
@@ -189,6 +196,18 @@ def createlog(request):
       serializer=createStudentlogSerializer(data=request.data)
       if serializer.is_valid():
          serializer.save(Student_Name=request.user,Supervisor=supervisor)
+         
+         # Send email notification to the Intern Supervisor
+         if supervisor.email:
+             subject = f"New Weekly Log Submitted by {user.first_name} {user.last_name}"
+             message = f"Hello {supervisor.first_name},\n\nYour student {user.first_name} {user.last_name} has just submitted a new weekly log.\n\nPlease log in to the portal to review it."
+             from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@sdp-project.com')
+             
+             try:
+                 send_mail(subject, message, from_email, [supervisor.email], fail_silently=True)
+             except Exception as e:
+                 print(f"Error sending email: {e}")
+
          return Response(serializer.data, status=201)
       else:
          return Response(serializer.errors,status=400)
@@ -209,6 +228,8 @@ def get_supervisors(request):
          ).distinct()
       elif user.role == 'INTERN_SUPERVISOR':
          supervisors = CustomUser.objects.filter(role='ACADEMIC_SUPERVISOR')
+      elif user.role == 'STUDENT':
+         supervisors = CustomUser.objects.filter(role__in=['INTERN_SUPERVISOR', 'ACADEMIC_SUPERVISOR'])
       else:
          supervisors = CustomUser.objects.none()
 
@@ -305,9 +326,6 @@ def send_message(request):
             if profile and profile.Supervises_Who:
                 student = profile.Supervises_Who.user
 
-    if not student:
-        return Response({"error": "A student context could not be determined. Make sure the intern supervisor has an assigned student."}, status=400)
-
     msg = SupervisorMessage.objects.create(
         sender=sender,
         receiver=receiver,
@@ -315,7 +333,7 @@ def send_message(request):
         message=message_text
     )
 
-    serializer = SupervisorMessageSerializer(msg)
+    serializer = SupervisorMessageSerializer(msg, context={'request': request})
     return Response(serializer.data, status=201)
 
 
@@ -332,16 +350,23 @@ def send_message(request):
 @permission_classes([IsAuthenticated])
 def get_messages(request):
     user = request.user
-
-    if user.role not in ['INTERN_SUPERVISOR', 'ACADEMIC_SUPERVISOR']:
-        return Response({"error": "Access denied"}, status=403)
-
+    # Show messages where the user is either the sender or the receiver
     messages = SupervisorMessage.objects.filter(
         Q(sender=user) | Q(receiver=user)
-    ).order_by('-created_at')
-
-    serializer = SupervisorMessageSerializer(messages, many=True)
+    ).order_by('created_at')
+    
+    serializer = SupervisorMessageSerializer(messages, many=True, context={'request': request})
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def current_user(request):
+    return Response({
+        "id": request.user.id,
+        "username": request.user.username,
+        "role": request.user.role,
+        "full_name": f"{request.user.first_name} {request.user.last_name}"
+    })
 
 
         
