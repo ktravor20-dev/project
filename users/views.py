@@ -350,10 +350,11 @@ def send_message(request):
 @permission_classes([IsAuthenticated])
 def get_messages(request):
     user = request.user
-    # Show messages where the user is either the sender or the receiver
-    messages = SupervisorMessage.objects.filter(
-        Q(sender=user) | Q(receiver=user)
-    ).order_by('created_at')
+    # Show all supervisor messages for a "Group Chat" experience
+    if user.role in ['INTERN_SUPERVISOR', 'ACADEMIC_SUPERVISOR']:
+        messages = SupervisorMessage.objects.all().order_by('created_at')
+    else:
+        messages = SupervisorMessage.objects.none()
     
     serializer = SupervisorMessageSerializer(messages, many=True, context={'request': request})
     return Response(serializer.data)
