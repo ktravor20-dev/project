@@ -136,13 +136,30 @@ def create_internship_placement(request):
        student_id = request.data.get('Student_Name')
        try:
           student=CustomUser.objects.get(id=student_id)
-          if user.role == 'ACADEMIC_SUPERVISOR' :
-           serializer =SaveInternshipPlacementsSerializer(data = request.data)
-           if serializer.is_valid():
-            serializer.save(Student_Name=student)
-            return Response(serializer.data, status=201)
-           else:
-             return Response(serializer.errors, status=400)
+          if user.role == 'ACADEMIC_SUPERVISOR':
+              serializer = SaveInternshipPlacementsSerializer(data=request.data)
+              if serializer.is_valid():
+                  placement = serializer.save(Student_Name=student)
+                  
+                  # Send email notification to the Intern Supervisor
+                  if placement.Supervisor_email:
+                      subject = "Assignment as Internship Supervisor"
+                      message = (
+                          f"Hello {placement.Supervisor},\n\n"
+                          f"You have been assigned as the intern supervisor for {student.first_name} {student.last_name} "
+                          f"at {placement.Company_name}.\n\n"
+                          f"Internship Period: {placement.Internship_start_date} to {placement.Internship_end_date}.\n\n"
+                          "You will receive weekly logs from the student for your review."
+                      )
+                      from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@sdp-project.com')
+                      try:
+                          send_mail(subject, message, from_email, [placement.Supervisor_email], fail_silently=True)
+                      except Exception as e:
+                          print(f"Error sending email: {e}")
+
+                  return Response(serializer.data, status=201)
+              else:
+                  return Response(serializer.errors, status=400)
           
           else: 
            return Response({'error':'you are not allowed to create internship placement'}, status=403)
