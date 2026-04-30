@@ -101,45 +101,19 @@ function Messaging() {
 
   const isInternSupervisorLoggedIn = currentUser?.role === 'INTERN_SUPERVISOR';
 
-  const filteredMessages = messages.filter((msg) => {
-    if (isInternSupervisorLoggedIn) return true;
-    if (!selectedReceiver) return true; // Show all if none selected
-    const rid = String(selectedReceiver);
-    return String(msg.sender) === rid || String(msg.receiver) === rid;
-  });
+  const filteredMessages = messages; // Academic and Intern Supervisors both see all messages in this view
 
   if (loading) return <div style={styles.container}>Connecting to server...</div>;
 
   return (
     <div style={styles.container}>
-      {/* Diagnostics Panel */}
-      <div style={{ background: '#eee', padding: '10px', fontSize: '12px', marginBottom: '10px', borderRadius: '5px' }}>
-          <b>You:</b> {currentUser?.username || 'Guest'} (ID: {currentUser?.id || '?'}) | 
-          <b>Role:</b> {currentUser?.role || 'Unknown'} | 
-          <b>Chatting with ID:</b> {selectedReceiver || 'None'}
-      </div>
 
       <div style={styles.chatBox}>
         <div style={styles.header}>
           <h3 style={{ margin: 0 }}>Chat</h3>
-          {isInternSupervisorLoggedIn ? (
-            <span style={{ fontWeight: 'bold', marginLeft: '5px' }}>
-              with Academic Supervisor
-            </span>
-          ) : (
-            <select
-              value={selectedReceiver}
-              onChange={(e) => setSelectedReceiver(String(e.target.value))}
-              style={styles.select}
-            >
-              <option value="">All Messages</option>
-              {supervisors.map((s) => (
-                <option key={s.id} value={String(s.id)}>
-                  {s.first_name} {s.last_name}
-                </option>
-              ))}
-            </select>
-          )}
+          <span style={{ fontWeight: 'bold', marginLeft: '5px' }}>
+            {isInternSupervisorLoggedIn ? "with Academic Supervisor" : "Group Chat / All Messages"}
+          </span>
         </div>
 
         <div style={styles.messages}>
