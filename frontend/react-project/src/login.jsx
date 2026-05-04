@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
 import './Auth.css';
 
 function Login(){
@@ -25,7 +25,7 @@ function Login(){
         localStorage.setItem('role', role);
 
         console.log("Login successful:", response.data);
-        alert('log in successful');
+        toast.success('Login successful!');
 
         //redirect based on role
         if (role === "STUDENT") {
@@ -40,7 +40,7 @@ function Login(){
 
       } catch (error) {
         console.log('Error logging in:', error);
-        alert('Login Failed. Please check your details and try again.');
+        toast.error('Login Failed. Please check your details and try again.');
       }
     }; 
     
