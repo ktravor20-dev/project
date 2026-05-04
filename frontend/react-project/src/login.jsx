@@ -11,6 +11,9 @@ function Login(){
 
     const handleLogin = async () => {
       try {
+        // CLEAR OLD DATA FIRST
+        localStorage.clear();
+
         const response = await axios.post('http://localhost:8000/api/login/', {
           username: username,
           password: password
@@ -27,6 +30,10 @@ function Login(){
         console.log("Login successful:", response.data);
         toast.success('Login successful!');
 
+        //clear form
+        setUsername('');
+        setPassword('');
+
         //redirect based on role
         if (role === "STUDENT") {
           navigate('/studentDashboard');
@@ -41,6 +48,10 @@ function Login(){
       } catch (error) {
         console.log('Error logging in:', error);
         toast.error('Login Failed. Please check your details and try again.');
+
+        //clear form
+        setUsername('');
+        setPassword('');
       }
     }; 
     
@@ -52,12 +63,14 @@ function Login(){
 
           <input
             type="text"
+            value={username}
             placeholder="Username"
             onChange={(e) => setUsername(e.target.value)}
           />
 
           <input
             type="password"
+            value={password}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
