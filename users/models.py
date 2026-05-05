@@ -106,3 +106,15 @@ class SupervisorMessage(models.Model):
     def __str__(self):
         return f"{self.sender}->{self.receiver}-({self.student})"
     
+#This model is for sending notifications to the supervisors
+class StudentlogNotification(models.Model):
+    recepient=models.ForeignKey(User,on_delete=models.CASCADE, related_name='notifications')
+    studentlog=models.ForeignKey(Studentlog,on_delete=models.CASCADE, related_name='notifications')
+    message=models.TextField()
+    is_read=models.BooleanField(default=False)
+    created_at=models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Notification for {self.recepient.username} about {self.studentlog}"
+    
+    
