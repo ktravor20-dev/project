@@ -28,7 +28,7 @@ function StudentLogNotification(){
                 <p>No studentlogs submitted yet .</p>
             ) : (
                 notifications.map(notification => (
-                    <div key={notification.id} className='notification'>
+                    <div key={notification.id} >
                         <p><strong style={{color:'#457eb899'}}>{notification.message}</strong> at <small style={{color:'#7f8c8d'}}>{new Date(notification.created_at).toLocaleString()}</small></p>
                         
                     </div>

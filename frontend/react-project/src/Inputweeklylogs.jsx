@@ -65,7 +65,7 @@ function Inputweeklylogs() {
      
 return (
   <div className="form-container">
-    <h1>Input Feedback</h1>
+    <h1>Create a weeklylog for a student</h1>
 
     <div className="form-box">
 

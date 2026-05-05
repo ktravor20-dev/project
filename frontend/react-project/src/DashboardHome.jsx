@@ -1,5 +1,6 @@
 import { FaClipboardList } from "react-icons/fa";
 import './DashboardHome.css';
+import WeekLogNotifications from "./WeekLogAlerts";
 function DashboardHome() {
   return (
     <div className="main"> 
@@ -19,9 +20,9 @@ function DashboardHome() {
         </div>
       </div>
 
-      <h3>Recent Activity</h3>
+      <WeekLogNotifications/>
 
-      <p>Week 4 - Building a website</p>
+      
     </div>
   );
 }

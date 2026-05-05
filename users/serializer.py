@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import StudentlogNotification, WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor,Studentlog, supervisorlog, SupervisorMessage
+from .models import StudentlogNotification, WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor,Studentlog, supervisorlog, SupervisorMessage,weeklylogNotification
 
 class idSerializer(serializers.ModelSerializer):
     class Meta:
@@ -169,3 +169,9 @@ class StudentlogNotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentlogNotification
         fields = '__all__'
+
+#this serializer is for the notifications that the students will receive when the supervisors create the weekly logs for them
+class weeklylogAlertSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=weeklylogNotification
+        fields='__all__'

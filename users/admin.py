@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser,WeeklyLogs,internshipPlacements,Student,internSupervisor ,academicSupervisor,Studentlog,supervisorlog,StudentlogNotification
+from .models import CustomUser,WeeklyLogs,internshipPlacements,Student,internSupervisor ,academicSupervisor,Studentlog,supervisorlog,StudentlogNotification,weeklylogNotification
 
 # Register your models here.
 admin.site.register(CustomUser)
@@ -11,3 +11,4 @@ admin.site.register(academicSupervisor)
 admin.site.register(Studentlog)
 admin.site.register(supervisorlog)
 admin.site.register(StudentlogNotification)
+admin.site.register(weeklylogNotification)
