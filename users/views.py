@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer,createStudentlogSerializer, SupervisorMessageSerializer, MessagingUserSerializer
-from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog, SupervisorMessage
+from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer,createStudentlogSerializer, SupervisorMessageSerializer, MessagingUserSerializer,StudentlogNotificationSerializer
+from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog, SupervisorMessage,StudentlogNotification
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate, get_user_model
@@ -367,6 +367,22 @@ def current_user(request):
         "role": request.user.role,
         "full_name": f"{request.user.first_name} {request.user.last_name}"
     })
+# this view is to get notifications for the intern supervisor
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def intern_supervisor_notifications(request):
+   user=request.user
+   if user.role != 'INTERN_SUPERVISOR':
+      return Response({'error':'Access denied'}, status=403)
+   else:
+     try:
+       notifications= StudentlogNotification.objects.filter(recepient=request.user, is_read=False).order_by('-created_at')
+       serializer=StudentlogNotificationSerializer(notifications, many=True)
+       return Response(serializer.data, status=200)
+     except Exception as e:
+         return Response({'error': str(e)}, status=400)
+   
+
 
 
         

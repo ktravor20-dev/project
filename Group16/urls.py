@@ -46,6 +46,7 @@ urlpatterns = [
     path('api/messages/send/',views.send_message),
     path('api/messages/',views.get_messages),
     path('api/current_user/',views.current_user),
+    path('api/studentlog_notifications/',views.intern_supervisor_notifications, name='intern_supervisor_notifications'),
     
     
 

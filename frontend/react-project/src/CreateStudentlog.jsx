@@ -1,6 +1,7 @@
 import React,{useState,useEffect, } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {toast} from 'react-toastify';
 import Select from 'react-select';
 
 function CreateStudentLog(){
@@ -43,10 +44,12 @@ function CreateStudentLog(){
                 Authorization: `Bearer ${token}`
             }});
          console.log(sentdata.data)
-         alert('Your log has been successfully created');  
+         
+         toast.success('Your log has been successfully created');
          navigate('/studentDashboard/viewstudentlog') 
         }catch(error){
-            alert('There is an error which has occurred');
+            
+            toast.error('There is an error which has occurred');
             console.error('An error has occured while submiting your log :', error);
 
         }
