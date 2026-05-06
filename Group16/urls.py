@@ -48,7 +48,10 @@ urlpatterns = [
     path('api/current_user/',views.current_user),
     path('api/studentlog_notifications/',views.intern_supervisor_notifications, name='intern_supervisor_notifications'),
     path('api/weeklylog_notifications/',views.student_notification, name='student_notifications'),
-    
-    
+    path('api/send_message/',views.save_messages, name='send_message'),
+    path('api/get_message/',views.get_messages, name='get_messages'),
+    path('api/students/',views.Student, name='students'),
+    path('api/supervisors/',views.Supervisor, name='supervisors'),
+    path('api/academic_supervisors/',views.AcademicSupervisor, name='academic_supervisors')
 
 ]

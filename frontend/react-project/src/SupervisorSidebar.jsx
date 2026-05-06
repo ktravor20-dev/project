@@ -13,6 +13,8 @@ function SupervisorSidebar() {
       <NavLink to="searchlog">Search Logs</NavLink>
       <NavLink to='viewstudentlog'>View student Logs</NavLink>   
       <NavLink to="messages">Messages</NavLink>  
+      <NavLink to="sendmessage">send Messages</NavLink>
+      <NavLink to="viewmessage">View Messages</NavLink>
 
       
     </div>

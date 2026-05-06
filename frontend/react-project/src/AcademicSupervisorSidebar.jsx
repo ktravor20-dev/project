@@ -11,6 +11,8 @@ function AcademicSupervisorSidebar() {
       <NavLink to="viewinternshipplacements">View Placements</NavLink>
       <NavLink to="createinternshipplacements">Create Placements</NavLink>
       <NavLink to="messages">Messages</NavLink>
+      <NavLink to="sendmessage">send Messages</NavLink>
+      <NavLink to="viewmessage">View Messages</NavLink>
 
     </div>
   );

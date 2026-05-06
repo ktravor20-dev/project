@@ -128,5 +128,25 @@ class weeklylogNotification(models.Model):
         return f"Notification for {self.recepient.username} about {self.created_at}" 
     
 
+# This model is to send messages between the student , intern supervisor and academic supervisor
+class Message(models.Model):
+    Student=models.ForeignKey(User,on_delete=models.CASCADE, related_name='sent_messages_generic' ,null=True, blank=True)
+    Intern_Supervisor=models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages_generic', null=True, blank=True)
+    Academic_Supervisor=models.ForeignKey(User, on_delete=models.CASCADE, related_name='academic_received_messages_generic', null=True, blank=True)
+    sender=models.CharField(max_length=20, default='STUDENT') # This field indicates who is sending the message (STUDENT, INTERN_SUPERVISOR, ACADEMIC_SUPERVISOR)
+    message=models.TextField()
+    is_read=models.BooleanField(default=False)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering=['created_at']
+        
+    def __str__(self):
+        return f"{self.Student}->{self.Intern_Supervisor}->{self.Academic_Supervisor}"   
+    
+
+    
+
     
     
