@@ -88,7 +88,9 @@ return (
       />
 
       <label>Supervisor</label>
-      <input
+      <input 
+        placeholder='use your username in small letters'
+
         type="text"
         onChange={(e) => setSupervisor(e.target.value)}
       />
