@@ -4,45 +4,48 @@ import { toast } from "react-toastify";
 import './Weeklogs.css';
 
 function ViewMessage(){
-    const[messages, setMessages] = useState([]);
+    const[ messages, SetMessages]=useState([]);
+    
 
     useEffect(()=>{
-        const token = localStorage.getItem("token");
-        const fetchMessages = async () => {
+        const fetchMessages=async()=>{
             try{
-                const response = await axios.get('http://localhost:8000/api/get_message/',{
-                    headers: {
-                        Authorization: `Bearer ${token}`
+                const token=localStorage.getItem("token");
+                const response=await axios.get("http://localhost:8000/api/get_message/",{
+                    headers:{
+                        "Authorization": `Bearer ${token}`
                     }
                 });
-                console.log(response.data);
-                const ToastId=toast.loading("Loading messages...");
-                setTimeout(()=>{
-                    toast.dismiss(ToastId);
-                },1000);
-                setMessages(response.data);
-            }catch(error){
-                console.error('Error fetching messages:', error);
-                toast.error("Failed to fetch messages.");
+                SetMessages(response.data);
+                console.log("Messages fetched successfully:", response.data);
+                const[toastId]=toast.info("Messages fetched successfully", { autoClose: 2000 });
+                return () => {
+                    toast.dismiss(toastId);
+                };
 
-            };
+            }catch (error) {
+                console.error("Error fetching messages:", error);
+                toast.error("Failed to fetch messages");
+            }
         };
         fetchMessages();
     },[]);
 
     return(
-        <div >
-            <h1 className="page-title">View Messages </h1>
-            <div className='logs-container'>
-                {messages.map((message) => (
+        <div>
+            <h2 className="page-title">Messages</h2>
+            <div className="logs-container">
+            {messages.length === 0 ? (
+                <p>No messages sent to you yet.</p>) : ( messages.map((message) => (
                     <div key={message.id} className='log'>
-                        <p><strong>From:</strong> {message.sender}</p>
+                        <p><strong>From:</strong> {message.sender.first_name} {message.sender.last_name} ({message.sender.role})</p>
                         <p><strong>Message:</strong> {message.message}</p>
-                        <p><strong>Sent At:</strong> {new Date(message.created_at).toLocaleString()}</p>
+                        <p> Sent At: {new Date(message.created_at).toLocaleString()}</p>
                     </div>
-                ))}
+                )))}
             </div>
         </div>
-    );
+    )
+        
 }
 export default ViewMessage;

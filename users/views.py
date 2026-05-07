@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer,createStudentlogSerializer, SupervisorMessageSerializer, MessagingUserSerializer,StudentlogNotificationSerializer,weeklylogAlertSerializer,MessageSerializer,AllUsersSerializer
-from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog, SupervisorMessage,StudentlogNotification,weeklylogNotification,Message
+from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer,createStudentlogSerializer, SupervisorMessageSerializer, MessagingUserSerializer,StudentlogNotificationSerializer,weeklylogAlertSerializer,AllUsersSerializer,MessageSerializer,ViewMessageSerializer,MessageNotificationSerializer
+from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog, SupervisorMessage,StudentlogNotification,weeklylogNotification,Messages,MessageNotification
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate, get_user_model
@@ -397,18 +397,10 @@ def student_notification(request):
 #this view is to save messages between the intern supervisor , academic supervisor and the student
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def save_messages(request):
-   sender=request.user
+def save_message(request):
    serializer=MessageSerializer(data=request.data)
    if serializer.is_valid():
-      if sender.role=='STUDENT':
-         serializer.save(Student=sender)
-      elif sender.role=='INTERN_SUPERVISOR': 
-         serializer.save(Intern_Supervisor=sender)
-      elif sender.role=='ACADEMIC_SUPERVISOR':
-         serializer.save(Academic_Supervisor=sender)
-      else:
-         return Response({'error':'Invalid role'}, status=400)
+      serializer.save(sender=request.user)
       return Response(serializer.data, status=201)
    else:
       return Response(serializer.errors, status=400)
@@ -416,42 +408,40 @@ def save_messages(request):
 #this view is to get messages between the intern supervisor , academic supervisor and the student
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_messages(request) :
-   user=request.user
-   if user.role=='STUDENT':
-      messages=Message.objects.filter(Student=user).order_by('created_at')
-   elif user.role=='INTERN_SUPERVISOR':
-      messages=Message.objects.filter(Intern_Supervisor=user).order_by('created_at')
-   elif user.role=='ACADEMIC_SUPERVISOR':
-      messages=Message.objects.filter(Academic_Supervisor=user).order_by('created_at')
-   else:
-      return Response({'error':'Invalid role'}, status=400)
-   serializer=MessageSerializer(messages, many=True)
-   return Response(serializer.data, status=200)  
-
-#this view is to get all students
+def get_message(request):
+   try:
+    message=Messages.objects.filter(Q(receiver=request.user)| Q(sender=request.user)).order_by('-created_at') 
+    serializer=ViewMessageSerializer(message, many=True)
+    return Response(serializer.data, status=200)  
+   except Exception as e:
+      return Response({'error':str(e)}, status=400)
+     
+   
+#this view is to get all users in the custom user model
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def Student(request):
-   students=CustomUser.objects.filter(role='STUDENT')
-   serializer=AllUsersSerializer(students, many=True)
-   return Response(serializer.data, status=200)
+def Users(request):
+   try:
+      users=CustomUser.objects.all()
+      serializer=AllUsersSerializer(users,many=True)
+      return Response(serializer.data, status=200)
+   except Exception as e:
+      return Response({'error':str(e)}, status=400)
 
-#this view is to get all supervisors
+#this view is to sent message notifications between the intern supervisor , academic supervisor and the student
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def Supervisor(request):
-   supervisors=CustomUser.objects.filter(role='INTERN_SUPERVISOR')
-   serializer=AllUsersSerializer(supervisors, many=True)
-   return Response(serializer.data, status=200)
+def send_alert(request):
+   try:
+      message=MessageNotification.objects.filter(recepient=request.user, is_read=False)
+      serializer=MessageNotificationSerializer(message, many=True)
+      return Response(serializer.data, status=200)
+   except Exception as e:
+      return Response({'error':str(e)}, status=400)
+   
 
-#this view is to get all academic supervisors
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def AcademicSupervisor(request):
-   academic_supervisors=CustomUser.objects.filter(role='ACADEMIC_SUPERVISOR')
-   serializer=AllUsersSerializer(academic_supervisors, many=True)
-   return Response(serializer.data, status=200)
+
+
 
 
 

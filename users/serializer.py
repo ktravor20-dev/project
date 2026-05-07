@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import StudentlogNotification, WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor,Studentlog, supervisorlog, SupervisorMessage,weeklylogNotification
-from .models import Message
+from .models import StudentlogNotification, WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor,Studentlog, supervisorlog, SupervisorMessage,weeklylogNotification,Messages,MessageNotification
+
 class idSerializer(serializers.ModelSerializer):
     class Meta:
         model= CustomUser
@@ -179,12 +179,24 @@ class weeklylogAlertSerializer(serializers.ModelSerializer):
 #this serializer is to message between the intern supervisor , academic supervisor and the student
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Message
-        fields='__all__'        
-
+        model=Messages
+        fields='__all__'
+        read_only_fields = ['sender']
 
 #this serializer is to get all users in the custom user model
 class AllUsersSerializer(serializers.ModelSerializer):
     class Meta:
         model=CustomUser
-        fields=['id','first_name','last_name','role']        
+        fields=['id','first_name','last_name','role']  
+#this serializer is to view the messages
+class ViewMessageSerializer(serializers.ModelSerializer):
+    sender=AllUsersSerializer(read_only=True)
+    class Meta:
+        model=Messages
+        fields='__all__'        
+
+#thsi serializer is send message notifications to the student , intern supervisor and academic supervisor when a message is sent between them        
+class MessageNotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=MessageNotification
+        fields='__all__'

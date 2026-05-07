@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Studentlog,StudentlogNotification,weeklylogNotification,WeeklyLogs
+from .models import Studentlog,StudentlogNotification,weeklylogNotification,WeeklyLogs,Messages,MessageNotification
 
 @receiver(post_save, sender=Studentlog)
 def create_log_notification(sender,instance,created, **kwargs):
@@ -25,3 +25,13 @@ def create_weeklylog_alerts(sender,instance,created,**kwargs):
             recepient=student,
             message=f'Your internship supervisor has created for you a weekly log for week {instance.Week_Number}'
         )    
+
+#this signal is for sending notifications to the student , intern supervisor and academic supervisor when a message is sent between them
+@receiver(post_save, sender=Messages)
+def create_message_notification(sender,instance,created,**kwargs):
+    if created:
+        receiver=instance.receiver
+        MessageNotification.objects.create(
+            recepient=receiver,
+            message=f'You have received a new message from {instance.sender.first_name} {instance.sender.last_name} ({instance.sender.role})'
+        )
