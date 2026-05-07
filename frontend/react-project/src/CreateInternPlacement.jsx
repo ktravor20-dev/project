@@ -51,7 +51,7 @@ function CreateInternPlacement() {
             },{headers: {
                 Authorization: `Bearer ${token}`
             }});   
-            navigate('/viewinternshipplacements'); 
+            navigate('/academicSupervisorDashboard/viewinternshipplacements'); 
 
 
             }catch(error){

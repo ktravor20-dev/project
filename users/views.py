@@ -95,13 +95,30 @@ def get_weekly_logs(request):
     user=request.user
     
     if user.role =='STUDENT':
-          logs= WeeklyLogs.objects.filter(Student_Name=request.user) 
+          logs= WeeklyLogs.objects.filter(Student_Name=request.user).order_by('-Created_at')
     elif user.role == 'INTERN_SUPERVISOR':
-            logs= WeeklyLogs.objects.filter(Supervisor=request.user.username) 
+            logs= WeeklyLogs.objects.filter(Supervisor=request.user.username) .order_by('-Created_at')
     elif user.role == 'ACADEMIC_SUPERVISOR':
-            logs=WeeklyLogs.objects.all()        
+            logs=WeeklyLogs.objects.all() .order_by('-Created_at')       
     serializer= WeeklyLogsSerializer(logs, many=True)
     return Response(serializer.data)
+
+
+#this is to change status when seen by the student
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def seen(request,pk):
+   user=request.user
+   if user.role=='STUDENT':
+      try:
+         log=WeeklyLogs.objects.get(pk=pk)
+         log.is_read=True
+         log.save()
+         return Response({'message':'Log marked as read'}, status=200)
+      except WeeklyLogs.DoesNotExist:
+         return Response({'error':'Log not found'}, status=404)
+   else:
+      return Response({'error':'Access denied'}, status=403)
 
 # this view is for creating weekly logs
 @api_view(['POST'])
@@ -151,8 +168,10 @@ def create_internship_placement(request):
 def get_internPlacement(request):
     user =request.user
     try:
-      if user.role in ['ACADEMIC_SUPERVISOR', 'INTERN_SUPERVISOR']:
+      if user.role =='ACADEMIC_SUPERVISOR':
         placements = internshipPlacements.objects.all()
+      elif user.role == 'INTERN_SUPERVISOR':
+         placements = internshipPlacements.objects.filter(Supervisor_email =request.user.email)  
       elif user.role == 'STUDENT':
         placements = internshipPlacements.objects.filter(Student_Name = user) 
       else:
@@ -242,11 +261,11 @@ def viewStudentlog(request):
    user=request.user
    try:
       if user.role == 'STUDENT':
-         data= Studentlog.objects.filter(Student_Name=request.user)
+         data= Studentlog.objects.filter(Student_Name=request.user).order_by('-Submittion_Date')
          serializer=createStudentlogSerializer(data,many=True)
          return Response(serializer.data,status=200)
       elif user.role =='INTERN_SUPERVISOR':
-         data = Studentlog.objects.filter(Supervisor=request.user)
+         data = Studentlog.objects.filter(Supervisor=request.user).order_by('-Submittion_Date')
          serializer=createStudentlogSerializer(data,many=True)
          return Response(serializer.data,status=201)
 

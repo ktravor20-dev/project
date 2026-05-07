@@ -52,6 +52,7 @@ urlpatterns = [
     path('api/get_message/',views.get_message, name='get_messages'),
     path('api/get_all_users/',views.Users, name='get_all_users'),
     path('api/message_notifications/',views.send_alert, name='message_notifications'),
+    path('api/weeklylogstatus_update/<int:pk>/',views.seen,name='log_seen'),
     
 
 ]

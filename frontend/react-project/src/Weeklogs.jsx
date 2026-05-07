@@ -2,6 +2,8 @@ import  React, {useState, useEffect } from 'react';
 import './Weeklogs.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
+import { toast} from 'react-toastify';
  
 function Weeklogs() {
     const [logs ,setlogs] =useState([]);
@@ -61,8 +63,28 @@ function Weeklogs() {
             catch (error) {
                 console.error('An error occurred while deleting the log:', error);
             }
+
+
         
-    }    
+    }  
+    const markAsRead = async (id) => {
+        try {
+            const token = localStorage.getItem('token');
+            await axios.patch(`http://localhost:8000/api/weeklylogstatus_update/${id}/`, {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setlogs(logs.map(log => log.id === id ? { ...log, is_read: true } : log));
+            console.log('Log marked as read');
+            toast.success('the supervisor will be notified that you have seen your weekly log')
+        } catch (error) {
+            console.error('An error occurred while marking the log as read:', error);
+            toast.error('An error occurred while notifying the supervisor that you have seen the weekly log.');
+        } ;
+    }
+
+    const role = localStorage.getItem('role');
     
     
      return (
@@ -90,7 +112,25 @@ function Weeklogs() {
                         </div>
                         <p><span className="label">Hours_worked: {log.Hours_Worked} </span></p>
                         <p><span className="label">Remaining Time for Internship to end:</span> {log.Remaining_time_for_Internship }hours </p>
-                        <button onClick={() => Delectlog(log.id)} className="delete-btn">Delete</button>
+                       {role === 'INTERN_SUPERVISOR' && (
+                            <button onClick={() => Delectlog(log.id)} className="delete-btn">Delete</button>
+                        )}
+                        { role==='STUDENT'&&(
+                                 <button className={`status-text ${log.is_read? 'status-read':'status-pending'}`} onClick={()=>markAsRead(log.id)}>
+                            Status:
+                            {log.is_read ? "Marked as seen":'Unmarked as seen'}
+                           </button>
+                            )}
+                            {role==='INTERN_SUPERVISOR' &&(<p className={`status-text ${log.is_read? 'status-read':'status-pending'}`}>
+                                <strong>status:</strong>{log.is_read? 'Read':'Unread'}
+
+                            </p>)}
+                          
+
+                           
+                           
+
+                        
                         
                     </div>
                 ))}
@@ -100,4 +140,5 @@ function Weeklogs() {
         </>
      )
 }
+
 export default Weeklogs;

@@ -26,6 +26,10 @@ class WeeklyLogs(models.Model):
     Progress=models.IntegerField()
     Hours_Worked=models.IntegerField()
     Remaining_time_for_Internship=models.IntegerField()
+    Created_at=models.DateTimeField(auto_now_add=True)
+    is_read =models.BooleanField(default=False)
+    def __str__(self):
+        return f'{self.Student_Name} - Week {self.Week_Number}'
     
 class internshipPlacements(models.Model):
     Student_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
@@ -75,6 +79,7 @@ class Studentlog(models.Model):
     Activities_Done=models.TextField()
     Challenges=models.TextField()
     is_read =models.BooleanField(default=False)
+    
      
     def __str__(self):
         return f'{self.Student_Name.username}- {self.Week_Number}'
