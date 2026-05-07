@@ -5,6 +5,8 @@ frontend/react-project/dist
 # Python
 __pycache__/
 *.pyc
+*pyo
+*.pyd
 venv/
 
 # Env
