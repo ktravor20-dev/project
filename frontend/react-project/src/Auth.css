@@ -24,6 +24,18 @@ body {
   overflow: hidden;
 }
 
+.auth-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(3px);
+  transform: translateX(100%) scale(1.04);
+  opacity: 0;
+  animation: slideRight 18s infinite ease-in-out;
+}
+
 .auth-container::after {
   content: "";
   position: absolute;
