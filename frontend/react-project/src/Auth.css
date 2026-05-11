@@ -33,15 +33,15 @@ body {
 @keyframes authSlideshow{
   0%,
   30%{
-    background-image: url("/login-bg-1.png");
+    background-image: url("/login-bg.png");
   }
   35%,
   65% {
-    background-image: url("/login-bg-2.png");
+    background-image: url("/loginNew-bg.png");
   }
   70%,
   100% {
-    background-image: url("/login-bg-3.png");
+    background-image: url("/loginNew1-bg.png");
   }
 }
 
