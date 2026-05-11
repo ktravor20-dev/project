@@ -41,6 +41,11 @@ body {
   animation-delay: 0s;
 }
 
+.slide-two {
+  background-image: url("/loginNew-bg.png");
+  animation-delay: 6s;
+}
+
 
 .auth-container::after {
   content: "";
