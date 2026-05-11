@@ -51,6 +51,12 @@ body {
   animation-delay: 12s;
 }
 
+@keyframes slideRight {
+  0% {
+    transform: translateX(100%) scale(1.04);
+    opacity: 0;
+  }
+
 
 .auth-container::after {
   content: "";
