@@ -36,6 +36,12 @@ body {
   animation: slideRight 18s infinite ease-in-out;
 }
 
+.slide-one{ 
+  background-image: url("/login-bg.png");
+  animation-delay: 0s;
+}
+
+
 .auth-container::after {
   content: "";
   position: absolute;
