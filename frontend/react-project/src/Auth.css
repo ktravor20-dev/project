@@ -31,7 +31,10 @@ body {
 }
 
 @keyframes authSlideshow{
-  
+  0%,
+  30%{
+    background-image: url("/login-bg-1.png");
+  }
 }
 
 .auth-container::after {
