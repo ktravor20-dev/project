@@ -17,32 +17,11 @@ body {
   padding: 20px;
 }
 
-.auth-container::before {
-  content: " ";
+.auth-slider {
   position: absolute;
   inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: blur(3px);
-  transform: scale(1.04);
   z-index: 0; 
-  animation: authSlideshow 15s infinite ease-in-out;
-}
-
-@keyframes authSlideshow{
-  0%,
-  30%{
-    background-image: url("/login-bg.png");
-  }
-  35%,
-  65% {
-    background-image: url("/loginNew-bg.png");
-  }
-  70%,
-  100% {
-    background-image: url("/loginNew1-bg.png");
-  }
+  overflow: hidden;
 }
 
 .auth-container::after {
