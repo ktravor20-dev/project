@@ -39,6 +39,10 @@ body {
   65% {
     background-image: url("/login-bg-2.png");
   }
+  70%,
+  100% {
+    background-image: url("/login-bg-3.png");
+  }
 }
 
 .auth-container::after {
