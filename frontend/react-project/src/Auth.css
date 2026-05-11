@@ -56,6 +56,25 @@ body {
     transform: translateX(100%) scale(1.04);
     opacity: 0;
   }
+  10% {
+    transform: translateX(0) scale(1.04);
+    opacity: 1;
+  }
+  32% {
+    transform: translateX(0) scale(1.04);
+    opacity: 1;
+  }
+
+  42% {
+    transform: translateX(-100%) scale(1.04);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-100%) scale(1.04);
+    opacity: 0;
+  }
+}
+
 
 
 .auth-container::after {
