@@ -30,6 +30,10 @@ body {
   animation: authSlideshow 15s infinite ease-in-out;
 }
 
+@keyframes authSlideshow{
+  
+}
+
 .auth-container::after {
   content: "";
   position: absolute;
