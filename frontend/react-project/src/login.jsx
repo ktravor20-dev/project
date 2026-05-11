@@ -63,6 +63,12 @@ function Login(){
 
     return (
       <div className="auth-container">
+        <div className="auth-slider">
+          <div className="auth-slide slide-one"></div>
+          <div className="auth-slide slide-two"></div>
+          <div className="auth-slide slide-three"></div>
+        </div>
+        
         <form className="auth-card" >
           <h2>Login</h2>
 
