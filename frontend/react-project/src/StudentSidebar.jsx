@@ -11,6 +11,8 @@ function StudentSidebar() {
       <NavLink to="createstudentlog">Create your Student Log</NavLink>
       <NavLink to='viewstudentlog'>View student Log</NavLink>
       <NavLink to="viewinternshipplacements">View Placements</NavLink>
+      <NavLink to="sendmessage">send Messages</NavLink>
+      <NavLink to="viewmessage">View Messages</NavLink>
       
       
 

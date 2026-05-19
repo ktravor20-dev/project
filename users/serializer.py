@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor,Studentlog, supervisorlog, SupervisorMessage
+from .models import StudentlogNotification, WeeklyLogs, CustomUser, internshipPlacements, Student, internSupervisor, academicSupervisor,Studentlog, supervisorlog, SupervisorMessage,weeklylogNotification,Messages,MessageNotification
 
 class idSerializer(serializers.ModelSerializer):
     class Meta:
@@ -162,3 +162,41 @@ class SupervisorMessageSerializer(serializers.ModelSerializer):
         return obj.sender_id == request.user.id
     def get_sender_name(self, obj):
         return f"{obj.sender.first_name} {obj.sender.last_name}"
+    
+# this serializer is for the notifications that the intern supervisors will receive when the interns submit their student logs
+class StudentlogNotificationSerializer(serializers.ModelSerializer):
+    studentlog = createStudentlogSerializer(read_only=True)
+    class Meta:
+        model = StudentlogNotification
+        fields = '__all__'
+
+#this serializer is for the notifications that the students will receive when the supervisors create the weekly logs for them
+class weeklylogAlertSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=weeklylogNotification
+        fields='__all__'
+
+#this serializer is to message between the intern supervisor , academic supervisor and the student
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Messages
+        fields='__all__'
+        read_only_fields = ['sender']
+
+#this serializer is to get all users in the custom user model
+class AllUsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=CustomUser
+        fields=['id','first_name','last_name','role']  
+#this serializer is to view the messages
+class ViewMessageSerializer(serializers.ModelSerializer):
+    sender=AllUsersSerializer(read_only=True)
+    class Meta:
+        model=Messages
+        fields='__all__'        
+
+#thsi serializer is send message notifications to the student , intern supervisor and academic supervisor when a message is sent between them        
+class MessageNotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=MessageNotification
+        fields='__all__'

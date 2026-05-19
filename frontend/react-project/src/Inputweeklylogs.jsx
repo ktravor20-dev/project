@@ -65,7 +65,7 @@ function Inputweeklylogs() {
      
 return (
   <div className="form-container">
-    <h1>Input Feedback</h1>
+    <h1>Create a weeklylog for a student</h1>
 
     <div className="form-box">
 
@@ -88,7 +88,9 @@ return (
       />
 
       <label>Supervisor</label>
-      <input
+      <input 
+        placeholder='use your username in small letters'
+
         type="text"
         onChange={(e) => setSupervisor(e.target.value)}
       />

@@ -19,6 +19,10 @@ import ProtectedRoute from './ProtectedRoute';
 import CreateStudentLog from './CreateStudentlog';
 import ViewStudentLog from './ViewStudentLog'
 import Messages from './pages/Messages';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import SendMessage from './SendMessage';
+import ViewMessage from './VeiwMessage';
 
 
 
@@ -28,6 +32,18 @@ import './App.css';
 function App() {
     return (
       <Router>
+        <ToastContainer 
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
        <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
@@ -46,6 +62,8 @@ function App() {
           <Route path="viewinternshipplacements" element={<ViewInternPlacement />} />
           <Route path="createstudentlog" element={<CreateStudentLog/>}/>
           <Route path ='viewstudentlog' element={<ViewStudentLog/>}/>
+          <Route path='sendmessage' element={<SendMessage/>}/>
+          <Route path='viewmessage' element={<ViewMessage/>}/>
         </Route>
 
         {/*INTERNSHIP SUPERVISOR */}
@@ -62,6 +80,8 @@ function App() {
           <Route path="searchlog" element={<Getstudent />} />
           <Route path ='viewstudentlog' element={<ViewStudentLog/>}/>
           <Route path="messages" element={<Messages />} />
+          <Route path='sendmessage' element={<SendMessage/>}/>
+          <Route path='viewmessage' element={<ViewMessage/>}/>
 
         </Route>
 
@@ -80,6 +100,8 @@ function App() {
           <Route path="searchlog" element={<Getstudent />} />
           <Route path="createinternshipplacements" element={<CreateInternPlacement />} />
           <Route path="messages" element={<Messages />} />
+          <Route path='sendmessage' element={<SendMessage/>}/>
+          <Route path='viewmessage' element={<ViewMessage/>}/>
 
         </Route>
 

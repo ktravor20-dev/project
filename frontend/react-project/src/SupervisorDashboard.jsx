@@ -16,11 +16,7 @@ function SupervisorDashboard() {
  
 
   return (
-    <div className='app'>
-      
-
-      
-              
+    <div className='app'>              
       
        <div className='main'>
          <Outlet />
