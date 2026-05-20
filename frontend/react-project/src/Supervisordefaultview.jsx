@@ -1,6 +1,8 @@
 import { FaClipboardList } from "react-icons/fa";
 
 import { Routes, Route, useLocation } from 'react-router-dom';
+import StudentLogNotification from "./StudentLogNotification";
+import MessageAlerts from "./MessageAlerts";
 
 function Supervisordefaultview() {
     return(
@@ -15,8 +17,8 @@ function Supervisordefaultview() {
                     
                 </div>
             </div>
-            <h3>Recent Activity</h3>
-            <p> Student X submitted a new weekly log.</p>
+            <div><MessageAlerts/></div>
+            <div><StudentLogNotification/></div>
 
         </div>
     )

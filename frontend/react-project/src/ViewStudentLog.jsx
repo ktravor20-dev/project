@@ -19,6 +19,7 @@ function ViewStudentLog(){
                     Authorization: `Bearer ${token}`
              }});
              setlogs(response.data)
+             console.log('fetched logs:',response.data)
 
             }catch(error){
                 if (error.response && error.response.status === 401) {

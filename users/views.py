@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer,createStudentlogSerializer, SupervisorMessageSerializer, MessagingUserSerializer
-from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog, SupervisorMessage
+from .serializer import WeeklyLogsSerializer, UserSerializer,idSerializer,SaveWeeklyLogsSerializer,SaveInternshipPlacementsSerializer, InternshipPlacementsSerializer,LoginSerializer, StaffSerializer,createStudentlogSerializer, SupervisorMessageSerializer, MessagingUserSerializer,StudentlogNotificationSerializer,weeklylogAlertSerializer,AllUsersSerializer,MessageSerializer,ViewMessageSerializer,MessageNotificationSerializer
+from .models import WeeklyLogs,CustomUser, internshipPlacements,Studentlog, SupervisorMessage,StudentlogNotification,weeklylogNotification,Messages,MessageNotification
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate, get_user_model
@@ -94,13 +94,31 @@ def login(request):
 def get_weekly_logs(request):
     user=request.user
     
-    
     if user.role =='STUDENT':
-          logs= WeeklyLogs.objects.filter(Student_Name=request.user) 
-    elif user.role == 'ACADEMIC_SUPERVISOR' or 'INTERN_SUPERVISOR':
-            logs= WeeklyLogs.objects.all() 
+          logs= WeeklyLogs.objects.filter(Student_Name=request.user).order_by('-Created_at')
+    elif user.role == 'INTERN_SUPERVISOR':
+            logs= WeeklyLogs.objects.filter(Supervisor=request.user.username) .order_by('-Created_at')
+    elif user.role == 'ACADEMIC_SUPERVISOR':
+            logs=WeeklyLogs.objects.all() .order_by('-Created_at')       
     serializer= WeeklyLogsSerializer(logs, many=True)
     return Response(serializer.data)
+
+
+#this is to change status when seen by the student
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def seen(request,pk):
+   user=request.user
+   if user.role=='STUDENT':
+      try:
+         log=WeeklyLogs.objects.get(pk=pk)
+         log.is_read=True
+         log.save()
+         return Response({'message':'Log marked as read'}, status=200)
+      except WeeklyLogs.DoesNotExist:
+         return Response({'error':'Log not found'}, status=404)
+   else:
+      return Response({'error':'Access denied'}, status=403)
 
 # this view is for creating weekly logs
 @api_view(['POST'])
@@ -110,16 +128,11 @@ def create_weekly_logs(request):
        student_id = request.data.get('Student_Name')
        try:
           student=CustomUser.objects.get(id=student_id)
-          if user.role == 'STUDENT':
+          if user.role == 'INTERN_SUPERVISOR' :
            serializer =SaveWeeklyLogsSerializer(data = request.data)
            if serializer.is_valid():
-            log = serializer.save(Student_Name=user)
-            try:
-                placement = internshipPlacements.objects.filter(Student_Name=user).last()
-                if placement and placement.Supervisor_email:
-                    send_mail(f'Log: {user.username}', f'Week {log.Week_Number}', settings.DEFAULT_FROM_EMAIL, [placement.Supervisor_email])
-            except: pass
-            return Response(serializer.data, status=201)
+             serializer.save(Student_Name=student)
+             return Response(serializer.data, status=201)
            else:
               return Response(serializer.errors, status=400)
           
@@ -172,8 +185,10 @@ def create_internship_placement(request):
 def get_internPlacement(request):
     user =request.user
     try:
-      if user.role in ['ACADEMIC_SUPERVISOR', 'INTERN_SUPERVISOR']:
+      if user.role =='ACADEMIC_SUPERVISOR':
         placements = internshipPlacements.objects.all()
+      elif user.role == 'INTERN_SUPERVISOR':
+         placements = internshipPlacements.objects.filter(Supervisor_email =request.user.email)  
       elif user.role == 'STUDENT':
         placements = internshipPlacements.objects.filter(Student_Name = user) 
       else:
@@ -263,11 +278,11 @@ def viewStudentlog(request):
    user=request.user
    try:
       if user.role == 'STUDENT':
-         data= Studentlog.objects.filter(Student_Name=request.user)
+         data= Studentlog.objects.filter(Student_Name=request.user).order_by('-Submittion_Date')
          serializer=createStudentlogSerializer(data,many=True)
          return Response(serializer.data,status=200)
       elif user.role =='INTERN_SUPERVISOR':
-         data = Studentlog.objects.filter(Supervisor=request.user)
+         data = Studentlog.objects.filter(Supervisor=request.user).order_by('-Submittion_Date')
          serializer=createStudentlogSerializer(data,many=True)
          return Response(serializer.data,status=201)
 
@@ -385,6 +400,86 @@ def current_user(request):
         "role": request.user.role,
         "full_name": f"{request.user.first_name} {request.user.last_name}"
     })
+# this view is to get notifications for the intern supervisor
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def intern_supervisor_notifications(request):
+   user=request.user
+   if user.role != 'INTERN_SUPERVISOR':
+      return Response({'error':'Access denied'}, status=403)
+   else:
+     try:
+       notifications= StudentlogNotification.objects.filter(recepient=request.user, is_read=False).order_by('-created_at')
+       serializer=StudentlogNotificationSerializer(notifications, many=True)
+       return Response(serializer.data, status=200)
+     except Exception as e:
+         return Response({'error': str(e)}, status=400)
+     
+#this view is to get notification  for the student
+@api_view(['GET']) 
+@permission_classes([IsAuthenticated])
+def student_notification(request):
+   user=request.user
+   if user.role !='STUDENT':
+      return Response({'error':'Access denied'}, status=403)   
+   else:
+      try:
+         alerts=weeklylogNotification.objects.filter(recepient=request.user, is_read=False).order_by('-created_at')
+         serializer=weeklylogAlertSerializer(alerts,many=True)
+         return Response(serializer.data, status=200)
+      except Exception as e:
+         return Response({'error':str(e)}, status=400)
+
+
+#this view is to save messages between the intern supervisor , academic supervisor and the student
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def save_message(request):
+   serializer=MessageSerializer(data=request.data)
+   if serializer.is_valid():
+      serializer.save(sender=request.user)
+      return Response(serializer.data, status=201)
+   else:
+      return Response(serializer.errors, status=400)
+   
+#this view is to get messages between the intern supervisor , academic supervisor and the student
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_message(request):
+   try:
+    message=Messages.objects.filter(Q(receiver=request.user)| Q(sender=request.user)).order_by('-created_at') 
+    serializer=ViewMessageSerializer(message, many=True)
+    return Response(serializer.data, status=200)  
+   except Exception as e:
+      return Response({'error':str(e)}, status=400)
+     
+   
+#this view is to get all users in the custom user model
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def Users(request):
+   try:
+      users=CustomUser.objects.all()
+      serializer=AllUsersSerializer(users,many=True)
+      return Response(serializer.data, status=200)
+   except Exception as e:
+      return Response({'error':str(e)}, status=400)
+
+#this view is to sent message notifications between the intern supervisor , academic supervisor and the student
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def send_alert(request):
+   try:
+      message=MessageNotification.objects.filter(recepient=request.user, is_read=False)
+      serializer=MessageNotificationSerializer(message, many=True)
+      return Response(serializer.data, status=200)
+   except Exception as e:
+      return Response({'error':str(e)}, status=400)
+   
+
+
+
+
 
 
         

@@ -1,4 +1,5 @@
 import './DashboardHome.css';
+import MessageAlerts from "./MessageAlerts";
 function AcademicSupervisorDashboard() {
   return (
     <div>
@@ -12,6 +13,9 @@ function AcademicSupervisorDashboard() {
 
       <h3>Recent Placements</h3>
       <p>Supervisor X was assigned to student Y</p>
+      <div>
+        <MessageAlerts/>
+      </div>
       
     </div>
   );

@@ -17,21 +17,71 @@ body {
   padding: 20px;
 }
 
-.auth-container::before {
-  content: " ";
+.auth-slider {
   position: absolute;
   inset: 0;
-  background: url("/login-bg.png") center center / cover no-repeat;
-  filter: blur(6px);
-  transform: scale(1.08);
   z-index: 0; 
+  overflow: hidden;
 }
+
+.auth-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(3px);
+  transform: translateX(100%) scale(1.04);
+  opacity: 0;
+  animation: slideRight 18s infinite ease-in-out;
+}
+
+.slide-one{ 
+  background-image: url("/login-bg.png");
+  animation-delay: 0s;
+}
+
+.slide-two {
+  background-image: url("/loginNew-bg.png");
+  animation-delay: 6s;
+}
+
+.slide-three {
+  background-image: url("/loginNew1-bg.png");
+  animation-delay: 12s;
+}
+
+@keyframes slideRight {
+  0% {
+    transform: translateX(100%) scale(1.04);
+    opacity: 0;
+  }
+  10% {
+    transform: translateX(0) scale(1.04);
+    opacity: 1;
+  }
+  32% {
+    transform: translateX(0) scale(1.04);
+    opacity: 1;
+  }
+
+  42% {
+    transform: translateX(-100%) scale(1.04);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-100%) scale(1.04);
+    opacity: 0;
+  }
+}
+
+
 
 .auth-container::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.25);
   z-index: 1; 
 }
 

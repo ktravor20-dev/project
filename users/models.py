@@ -26,6 +26,10 @@ class WeeklyLogs(models.Model):
     Progress=models.IntegerField()
     Hours_Worked=models.IntegerField()
     Remaining_time_for_Internship=models.IntegerField()
+    Created_at=models.DateTimeField(auto_now_add=True)
+    is_read =models.BooleanField(default=False)
+    def __str__(self):
+        return f'{self.Student_Name} - Week {self.Week_Number}'
     
 class internshipPlacements(models.Model):
     Student_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
@@ -75,6 +79,7 @@ class Studentlog(models.Model):
     Activities_Done=models.TextField()
     Challenges=models.TextField()
     is_read =models.BooleanField(default=False)
+    
      
     def __str__(self):
         return f'{self.Student_Name.username}- {self.Week_Number}'
@@ -105,4 +110,58 @@ class SupervisorMessage(models.Model):
         ordering=['created_at']
     def __str__(self):
         return f"{self.sender}->{self.receiver}-({self.student})"
+    
+#This model is for sending notifications to the supervisors
+class StudentlogNotification(models.Model):
+    recepient=models.ForeignKey(User,on_delete=models.CASCADE, related_name='notifications')
+    studentlog=models.ForeignKey(Studentlog,on_delete=models.CASCADE, related_name='notifications')
+    message=models.TextField()
+    is_read=models.BooleanField(default=False)
+    created_at=models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Notification for {self.recepient.username} about {self.studentlog}"
+
+#This model is  for sending notifications to the student   
+class weeklylogNotification(models.Model):
+    recepient=models.ForeignKey(User,on_delete=models.CASCADE, related_name='weekly_notifications')
+    message=models.TextField()
+    is_read=models.BooleanField(default=False)
+    created_at=models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Notification for {self.recepient.username} about {self.created_at}" 
+    
+
+# This model is to send messages between the student , intern supervisor and academic supervisor
+class Messages(models.Model):
+    sender=models.ForeignKey(User,on_delete=models.CASCADE, related_name='sender_of_message' )
+    receiver=models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_of_messages')
+    message=models.TextField()
+    is_read=models.BooleanField(default=False)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering=['created_at']
+    def __str__(self):
+        return f"{self.sender}->{self.receiver}"
+
+    
+
+#This is model for messages notifications between the student , intern supervisor and academic supervisor
+class MessageNotification(models.Model):
+    recepient=models.ForeignKey(User,on_delete=models.CASCADE, related_name='recepient_of_message_notifications')
+    message=models.TextField()
+    is_read=models.BooleanField(default=False)
+    created_at=models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Notification for {self.recepient.username} about {self.message}"
+
+
+
+    
+
+    
     
