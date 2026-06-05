@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import './Inputweeklylogs.css';
+import './SendMessage.css';
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 
@@ -62,12 +62,13 @@ function SendMessage(){
     }));
 
     return(
-        <div className="form-container">
+        <div className="message-card">
         <h1>Send a Message</h1>
 
-        <div className="form-box">
+        <div className="input-group">
             <label>Receiver</label>
             <Select 
+                className="form-group"
                 options={options}
                 onChange={(selectedOption) => setReceiver(selectedOption.value)}
                 placeholder="Select a person to send message"
@@ -75,6 +76,7 @@ function SendMessage(){
             />
             <label>Message</label>
             <textarea
+                className="form-input textarea-input" rows="6"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
             />

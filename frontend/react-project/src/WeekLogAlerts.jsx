@@ -24,8 +24,8 @@ function WeekLogNotifications(){
     },[]);
     return(
         <div>
-            <h2>Weekly Log Notifications</h2>
-            {alerts.length ===0 ?(<p> No weeklylogs submitted by your supervisor yet</p>):(
+            <h2>Feedback From Your Intern Supervisor Notifications</h2>
+            {alerts.length ===0 ?(<p> No feedback submitted by your supervisor yet</p>):(
                 alerts.map(alert=>(<div key={alert.id} >
                     <p><strong style={{color:'#457eb899'}}>{alert.message}</strong> at <small style={{color:'#7f8c8d'}}>{new Date(alert.created_at).toLocaleString()}</small></p>
                 </div>))
