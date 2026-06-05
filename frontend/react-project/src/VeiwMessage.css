@@ -1,0 +1,155 @@
+/* Page Layout Setup */
+.inbox-page {
+  padding: 32px;
+  background-color: #f8fafc; /* Subtle grayish-blue background */
+  min-height: 100vh;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 28px;
+  letter-spacing: -0.5px;
+}
+
+/* Container limits width and grows downwards */
+.inbox-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 720px; /* Limits the container width */
+}
+
+/* The Inbox Card Element */
+.inbox-card {
+  display: flex; /* NEW: Keeps the left accent line and content wrapper aligned side-by-side */
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px; /* Increased smoothness */
+  overflow: hidden; /* NEW: Ensures child items don't break the rounded border corners */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Slight lift effect when you hover over a card */
+.inbox-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e1;
+}
+
+/* NEW: Left Side Accent Line Component */
+.card-accent-stripe {
+  width: 4px;
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%); /* Elegant blue gradient bar */
+  flex-shrink: 0;
+}
+
+/* NEW: Internal Padding Box Wrap */
+.card-content-wrapper {
+  flex-grow: 1;
+  padding: 20px 24px; /* Balanced horizontal and vertical spacing */
+}
+
+/* Header row alignment */
+.inbox-card-header {
+  display: flex;
+  justify-content: space-between; /* Pushes text to left and date to right */
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sender-info {
+  display: flex;
+  align-items: center;
+  gap: 14px; /* Increased gap to give avatar breathing room */
+}
+
+/* NEW: Circular Visual Initials Avatar Box */
+.avatar-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: #eff6ff; /* Faint accent blue background tint */
+  color: #2563eb; /* High contrast digital blue font */
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dbeafe;
+  flex-shrink: 0;
+}
+
+/* NEW: Groups your sender names and role labels vertically stacked */
+.sender-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sender-name {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 15.5px;
+}
+
+/* Role Label Badge (e.g., STUDENT, INTERN_SUPERVISOR) */
+.sender-badge {
+  align-self: flex-start; /* Stops the badge from expanding horizontally */
+  background-color: #f1f5f9;
+  color: #475569;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Timestamp placement styling */
+.inbox-date {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+  background-color: #f8fafc;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid #f1f5f9;
+}
+
+/* Main text block container tint */
+.inbox-card-body {
+  background-color: #f8fafc; /* Beautiful soft inner box container tint */
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid #f1f5f9;
+}
+
+.message-paragraph {
+  margin: 0;
+  color: #475569;
+  font-size: 14.5px;
+  line-height: 1.6;
+  white-space: pre-wrap; /* Keeps user text formatting / paragraph breaks */
+}
+
+/* Empty message state layout */
+.empty-inbox {
+  padding: 48px;
+  text-align: center;
+  background-color: #ffffff;
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  color: #94a3b8;
+}
+.from-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #94a3b8; /* Soft slate gray */
+  font-weight: 700;
+  margin-bottom: -1px; /* Tucks it neatly above the name */
+}
