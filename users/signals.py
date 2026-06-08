@@ -23,7 +23,7 @@ def create_weeklylog_alerts(sender,instance,created,**kwargs):
         student=instance.Student_Name
         weeklylogNotification.objects.create(
             recepient=student,
-            message=f'Your internship supervisor has created for you a weekly log for week {instance.Week_Number}'
+            message=f'Your internship supervisor has sent you feedback for a weekly log for week {instance.Week_Number} you submitted. Please check it out.'
         )    
 
 #this signal is for sending notifications to the student , intern supervisor and academic supervisor when a message is sent between them

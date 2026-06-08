@@ -31,6 +31,7 @@ function Inputweeklylogs() {
          },{headers: {
             Authorization: `Bearer ${token}`
         }});
+        console.log('Log created successfully:', logDta.data);
         navigate('/supervisorDashboard/weeklylogs')
       }catch(error){
             console.error('An error occurred while submitting the log:', error);
@@ -65,7 +66,7 @@ function Inputweeklylogs() {
      
 return (
   <div className="form-container">
-    <h1>Create a weeklylog for a student</h1>
+    <h1>Create feedback for a student on their weeklylog</h1>
 
     <div className="form-box">
 
@@ -89,7 +90,7 @@ return (
 
       <label>Supervisor</label>
       <input 
-        placeholder='use your username in small letters'
+        placeholder='Enter your names'
 
         type="text"
         onChange={(e) => setSupervisor(e.target.value)}

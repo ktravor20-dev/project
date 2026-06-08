@@ -89,7 +89,7 @@ function Weeklogs() {
     
      return (
         <>
-            <h1 className="page-title">Created weekly logs</h1>
+            <h1 className="page-title">Created feedback from the Supervisor</h1>
             <div className="logs-container">
                 {logs.map((log) => (
                     <div key={log.id} className='log'>
