@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import './Auth.css';
 
 
@@ -28,11 +29,12 @@ function RegisterUser(){
                 password:password
             });
             console.log('User created:',response.data);
-            alert('your account has been successfully created')
+            toast.success('Your account has been successfully created');
             navigate('/login')
         
      } catch (error){
         console.log('Error occused:',error.response.data);
+        toast.error('Error occurred while creating account');
     }
     };
 
