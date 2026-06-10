@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import './Auth.css';
 
 function StaffRegistration(){
@@ -25,10 +26,10 @@ function StaffRegistration(){
                 Stuff_id: staff_id
             });
             console.log('Staff created:', response.data);
-            alert('Staff account has been successfully created');
+            toast.success('Staff account has been successfully created');
             navigate('/login');
         } catch (error) {
-            alert('Error creating staff account');
+            toast.error('Error creating staff account');
             console.error('Error registering staff:', error);
         }
     };
