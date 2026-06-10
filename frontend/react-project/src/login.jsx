@@ -56,6 +56,7 @@ function Login(){
       } catch (error) { 
         toast.dismiss(toastId);
         toast.error('Login Failed. Please check your details and try again.');
+        console.error('Login error:', error);
 
         setPassword('');
       }
