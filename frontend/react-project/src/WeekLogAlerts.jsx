@@ -23,13 +23,17 @@ function WeekLogNotifications(){
         weeklyLogAlerts();
     },[]);
     return(
-        <div>
-            <h2>Feedback From Your Intern Supervisor Notifications</h2>
-            {alerts.length ===0 ?(<p> No feedback submitted by your supervisor yet</p>):(
-                alerts.map(alert=>(<div key={alert.id} >
-                    <p><strong style={{color:'#457eb899'}}>{alert.message}</strong> at <small style={{color:'#7f8c8d'}}>{new Date(alert.created_at).toLocaleString()}</small></p>
+        <div style={{ marginTop: '32px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px', color: '#1f2937' }}>🔔 Feedback From Your Intern Supervisor Notifications <span style={{ backgroundColor: '#ef4444', color: 'white', fontSize: '12px', padding: '2px 8px', borderRadius: '9999px' }}>
+      {alerts.length} New
+    </span></h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {alerts.length ===0 ?(<div style={{ backgroundColor: 'white', padding: '16px', borderRadius: '12px', border: '1px solid #f3f4f6', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><p> No feedback submitted by your supervisor yet</p></div>):(
+                alerts.map(alert=>(<div key={alert.id} style={{ backgroundColor: 'white', padding: '16px', borderRadius: '12px', border: '1px solid #f3f4f6', borderLeft: '4px solid #2563eb', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} >
+                    <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}><p><strong style={{color:'#457eb899'}}>{alert.message}</strong> at <span style={{ fontSize: '12px', color: '#9ca3af' }}>{new Date(alert.created_at).toLocaleString()}</span></p></div>
                 </div>))
             )}
+            </div>
 
         </div>
     )

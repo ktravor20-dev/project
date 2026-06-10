@@ -97,7 +97,8 @@ def get_weekly_logs(request):
     if user.role =='STUDENT':
           logs= WeeklyLogs.objects.filter(Student_Name=request.user).order_by('-Created_at')
     elif user.role == 'INTERN_SUPERVISOR':
-            logs= WeeklyLogs.objects.filter(Supervisor=request.user.username) .order_by('-Created_at')
+            full_name = f"{request.user.first_name} {request.user.last_name}"
+            logs= WeeklyLogs.objects.filter(Supervisor=full_name) .order_by('-Created_at')
     elif user.role == 'ACADEMIC_SUPERVISOR':
             logs=WeeklyLogs.objects.all() .order_by('-Created_at')       
     serializer= WeeklyLogsSerializer(logs, many=True)

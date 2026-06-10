@@ -18,7 +18,7 @@ class CustomUser(AbstractUser):
         return self.username
 
 class WeeklyLogs(models.Model):
-    Student_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    Student_Name=models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True,related_name='weekly_logs')
     Activities=models.TextField()
     Week_Number=models.IntegerField()
     Supervisor=models.CharField()
@@ -32,7 +32,7 @@ class WeeklyLogs(models.Model):
         return f'{self.Student_Name} - Week {self.Week_Number}'
     
 class internshipPlacements(models.Model):
-    Student_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    Student_Name=models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True)
     Company_name=models.CharField(max_length=100)
     Company_location=models.CharField(max_length=100)
     Supervisor=models.CharField(max_length=100)
@@ -72,8 +72,8 @@ class academicSupervisor(models.Model):
         return f'{self.user.username} - {self.Stuff_id}'
     
 class Studentlog(models.Model):
-    Student_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='student_details')  
-    Supervisor= models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='supervisor_details')  
+    Student_Name=models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True,related_name='student_details')  
+    Supervisor= models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True,related_name='supervisor_details')  
     Week_Number=models.PositiveIntegerField()
     Submittion_Date=models.DateField(auto_now_add=True)
     Activities_Done=models.TextField()
@@ -86,8 +86,8 @@ class Studentlog(models.Model):
 
     
 class supervisorlog(models.Model):
-    Supervisor_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='supervisor_logs')  
-    Student_Name=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='student_logs')  
+    Supervisor_Name=models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True,related_name='supervisor_logs')  
+    Student_Name=models.ForeignKey(CustomUser,on_delete=models.SET_NULL,null=True,related_name='student_logs')  
     Week_Number=models.PositiveIntegerField()
     Feedback=models.TextField()
     is_read =models.BooleanField(default=False)
@@ -98,9 +98,9 @@ class supervisorlog(models.Model):
     
 #This model enables communication between the two supervisors
 class SupervisorMessage(models.Model):
-    sender=models.ForeignKey(User,on_delete=models.CASCADE, related_name='sent_messages' )
-    receiver=models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
-    student=models.ForeignKey(User, on_delete=models.CASCADE, related_name='related_messages', null=True, blank=True)
+    sender=models.ForeignKey(User,on_delete=models.SET_NULL, null=True, related_name='sent_messages' )
+    receiver=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='received_messages')
+    student=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='related_messages')
     message=models.TextField()
     is_read=models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
@@ -113,8 +113,8 @@ class SupervisorMessage(models.Model):
     
 #This model is for sending notifications to the supervisors
 class StudentlogNotification(models.Model):
-    recepient=models.ForeignKey(User,on_delete=models.CASCADE, related_name='notifications')
-    studentlog=models.ForeignKey(Studentlog,on_delete=models.CASCADE, related_name='notifications')
+    recepient=models.ForeignKey(User,on_delete=models.SET_NULL, null=True, related_name='notifications')
+    studentlog=models.ForeignKey(Studentlog,on_delete=models.SET_NULL, null=True, related_name='notifications')
     message=models.TextField()
     is_read=models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
@@ -124,7 +124,7 @@ class StudentlogNotification(models.Model):
 
 #This model is  for sending notifications to the student   
 class weeklylogNotification(models.Model):
-    recepient=models.ForeignKey(User,on_delete=models.CASCADE, related_name='weekly_notifications')
+    recepient=models.ForeignKey(User,on_delete=models.SET_NULL, null=True, related_name='weekly_notifications')
     message=models.TextField()
     is_read=models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
@@ -135,8 +135,8 @@ class weeklylogNotification(models.Model):
 
 # This model is to send messages between the student , intern supervisor and academic supervisor
 class Messages(models.Model):
-    sender=models.ForeignKey(User,on_delete=models.CASCADE, related_name='sender_of_message' )
-    receiver=models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_of_messages')
+    sender=models.ForeignKey(User,on_delete=models.SET_NULL, null=True, related_name='sender_of_message' )
+    receiver=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='received_of_messages')
     message=models.TextField()
     is_read=models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
@@ -151,7 +151,7 @@ class Messages(models.Model):
 
 #This is model for messages notifications between the student , intern supervisor and academic supervisor
 class MessageNotification(models.Model):
-    recepient=models.ForeignKey(User,on_delete=models.CASCADE, related_name='recepient_of_message_notifications')
+    recepient=models.ForeignKey(User,on_delete=models.SET_NULL, null=True, related_name='recepient_of_message_notifications')
     message=models.TextField()
     is_read=models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
