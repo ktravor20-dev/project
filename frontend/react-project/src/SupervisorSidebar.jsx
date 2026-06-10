@@ -8,11 +8,11 @@ function SupervisorSidebar() {
 
       <NavLink to="">Dashboard</NavLink>
       <NavLink to="viewinternshipplacements">View Placements</NavLink>
-      <NavLink to="weeklylogs">View created weekly logs</NavLink>
-      <NavLink to="inputweeklylogs">Create a weekly log for a student</NavLink>
-      <NavLink to="searchlog">Search Logs</NavLink>
+      <NavLink to="weeklylogs">View created  feedback on studentlogs</NavLink>
+      <NavLink to="inputweeklylogs">Create a feedback on studentlog</NavLink>
+      <NavLink to="searchlog">Get all feedback created for a particular student</NavLink>
       <NavLink to='viewstudentlog'>View student Logs</NavLink>   
-      <NavLink to="messages">Messages</NavLink>  
+      
       <NavLink to="sendmessage">send Messages</NavLink>
       <NavLink to="viewmessage">View Messages</NavLink>
 
