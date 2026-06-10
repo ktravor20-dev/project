@@ -10,7 +10,7 @@ function ViewInternPlacement() {
         const token = localStorage.getItem('token');
         const fetchPlacements = async () => {
             try{
-                const response = await axios.get('http://localhost:8000/api/get_placements/',{
+                const response = await axios.get('https://backend-qgig.onrender.com/api/get_placements/',{
                     headers:{'Authorization': `Bearer ${token}`}
                 });
                 setPlacements(response.data);

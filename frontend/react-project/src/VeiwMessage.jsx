@@ -11,7 +11,7 @@ function ViewMessage(){
         const fetchMessages=async()=>{
             try{
                 const token=localStorage.getItem("token");
-                const response=await axios.get("http://localhost:8000/api/get_message/",{
+                const response=await axios.get("https://backend-qgig.onrender.com/api/get_message/",{
                     headers:{
                         "Authorization": `Bearer ${token}`
                     }

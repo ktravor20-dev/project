@@ -16,7 +16,7 @@ function StaffRegistration(){
 
     const register =async () =>{
         try{
-            const response = await axios.post('http://localhost:8000/api/create_staff/', {
+            const response = await axios.post('https://backend-qgig.onrender.com/api/create_staff/', {
                 username: username,
                 first_name: first_name,
                 last_name: last_name,

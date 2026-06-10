@@ -15,7 +15,7 @@ function SendMessage(){
         const fetchUsers=async()=>{
             try{
                 const token=localStorage.getItem("token");
-                const response=await axios.get("http://localhost:8000/api/get_all_users/",{
+                const response=await axios.get("https://backend-qgig.onrender.com/api/get_all_users/",{
                     headers:{
                         "Authorization": `Bearer ${token}`
                     }
@@ -32,7 +32,7 @@ function SendMessage(){
     const handleSubmit=async()=>{
         const token=localStorage.getItem("token");
         try{
-            await axios.post("http://localhost:8000/api/send_message/",{
+            await axios.post("https://backend-qgig.onrender.com/api/send_message/",{
                 receiver:receiver,
                 message:message
             },{

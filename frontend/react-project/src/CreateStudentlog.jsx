@@ -16,7 +16,7 @@ function CreateStudentLog(){
         const token =localStorage.getItem('token');
         const getSupervisors= async ()=>{
             try{
-                const response = await axios.get('http://localhost:8000/api/get_supervisors/',{
+                const response = await axios.get('https://backend-qgig.onrender.com/api/get_supervisors/',{
                 headers:{
                     AUTHORIZATION: `Bearer ${token}`
                 }
@@ -35,7 +35,7 @@ function CreateStudentLog(){
     const handlein= async ()=>{
         try{
          const token=localStorage.getItem('token');
-         const sentdata= await axios.post('http://localhost:8000/api/createstudentlog/',{
+         const sentdata= await axios.post('https://backend-qgig.onrender.com/api/createstudentlog/',{
             Supervisor:supervisor,
             Week_Number:week,
             Activities_Done:activities,

@@ -9,7 +9,7 @@ function MessageAlerts(){
         const fetchAlerts=async()=>{
             try{
                 const token=localStorage.getItem("token");
-                const response=await axios.get("http://localhost:8000/api/message_notifications/ ",{
+                const response=await axios.get("https://backend-qgig.onrender.com/api/message_notifications/ ",{
                     headers:{
                         "Authorization": `Bearer ${token}`
                     }

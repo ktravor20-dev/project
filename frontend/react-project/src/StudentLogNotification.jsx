@@ -8,7 +8,7 @@ function StudentLogNotification(){
         const token =localStorage.getItem('token');
         const getNotifications = async () =>{
             try{
-                const respones= await axios.get('http://localhost:8000/api/studentlog_notifications/',{
+                const respones= await axios.get('https://backend-qgig.onrender.com/api/studentlog_notifications/',{
                     headers:{
                         Authorization: `Bearer ${token}`
                     }

@@ -9,7 +9,7 @@ function WeekLogNotifications(){
         const token =localStorage.getItem('token');
         const weeklyLogAlerts= async ()=>{
             try{
-                const response=await axios.get('http://localhost:8000/api/weeklylog_notifications/',{
+                const response=await axios.get('https://backend-qgig.onrender.com/api/weeklylog_notifications/',{
                     headers:{
                         Authorization:`Bearer ${token}`
                     }

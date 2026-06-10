@@ -13,7 +13,7 @@ function Log(){
             const studentId=localStorage.getItem('studentid');
         
             try{
-                const response= await axios.get('http://localhost:8000/api/get_log/',{
+                const response= await axios.get('https://backend-qgig.onrender.com/api/get_log/',{
                     params:{student_id:studentId},
                     headers: {
                         Authorization: `Bearer ${token}`}
@@ -35,7 +35,7 @@ function Log(){
         try {
             if (window.confirm('Are you sure you want to delete this log?')) {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:8000/api/delete_weekly_log/${id}/`, {
+                await axios.delete(`https://backend-qgig.onrender.com/api/delete_weekly_log/${id}/`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

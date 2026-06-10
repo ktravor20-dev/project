@@ -19,7 +19,7 @@ function Inputweeklylogs() {
     const handleSubmit=  async () => {
         try{
          const token = localStorage.getItem('token');
-         const logDta = await axios.post('http://localhost:8000/api/create_weekly_logs/', {
+         const logDta = await axios.post('https://backend-qgig.onrender.com/api/create_weekly_logs/', {
             Student_Name: studentName,
             Activities: activities,
             Week_Number: weekNumber,
@@ -43,7 +43,7 @@ function Inputweeklylogs() {
         const token = localStorage.getItem('token');
         const fetchUserId = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/api/get_user_id/', {
+                const response = await axios.get('https://backend-qgig.onrender.com/api/get_user_id/', {
                     headers:
                     {
                         Authorization: `Bearer ${token}`

@@ -14,7 +14,7 @@ function Weeklogs() {
         const fetchLogs = async () => {
             try{
                 const token = localStorage.getItem('token');
-                const response = await axios.get('http://localhost:8000/api/get_weekly_logs/', {
+                const response = await axios.get('https://backend-qgig.onrender.com/api/get_weekly_logs/', {
                     headers: {
                         Authorization: `Bearer ${token}`}
 
@@ -53,7 +53,7 @@ function Weeklogs() {
         try {
             if (window.confirm('Are you sure you want to delete this log?')) {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:8000/api/delete_weekly_log/${id}/`, {
+                await axios.delete(`https://backend-qgig.onrender.com/api/delete_weekly_log/${id}/`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -70,7 +70,7 @@ function Weeklogs() {
     const markAsRead = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.patch(`http://localhost:8000/api/weeklylogstatus_update/${id}/`, {}, {
+            await axios.patch(`https://backend-qgig.onrender.com/api/weeklylogstatus_update/${id}/`, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

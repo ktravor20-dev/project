@@ -20,7 +20,7 @@ function CreateInternPlacement() {
         const token = localStorage.getItem('token');
         const fetchUserId = async () =>{
             try{
-                const response = await axios.get('http://localhost:8000/api/get_user_id/', {
+                const response = await axios.get('https://backend-qgig.onrender.com/api/get_user_id/', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -39,7 +39,7 @@ function CreateInternPlacement() {
     const handleSubmit=  async () => {
         try{
             const token = localStorage.getItem('token');
-            const logDta = await axios.post('http://localhost:8000/api/internship_placements/', {
+            const logDta = await axios.post('https://backend-qgig.onrender.com/api/internship_placements/', {
                 Student_Name: studentName,
                 Company_name: companyName,
                 Company_location: companyLocation,

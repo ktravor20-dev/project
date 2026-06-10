@@ -14,7 +14,7 @@ function ViewStudentLog(){
         const getLogs= async ()=>{
             try{
              const token =localStorage.getItem('token');
-             const response=await axios.get('http://localhost:8000/api/getstudentlog/',{
+             const response=await axios.get('https://backend-qgig.onrender.com/api/getstudentlog/',{
                 headers:{
                     Authorization: `Bearer ${token}`
              }});
@@ -54,7 +54,7 @@ function ViewStudentLog(){
         try {
             if (window.confirm('Are you sure you want to delete this log?')) {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:8000/api/delete_student_log/${id}/`, {
+                await axios.delete(`https://backend-qgig.onrender.com/api/delete_student_log/${id}/`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -72,7 +72,7 @@ function ViewStudentLog(){
         try{
             const token =localStorage.getItem('token');
             console.log('sending token:',token)
-            await axios.patch(`http://localhost:8000/api/update_log_status/${id}/`,{},{
+            await axios.patch(`https://backend-qgig.onrender.com/api/update_log_status/${id}/`,{},{
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
