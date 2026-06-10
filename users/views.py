@@ -19,7 +19,10 @@ User = get_user_model()
 def register(request):
       serializer=UserSerializer(data=request.data)
       if serializer.is_valid():
-         serializer.save()
+         user = serializer.save()
+         user.set_password(request.data.get('password'))
+         user.save()
+         
          return Response(serializer.data, status=201)
       else:
          return Response(serializer.errors, status=400)
