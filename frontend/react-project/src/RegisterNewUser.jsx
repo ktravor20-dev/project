@@ -19,7 +19,7 @@ function RegisterUser(){
 
     const register = async ()=> {
         try{
-            const response = await axios.post('http://127.0.0.1:8000/api/register/',{
+            const response = await axios.post('https://backend-qgig.onrender.com/api/register/',{
                 username: username,
                 first_name: first_name,
                 last_name: last_name,
