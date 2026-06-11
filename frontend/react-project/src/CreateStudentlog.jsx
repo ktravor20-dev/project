@@ -33,6 +33,7 @@ function CreateStudentLog(){
         value: Supervisor.id,
         label: `${Supervisor.first_name} ${Supervisor.last_name}`}));
     const handlein= async ()=>{
+        const toastId = toast.loading('Creating student log...');
         try{
          const token=localStorage.getItem('token');
          const sentdata= await axios.post('https://backend-qgig.onrender.com/api/createstudentlog/',{
@@ -44,10 +45,11 @@ function CreateStudentLog(){
                 Authorization: `Bearer ${token}`
             }});
          console.log(sentdata.data)
-         
+         toast.dismiss(toastId);
          toast.success('Your log has been successfully created');
          navigate('/studentDashboard/viewstudentlog') 
         }catch(error){
+            toast.dismiss(toastId);
             
             toast.error('There is an error which has occurred');
             console.error('An error has occured while submiting your log :', error);

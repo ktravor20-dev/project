@@ -3,6 +3,7 @@ import './Weeklogs.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './status.css';
+import { toast} from 'react-toastify';
 
 function ViewStudentLog(){
     const[logs, setlogs]=useState([])
@@ -12,6 +13,7 @@ function ViewStudentLog(){
     useEffect(()=>{
         
         const getLogs= async ()=>{
+            const toastId = toast.loading('Fetching student logs...');
             try{
              const token =localStorage.getItem('token');
              const response=await axios.get('https://backend-qgig.onrender.com/api/getstudentlog/',{
@@ -19,14 +21,16 @@ function ViewStudentLog(){
                     Authorization: `Bearer ${token}`
              }});
              setlogs(response.data)
+                toast.dismiss(toastId);
              console.log('fetched logs:',response.data)
 
             }catch(error){
+                toast.dismiss(toastId);
                 if (error.response && error.response.status === 401) {
                     localStorage.removeItem('token');
                     navigate('/login');
                 } else {
-                    alert('An error has occured while fetching your logs')
+                    toast.error('An error has occured while fetching your logs');
                     console.error('An error occurred while fetching logs:', error);
                 }
             }};
@@ -80,7 +84,7 @@ function ViewStudentLog(){
                     
                     
             });
-            alert('status update');
+            toast.success('Status updated successfully');
             window.location.reload();
 
         }catch(error){

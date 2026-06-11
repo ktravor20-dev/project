@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import './CreateInternPlacement.css';
+import { toast } from 'react-toastify';
 
 function CreateInternPlacement() {
     const navigate = useNavigate();
@@ -37,6 +38,7 @@ function CreateInternPlacement() {
         label: `${student.first_name} ${student.last_name}`
     }));
     const handleSubmit=  async () => {
+        const toastId = toast.loading('Creating internship placement...');
         try{
             const token = localStorage.getItem('token');
             const logDta = await axios.post('https://backend-qgig.onrender.com/api/internship_placements/', {
@@ -51,13 +53,16 @@ function CreateInternPlacement() {
             },{headers: {
                 Authorization: `Bearer ${token}`
             }});   
+            toast.dismiss(toastId);
+            toast.success('Internship placement created successfully');
+              console.log('Internship placement created successfully:', logDta.data);
             navigate('/academicSupervisorDashboard/viewinternshipplacements'); 
 
 
             }catch(error){
+                toast.dismiss(toastId);
                 console.error('An error occurred while submitting the log:', error);
-                alert('An error has occurred while submitting')
-                
+                toast.error('An error has occurred while submitting');
             }
     }
      const Return=()=>{

@@ -11,6 +11,7 @@ function Weeklogs() {
 
     
     useEffect(() => {
+        const toastId = toast.loading('Fetching weekly logs...');
         const fetchLogs = async () => {
             try{
                 const token = localStorage.getItem('token');
@@ -20,13 +21,16 @@ function Weeklogs() {
 
                     
                 });
+                toast.dismiss(toastId);
                 setlogs(response.data);
                     
             }catch(error){
+                toast.dismiss(toastId);
                 if (error.response && error.response.status === 401) {
                     localStorage.removeItem('token');
                     navigate('/login');
                 } else {
+                    toast.error('An error occurred while fetching logs:');
                     console.error('An error occurred while fetching logs:', error);
                 }
                 
@@ -105,7 +109,7 @@ function Weeklogs() {
                         <p><span className="label">Week_Number:</span> {log.Week_Number}</p>
                         <p><span className="label">Supervisior:</span> {log.Supervisor}</p>
                         <p><span className="label">Supervisior Comment:</span> {log.Supervisor_Comment}</p>
-                        
+                    
                         <p><span className="label">Progress:</span></p>
                         <div className="progress">
                             <div className="progress-bar" style={{ width: `${log.Progress}%` }}></div>

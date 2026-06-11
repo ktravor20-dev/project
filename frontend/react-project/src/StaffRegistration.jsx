@@ -15,6 +15,7 @@ function StaffRegistration(){
     const[staff_id, setStaff_id]=useState('');
 
     const register =async () =>{
+        const toastId = toast.loading('Creating staff account...');
         try{
             const response = await axios.post('https://backend-qgig.onrender.com/api/create_staff/', {
                 username: username,
@@ -26,9 +27,11 @@ function StaffRegistration(){
                 Stuff_id: staff_id
             });
             console.log('Staff created:', response.data);
+            toast.dismiss(toastId);
             toast.success('Staff account has been successfully created');
             navigate('/login');
         } catch (error) {
+            toast.dismiss(toastId);
             toast.error('Error creating staff account');
             console.error('Error registering staff:', error);
         }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import './Inputweeklylogs.css';
+import { toast } from 'react-toastify';
 
 function Inputweeklylogs() {
     const navigate = useNavigate();
@@ -17,6 +18,7 @@ function Inputweeklylogs() {
     const [remainingTime ,setRemainingTime] = useState('');
 
     const handleSubmit=  async () => {
+        const toastId = toast.loading('Creating weekly log...');
         try{
          const token = localStorage.getItem('token');
          const logDta = await axios.post('https://backend-qgig.onrender.com/api/create_weekly_logs/', {
@@ -32,10 +34,13 @@ function Inputweeklylogs() {
             Authorization: `Bearer ${token}`
         }});
         console.log('Log created successfully:', logDta.data);
+        toast.dismiss(toastId);
+        toast.success('Weekly log has been successfully created');
         navigate('/supervisorDashboard/weeklylogs')
       }catch(error){
+            toast.dismiss(toastId);
             console.error('An error occurred while submitting the log:', error);
-            alert('An error has occured')
+            toast.error('An error has occured');
         }
         
     };
