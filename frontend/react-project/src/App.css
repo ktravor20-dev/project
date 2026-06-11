@@ -45,3 +45,20 @@
 .logout-btn:hover {
   background-color: darkred;
 }
+
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .main {
+    width: 100%;
+    padding: 15px;
+  }
+}
