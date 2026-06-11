@@ -209,29 +209,18 @@ def createlog(request):
       try:
          supervisor=CustomUser.objects.get(id=supervisor_id)
       except CustomUser.DoesNotExist:
-         return Response({'error':'Ivalid supervisor id'})
+         return Response({'error':'Invalid supervisor id'}, status=400)
       serializer=createStudentlogSerializer(data=request.data)
       if serializer.is_valid():
          serializer.save(Student_Name=request.user,Supervisor=supervisor)
          
-         # Send email notification to the Intern Supervisor
-         if supervisor.email:
-             subject = f"New Weekly Log Submitted by {user.first_name} {user.last_name}"
-             message = f"Hello {supervisor.first_name},\n\nYour student {user.first_name} {user.last_name} has just submitted a new weekly log.\n\nPlease log in to the portal to review it."
-             from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@sdp-project.com')
-             
-             try:
-                 send_mail(subject, message, from_email, [supervisor.email], fail_silently=True)
-             except Exception as e:
-                 print(f"Error sending email: {e}")
-
          return Response(serializer.data, status=201)
       else:
          return Response(serializer.errors,status=400)
 
        
    else:
-      return Response({'error':'you are not allowed to perform this operation'})  
+      return Response({'error':'you are not allowed to perform this operation'}, status=403)  
    
 # this view is to return all supervisors   
 @api_view(['GET'])
