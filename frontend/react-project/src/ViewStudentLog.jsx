@@ -85,7 +85,8 @@ function ViewStudentLog(){
                     
             });
             toast.success('Status updated successfully');
-            navigate('/supervisorDashboard/viewstudentlog');
+            setlogs(logs.map(log => log.id === id ? { ...log, is_read: true } : log));
+            
             
 
         }catch(error){
