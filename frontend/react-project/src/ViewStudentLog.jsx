@@ -85,7 +85,7 @@ function ViewStudentLog(){
                     
             });
             toast.success('Status updated successfully');
-            
+            navigate('/supervisorDashboard/viewstudentlog');
             
 
         }catch(error){
