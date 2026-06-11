@@ -108,17 +108,16 @@ DATABASES = {
 db_url = os.environ.get('DATABASE_URL')
 
 if db_url:
-    # Fixes the Supabase 'postgresql://' compatibility bug
+    # 1. Clean the Supabase string format
     if db_url.startswith('postgresql://'):
         db_url = db_url.replace('postgresql://', 'postgres://', 1)
         
+    # 2. Directly parse the string cleanly without config() arguments
+    DATABASES['default'] = dj_database_url.parse(db_url)
     
-    DATABASES['default'] = dj_database_url.config(
-        default=db_url,
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
-
+    # 3. Safely apply pool settings afterward
+    DATABASES['default']['CONN_MAX_AGE'] = 600
+    DATABASES['default']['CONN_HEALTH_CHECKS'] = True
 
 
 # Password validation
