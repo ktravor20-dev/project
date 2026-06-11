@@ -105,12 +105,20 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-if 'DATABASE_URL' in os.environ:
-    import dj_database_url
+db_url = os.environ.get('DATABASE_URL')
+
+if db_url:
+    # Fixes the Supabase 'postgresql://' compatibility bug
+    if db_url.startswith('postgresql://'):
+        db_url = db_url.replace('postgresql://', 'postgres://', 1)
+        
+    
     DATABASES['default'] = dj_database_url.config(
+        default=db_url,
         conn_max_age=600,
         conn_health_checks=True,
     )
+
 
 
 # Password validation
